@@ -1,5 +1,5 @@
 <template>
-    <div id="sg-community">
+    <div id="sg-community-bg">
     <toolbar />
     <v-tabs fixed-tabs>
         <v-tab
@@ -35,4 +35,13 @@ export default {
 
 <style>
 
+#sg-community-bg{
+  background: url(../assets/koreamoney.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  min-block-size: 753px;
+}
 </style>
