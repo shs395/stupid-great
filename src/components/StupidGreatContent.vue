@@ -44,7 +44,7 @@ export default {
 
 #sg-content{
     width: 400px;
-    height: 250px;
+    height: 250px; 
 }
 
 #sg-btns-group{
