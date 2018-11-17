@@ -28,9 +28,7 @@
                         <v-btn class="sg-random-btns" id="random-stupid-btn" color="red">스튜핏!</v-btn>
                         <v-btn class="sg-random-btns" id="skip-btn" color="grey darken-4">SKIP</v-btn>
                         <v-btn class="sg-random-btns" id="random-great-btn" color="blue">그레잇!</v-btn>
-                    <v-btn fab dark bottom right large :direction="direction" color="indigo lighten-2" id="add-btn">
-                        <v-icon>edit</v-icon>
-                    </v-btn>
+
                 </center>
               </v-card-actions>
             </v-card>
@@ -56,6 +54,7 @@ export default {
   background-size: cover;
 
   min-block-size: 642px;
+
 }
 
 #random-img{

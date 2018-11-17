@@ -2,6 +2,7 @@
     <div id="sg-community-bg">
     <toolbar />
     <v-tabs fixed-tabs>
+
         <v-tab>
             랜덤으로 보기
         </v-tab>
@@ -10,13 +11,37 @@
         </v-tab>
 
         <v-tab-item>
-            <v-card>
+            <v-card id="random-component">
                     <StupidGreatRandom />
             </v-card>
+            <v-btn
+              color="indigo lighten-2"
+              dark
+              large
+              absolute
+              bottom
+              right
+              fab
+              id="edit-btn"
+            >
+              <v-icon>edit</v-icon>
+            </v-btn>
         </v-tab-item>
 
         <v-tab-item >
             <v-layout row wrap>
+            <v-btn
+              color="indigo lighten-2"
+              dark
+              large
+              absolute
+              bottom
+              right
+              fab
+              id="edit-btn"
+            >
+              <v-icon>edit</v-icon>
+            </v-btn>
                 <v-flex v-for="i in 30" :key="i">
                     <v-card id="sg-content-cards" color="transparent">
                         <stupid-great-content  />
@@ -55,6 +80,11 @@ export default {
     height: 250px;
     margin-left:50px;
     margin-top: 30px;
+}
+
+#edit-btn{
+    position : fixed;
+    margin: 0 0 50px 50px;
 }
 
 #sg-community-bg{
