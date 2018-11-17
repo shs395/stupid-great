@@ -15,10 +15,14 @@
             </v-card>
         </v-tab-item>
 
-        <v-tab-item>
-            <v-card>
-                <h1>게시물목록</h1>
-            </v-card>
+        <v-tab-item >
+            <v-layout row wrap>
+                <v-flex v-for="i in 30" :key="i">
+                    <v-card id="sg-content-card" color="transparent">
+                        <stupid-great-content  />
+                    </v-card>
+                </v-flex>
+            </v-layout>
         </v-tab-item>
     </v-tabs>
     </div>
@@ -28,11 +32,13 @@
 
 import toolbar from '../components/toolbar'
 import StupidGreatRandom from '../components/StupidGreatRandom'
+import StupidGreatContent from '../components/StupidGreatContent'
 
 export default {
     components: {
       toolbar,
       StupidGreatRandom,
+      StupidGreatContent,
     },
     data (){
         return {
@@ -43,6 +49,14 @@ export default {
 </script>
 
 <style>
+
+#sg-content-card{
+    margin-left: 50px;
+    margin-top:30px;
+    width: 400px;
+    height: 250px;
+
+}
 
 #sg-community-bg{
   background: url(../assets/koreamoney.jpg) no-repeat center center fixed; 

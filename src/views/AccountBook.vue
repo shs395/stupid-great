@@ -27,8 +27,8 @@
 import toolbar from '../components/toolbar'
 import linkComponent from '../components/link'
 
-import VCalendar from 'v-calendar'
-import 'v-calendar/lib/v-calendar.min.css'
+//import VCalendar from 'v-calendar'
+//import 'v-calendar/lib/v-calendar.min.css'
 
 // import Vue from 'vue'
 // import {FullCalendar} from 'vue-full-calendar'

@@ -25,11 +25,9 @@
               <v-divider light></v-divider>
               <v-card-actions class="pa-3">
                    <center id="center">
-       <v-btn class="sg-random-btns" id="stupid-btn" color="red">스튜핏!</v-btn>
+                        <v-btn class="sg-random-btns" id="random-stupid-btn" color="red">스튜핏!</v-btn>
                         <v-btn class="sg-random-btns" id="skip-btn" color="grey darken-4">SKIP</v-btn>
-                        <v-btn class="sg-random-btns" id="great-btn" color="blue">그레잇!</v-btn>
-
-
+                        <v-btn class="sg-random-btns" id="random-great-btn" color="blue">그레잇!</v-btn>
                     <v-btn fab dark bottom right large :direction="direction" color="indigo lighten-2" id="add-btn">
                         <v-icon>edit</v-icon>
                     </v-btn>
@@ -91,7 +89,7 @@ export default {
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-#stupid-btn{
+#random-stupid-btn{
     color:bisque;
     padding-left: 70px;
     padding-right: 70px;
@@ -104,11 +102,10 @@ export default {
     padding-right: 70px;
 }
 
-#great-btn{
+#random-great-btn{
     color:#E3F2FD;
     padding-left: 70px;
-    padding-right: 70px;
-    
+    padding-right: 70px;   
 }
 
 #random #addbtn{
