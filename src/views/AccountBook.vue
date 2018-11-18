@@ -7,7 +7,6 @@
       <br><br>
       <v-date-picker
         mode='single'
-       
         v-model='selectedDate'
         :theme-styles='themeStyles'
         is-inline 
@@ -17,7 +16,14 @@
     
     </span>
     <span v-if="is==false">
-      <br>통계~~~
+      <br><br>
+      <v-date-picker
+        mode='range'
+        v-model='selectedDateRange'
+        :theme-styles='themeStyles'
+        is-inline 
+        >
+        </v-date-picker>
     </span>
     <linkComponent />
   </div>
@@ -42,6 +48,7 @@ export default {
     return {
       is:true,
       selectedDate: null,
+      selectedDateRange: null
     };
   },
   components:{
