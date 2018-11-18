@@ -35,6 +35,11 @@ export default new Router({
       path: '/account-book',
       name: 'account-book',
       component: () => import('./views/AccountBook.vue')
+    },
+    {
+      path: '/stupid-great-community',
+      name: 'stupid-great-community',
+      component: () => import('./views/StupidGreatCommunity.vue')
     }
   ]
 })
