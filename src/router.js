@@ -45,6 +45,11 @@ export default new Router({
       path: '/statistic',
       name: 'statistic',
       component: () => import('./views/Statistic.vue')
-    }
+    },
+    {
+      path: '/evaluation',
+      name: 'evaluation',
+      component: () => import('./views/Evaluation.vue')
+    },
   ]
 })
