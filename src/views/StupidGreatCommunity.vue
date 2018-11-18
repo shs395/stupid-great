@@ -23,6 +23,7 @@
               right
               fab
               id="edit-btn"
+              v-on:click="OnEditBtnClick"
             >
               <v-icon>edit</v-icon>
             </v-btn>
@@ -39,6 +40,7 @@
               right
               fab
               id="edit-btn"
+              v-on:click="OnEditBtnClick"
             >
               <v-icon>edit</v-icon>
             </v-btn>
@@ -68,6 +70,11 @@ export default {
     data (){
         return {
 
+        }
+    },
+    methods: {
+        OnEditBtnClick (){
+            return location.href="/stupid-great-content-create";
         }
     }
 }

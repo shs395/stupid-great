@@ -7,13 +7,13 @@
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
+
   import linkComponent from '../components/link'
   import toolbar from '../components/toolbar'
 
   export default {
     components: {
-      HelloWorld,
+
       linkComponent,
       toolbar
     }

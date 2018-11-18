@@ -1,6 +1,6 @@
 <template>
   <v-toolbar dark color="cyan">
-    <v-toolbar-title class="white--text">Stupid? Great!</v-toolbar-title>
+    <v-toolbar-title color="white" v-on:click="titleClick">Stupid? Great!</v-toolbar-title>
     <v-spacer></v-spacer>
 
     <v-btn round color="cyan darken-1" href="/account-book">나의 가계부</v-btn>
@@ -20,6 +20,11 @@ export default {
     name : 'toolbar',
     props : [
 
-    ]
+    ],
+    methods:{
+      titleClick (){
+        return location.href="/";
+      }
+    }
 }
 </script>
