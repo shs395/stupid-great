@@ -1,31 +1,56 @@
 <template>
   <div id="account-book">
     <toolbar />
-    <button v-on:click="a_btn">가계부</button>
-    <button v-on:click="s_btn">통계</button>
-    <span v-if="is==true">
-      <br><br>
-      <v-date-picker
-        mode='single'
-        v-model='selectedDate'
-        :theme-styles='themeStyles'
-        is-inline 
-        >
-      </v-date-picker>
-      <div>{{selectedDate}}</div>
-    
-    </span>
-    <span v-if="is==false">
-      <br><br>
-      <v-date-picker
-        mode='range'
-        v-model='selectedDateRange'
-        :theme-styles='themeStyles'
-        is-inline 
-        >
-        </v-date-picker>
-    </span>
-    <linkComponent />
+    <v-tabs fixed-tabs>
+        <v-tab>
+            가계부 보기
+        </v-tab>
+        <v-tab>
+            통계 보기
+        </v-tab>
+        <v-tab-item>
+            <v-date-picker
+              mode='single'
+              v-model='selectedDate'
+              color="green lighten-1"
+              :theme-styles='themeStyles'
+              is-inline 
+              >
+            </v-date-picker>
+            <div>{{selectedDate}}</div>
+            <v-btn
+              color="indigo lighten-2"
+              dark
+              large
+              absolute
+              bottom
+              right
+              fab
+              id="edit-btn"
+            >
+              <v-icon>edit</v-icon>
+            </v-btn>
+        </v-tab-item>
+        <v-tab-item>
+              <!-- <v-date-picker
+                mode='range'
+                v-model='selectedDateRange'
+                show-caps>
+              </v-date-picker> -->
+            <v-btn
+              color="indigo lighten-2"
+              dark
+              large
+              absolute
+              bottom
+              right
+              fab
+              id="edit-btn"
+            >
+              <v-icon>edit</v-icon>
+            </v-btn>
+        </v-tab-item>
+    </v-tabs>
   </div>
 </template>
 
@@ -46,9 +71,12 @@ export default {
   name: 'account-book',
   data () {
     return {
-      is:true,
+      // is:true,
       selectedDate: null,
-      selectedDateRange: null
+      selectedDateRange: {
+        // start: null,
+        // end: new Date()
+      }
     };
   },
   components:{
@@ -63,9 +91,6 @@ export default {
       var month = this.selectedDate[5]+this.selectedDate[6];
       var day = this.selectedDate[8]+this.selectedDate[9];
       alert('year: '+year+' month: '+month+ ' day : '+day)
-    },
-    s_btn:function(){
-      this.is=false;
     }
   }
 }
@@ -74,14 +99,17 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  /* font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #2c3e50; */
 }
 #td_1{
   text-align: center;
+}
+#edit-btn{
+    position : fixed;
+    margin: 0 0 50px 50px;
 }
 </style>
