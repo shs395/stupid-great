@@ -9,8 +9,9 @@
 
     <div>
         <v-app>
-            <v-card>
-                <v-card-title >제목 & 작성자
+        <v-card>
+            <v-card-title>V I E W</v-card-title>
+                 <v-card-title >제목 & 작성자
                     <v-spacer></v-spacer>
                     <v-text-field v-model="search" label="Search" single-line
                         hide-details></v-text-field>
@@ -23,11 +24,15 @@
                         <template slot="items" slot-scope="data">
                             <td class="text-xs-left">{{data.item.title}}</td>
                             <td class="text-xs-left">{{data.item.writer}}</td>
+                            <td class="text-xs-left">{{data.item.date}}</td>
                         </template>
-                        <v-alert slot="no-results" :value="true" color="error" icoon="warning">
-                            Your Search for "{{search}}" found no results.
+                        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                             "{{search}}" no result.
                         </v-alert>
                     </v-data-table>
+                   <v-card-text class="text-xs-center">
+                       <v-pagination v-model="page" :length="5"></v-pagination>
+                    </v-card-text>
                 </v-card>
             </v-app>
         </div>  
@@ -36,22 +41,12 @@
 
 <script>
 export default {
-
-}
-</script>
-
-<style>
-
-</style>
-   
-</template>
-
-<script>
-export default {
     name:'EvaluationBoard',
 
     data: function(){
         return {
+            search: '',
+            page:1,
             headers: [
                 {
                     text : '제목',
@@ -62,7 +57,10 @@ export default {
                 {
                     text: '작성자',
                     value:'writer'
-
+                },
+                {
+                    text: '작성일',
+                    value: 'date'
                 }
 
             ],
@@ -70,17 +68,20 @@ export default {
                 {
                     value:false,
                     title:'서강준의 가계부',
-                    writer:'서강준'
+                    writer:'서강준',
+                    date: '2018/11/11'
                 },
                 {
                     value:false,
                     title:'강동원의 가계부',
-                    writer:'강동원'
+                    writer:'강동원',
+                     date: '2018/11/10'
                 },
                 {
                     value:false,
                     title:'아이린의 가계부',
-                    writer:'아이린'
+                    writer:'아이린',
+                     date: '2018/11/19'
                 }
             ]
         }
