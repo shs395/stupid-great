@@ -40,6 +40,11 @@ export default new Router({
       path: '/stupid-great-community',
       name: 'stupid-great-community',
       component: () => import('./views/StupidGreatCommunity.vue')
+    },
+    {
+      path: '/statistic',
+      name: 'statistic',
+      component: () => import('./views/Statistic.vue')
     }
   ]
 })

@@ -4,7 +4,7 @@
     <v-spacer></v-spacer>
 
     <v-btn round color="cyan darken-1" href="/account-book">나의 가계부</v-btn>
-    <v-btn round color="cyan darken-1">통계</v-btn>
+    <v-btn round color="cyan darken-1" href="/statistic">통계</v-btn>
     <v-btn round color="cyan darken-1">가계부 보기</v-btn>
     <v-btn round color="cyan darken-1" href="/stupid-great-community">살까? 말까?</v-btn>
 
