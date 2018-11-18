@@ -1,6 +1,6 @@
 <template>
   <v-toolbar dark color="cyan">
-    <v-toolbar-title class="white--text">Stupit? Great!</v-toolbar-title>
+    <v-toolbar-title class="white--text" href="/">Stupid? Great!</v-toolbar-title>
 
     <v-spacer></v-spacer>
 
