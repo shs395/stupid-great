@@ -32,11 +32,11 @@
             </v-btn>
         </v-tab-item>
         <v-tab-item>
-              <!-- <v-date-picker
+              <v-date-picker
                 mode='range'
                 v-model='selectedDateRange'
                 show-caps>
-              </v-date-picker> -->
+              </v-date-picker>
             <v-btn
               color="indigo lighten-2"
               dark
