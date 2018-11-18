@@ -1,10 +1,6 @@
 <template>
   <v-toolbar dark color="cyan">
-<<<<<<< HEAD
     <v-toolbar-title class="white--text" href="/">Stupid? Great!</v-toolbar-title>
-=======
-    <v-toolbar-title class="white--text">Stupid? Great!</v-toolbar-title>
->>>>>>> 833ea31a5d5cb8def5bf29064817fe5488e3e438
 
     <v-spacer></v-spacer>
 
