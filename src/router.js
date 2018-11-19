@@ -29,6 +29,11 @@ export default new Router({
       component: () => import('./views/Signin.vue')
     },
     {
+      path: '/developers',
+      name: 'developers',
+      component: () => import('./views/Developers.vue')
+    },
+    {
       path: '/account-book',
       name: 'account-book',
       component: () => import('./views/AccountBook.vue')
