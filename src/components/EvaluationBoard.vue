@@ -1,26 +1,17 @@
 <template>
 
-<div id="evaluation_board">
-    <v-flex xs12 sm4 text-cs-center>
-        <div>
-            <v-btn id="writing_btn" small>글 작성하기</v-btn>
-        </div>   
-    </v-flex>
-
-    <div>
-        <v-app>
-        <v-card>
-            <v-card-title>V I E W</v-card-title>
-                 <v-card-title >제목 & 작성자
-                    <v-spacer></v-spacer>
-                    <v-text-field v-model="search" label="Search" single-line
-                        hide-details></v-text-field>
-                    </v-card-title>
-                    <v-data-table 
+<v-card>
+        <v-card-title>Search
+            <v-spacer></v-spacer>
+                <v-text-field v-model="search" label="제목 & 작성자" single-line
+                    hide-details></v-text-field>
+        </v-card-title>
+                <v-card-text>
+                    <v-data-table hide-actions
                         :headers="headers"
                         :items="body"
                         :search="search">
-                        
+                       
                         <template slot="items" slot-scope="data">
                             <td class="text-xs-left">{{data.item.title}}</td>
                             <td class="text-xs-left">{{data.item.writer}}</td>
@@ -30,13 +21,11 @@
                              "{{search}}" no result.
                         </v-alert>
                     </v-data-table>
-                   <v-card-text class="text-xs-center">
-                       <v-pagination v-model="page" :length="5"></v-pagination>
-                    </v-card-text>
-                </v-card>
-            </v-app>
-        </div>  
-</div>
+                 <v-card-text class="text-xs-center">
+                       <v-pagination v-model="pagination.page" :length="pagination.total" :total-visible="pagination.visible"></v-pagination>
+                </v-card-text>
+                </v-card-text>
+</v-card>
 </template>
 
 <script>
@@ -46,7 +35,11 @@ export default {
     data: function(){
         return {
             search: '',
-            page:1,
+            pagination:{
+                page:1,
+                total:5,
+                visible:7
+            },
             headers: [
                 {
                     text : '제목',
@@ -81,8 +74,27 @@ export default {
                     value:false,
                     title:'아이린의 가계부',
                     writer:'아이린',
-                     date: '2018/11/19'
+                    date: '2018/11/19'
+                },
+                {
+                    value:false,
+                    title:'맥도날드의 가계부',
+                    writer:'맥도날드',
+                    date: '2018/11/07'
+                },
+                {
+                    value:false,
+                    title:'아이유의 가계부',
+                    writer:'아이유',
+                    date:'2018/10/31'
+                },
+                {
+                    value:false,
+                    title:'박재범의 가계부',
+                    writer:'박재범',
+                    date:'2018/11/01'
                 }
+
             ]
         }
       }
