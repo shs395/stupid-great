@@ -86,16 +86,7 @@
           </v-flex>
         </v-layout>
       </section>
-
-  <v-footer color="indigo lighten-5" class="pa-3">
-    <div id="links">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/signin">Sign in</router-link> |
-    <router-link to="/developers">Developers</router-link> 
-    </div>
-    <v-spacer></v-spacer>
-    <div>&copy; {{ new Date().getFullYear() }}</div>
-  </v-footer>
+      <LinkFooter />
 </div>
 </template>
 
@@ -103,12 +94,14 @@
 
   import linkComponent from '../components/link'
   import toolbar from '../components/toolbar'
+  import LinkFooter from '../components/link.vue'
 
   export default {
     components: {
 
       linkComponent,
-      toolbar
+      toolbar,
+      LinkFooter,
     },
 
     data () {

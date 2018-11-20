@@ -109,6 +109,7 @@
                 </v-card-text>
 
                 <v-card-actions>
+                  <v-btn color="blue darken-1" flat v-on:click="signupForm = false">닫기</v-btn>
                   <v-spacer></v-spacer>
                   <v-btn color="blue darken-1" flat v-on:click="reset">초기화</v-btn>
                   <v-btn color="blue darken-1" flat v-on:click="submit">회원가입</v-btn>
@@ -119,13 +120,14 @@
         </div>
     </v-container>
   </v-form>
-  <linkComponent/>
+<LinkFooter />
 </div>
 
 </template>
 
 <script>
-  import linkComponent from '../components/link'
+
+ import LinkFooter from '../components/link.vue'
 
   export default {
 
@@ -133,15 +135,18 @@
 
 
     components: {
-      linkComponent
+      LinkFooter
     },
 
 
     data () {
       return {
+
         show1: false,
         show2: false,
         show3: false,
+
+        signupForm: false,
         
         id:'',
         password: '',
@@ -178,7 +183,8 @@
           // Native form submission is not yet supported
           
           alert(JSON.stringify(this.user));
-          return location.href='/';
+          return location.href="/signin"
+          
         }
       },
       reset () {
@@ -202,6 +208,14 @@
 
 #signbtn{
   text-align: center;
+}
+
+#link{
+  text-align: center;
+}
+
+#footer{
+  margin-top:240px;
 }
 
 #signin-bg{
