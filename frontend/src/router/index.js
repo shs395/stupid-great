@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Home from '../views/Home.vue'
 
 Vue.use(Router)
 
@@ -26,37 +26,37 @@ export default new Router({
     {
       path: '/signin',
       name: 'signin',
-      component: () => import('./views/Signin.vue')
+      component: () => import('../views/Signin.vue')
     },
     {
       path: '/developers',
       name: 'developers',
-      component: () => import('./views/Developers.vue')
+      component: () => import('../views/Developers.vue')
     },
     {
       path: '/account-book',
       name: 'account-book',
-      component: () => import('./views/AccountBook.vue')
+      component: () => import('../views/AccountBook.vue')
     },
     {
       path: '/stupid-great-community',
       name: 'stupid-great-community',
-      component: () => import('./views/StupidGreatCommunity.vue')
+      component: () => import('../views/StupidGreatCommunity.vue')
     },
     {
       path: '/stupid-great-content-create',
       name: 'stupid-great-content-create',
-      component: () => import('./views/StupidGreatContentCreate.vue')
+      component: () => import('../views/StupidGreatContentCreate.vue')
     },
     {
       path: '/statistic',
       name: 'statistic',
-      component: () => import('./views/Statistic.vue')
+      component: () => import('../views/Statistic.vue')
     },
     {
       path: '/evaluation',
       name: 'evaluation',
-      component: () => import('./views/Evaluation.vue')
+      component: () => import('../views/Evaluation.vue')
     },
   ]
 })
