@@ -7,33 +7,33 @@ const accountSchema = new mongoose.Schema({
     },
     date:{
         year:{
-            type: number,
+            type: Number,
             required: true
         },
         month:{
-            type:number,
+            type:Number,
             required: true
         },
         day:{
-            type: number,
+            type: Number,
             required: true
         }
     },
     contents:{
         is:{
-            type: string
+            type: String
         },
         price:{
-            type: number
+            type: Number
         },
         name:{
-            type: string
+            type: String
         },
         category:{
-            type: string
+            type: String
         },
         rate:{
-            type: number
+            type: Number
         }
     }
 })
