@@ -1,5 +1,5 @@
 <template>
-  <div id="account-book">
+  <v-app id="account-book">
     <toolbar />
     <v-tabs fixed-tabs>
         <v-tab>
@@ -20,7 +20,7 @@
         </v-tab-item>
     </v-tabs>
     
-  </div>
+  </v-app>
 </template>
 
 <script>

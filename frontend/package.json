@@ -10,9 +10,12 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "chart.js": "^2.7.3",
+    "hchs-vue-charts": "^1.2.8",
     "v-calendar": "^0.9.7",
     "vue": "^2.5.2",
+    "vue-chartjs": "^3.4.0",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.0",
     "vuetify-upload-button": "^1.2.0"

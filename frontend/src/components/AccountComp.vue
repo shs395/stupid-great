@@ -11,7 +11,7 @@
       {{data.category}}
       {{data.name}}
       {{data.price}}
-      <v-rating v-model="score" readonly="readonly"></v-rating>
+      <v-rating v-model="rate" readonly="readonly"></v-rating>
     </v-layout>
      
 </template>
@@ -27,7 +27,7 @@ export default {
   },
   data:function(){
       return{
-          score:this.data.score
+          rate:this.data.rate
       }
   }
 }

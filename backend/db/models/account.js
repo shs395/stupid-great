@@ -5,37 +5,39 @@ const accountSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    date:{
-        year:{
-            type: Number,
-            required: true
-        },
-        month:{
-            type:Number,
-            required: true
-        },
-        day:{
-            type: Number,
-            required: true
-        }
+    year:{
+        type: Number,
+        required: true
     },
-    contents:{
-        is:{
-            type: String
-        },
-        price:{
-            type: Number
-        },
-        name:{
-            type: String
-        },
-        category:{
-            type: String
-        },
-        rate:{
-            type: Number
-        }
+    month:{
+        type:Number,
+        required: true
+    },
+    day:{
+        type: Number,
+        required: true
+    },
+    is:{
+        type: String,
+        required: true
+    },
+    price:{
+        type: Number,
+        required: true
+    },
+    name:{
+        type: String,
+        required: true
+    },
+    category:{
+        type: String,
+        required: true
+    },
+    rate:{
+        type: Number,
+        required: true
     }
+    
 })
 
 module.exports = mongoose.model('Account', accountSchema)

@@ -1,11 +1,11 @@
 <template>
-  <v-card height="100%"  style="height: 300px;">
+  <v-card height="100%">
     <v-card-title>
       <!-- 수입 or 지출 인지 받아옴 -->
       {{data.date}}
       {{data.is}}
     </v-card-title>
-    <v-card-text class="scroll" > 
+    <v-card-text > 
       <!-- 날짜 받아온걸로 해당 날짜의 수입 or 지출 내용을 v-for로 넣기 -->
       <v-layout row>
       <v-subheader>항목</v-subheader>
@@ -14,16 +14,20 @@
       <v-subheader>평가</v-subheader>
       <!-- <v-rating v-model="rating"></v-rating> -->
       </v-layout>
-      <div v-for="item in items">
-        <AccountComp v-bind:data="{category:item.category, name:item.name, price:item.price, score:item.score}"></AccountComp>
+      <v-container
+      id="scroll-target"
+      style="height: 350px"
+      class="scroll-y"
+      >
+      <div v-for="account in this.data.accounts">
+        <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate}"></AccountComp>
       </div>
-
+      </v-container>
     </v-card-text>
     <v-card-actions>
       <v-layout row justify-center>
         <v-flex xs10>
-          <v-btn slot="activator" color="orange" dark v-on:click="addbtn">추가</v-btn>
-            
+          <v-btn slot="activator" color="orange" dark v-on:click="addbtn" id="add_b">추가</v-btn>
           <v-dialog v-model="dialog" persistent max-width="600px">
             <v-card>
               <v-card-title>
@@ -72,7 +76,6 @@
                 <small>*indicates required field</small>
               </v-card-text>
               <v-card-actions>
-                <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
                 <v-btn color="blue darken-1" flat @click="dialog = false" v-on:click="add">Save</v-btn>
               </v-card-actions>
@@ -93,15 +96,25 @@ import AccountComp from "../components/AccountComp";
     name : 'AccountShow',
     props:["data"],
     methods:{
-      add:function(){
-        this.items.push({
-          date: this.data.date,
+      add:async function(){
+        await this.$http.post('http://localhost:3000/account/create', {
+          userid: this.data.userid,
+          year: parseInt(this.data.date.slice(0,4)),
+          month: parseInt(this.data.date.slice(5,7)),
+          day: parseInt(this.data.date.slice(8,10)),
           is: this.data.is,
-          price:this.addPrice,
+          price: this.addPrice,
           name:this.addName,
           category: this.addCategory,
-          score:this.addRate
-        })
+          rate: this.addRate
+          })
+          .then((result)=>{
+            console.log(result)
+          })
+          .catch((err)=>{
+            console.log(err)
+          })
+          // this.get_accounts()
       },
       addbtn:function(){
         if(this.data.date==null){
@@ -109,8 +122,21 @@ import AccountComp from "../components/AccountComp";
           this.dialog=false;
         }
         else this.dialog=true;
-      }
-
+        console.log(this.data.accounts)
+      },
+      // get_accounts:function(){
+      //   var api = 'http://localhost:3000/account/list/'+this.data.userid+'/'+this.data.date+'/'+this.data.is;
+      //   console.log(api)
+      //   this.$http.get(api)
+      //   .then((result)=>{
+      //       this.data.accounts = result.data
+      //       console.log(this.data.accounts)
+      //       alert('hee')
+      //   })
+      //   .catch((err)=>{
+      //       console.log(err)
+      //   })
+      // }
     },
     data:function(){
       return{
@@ -119,7 +145,7 @@ import AccountComp from "../components/AccountComp";
         addCategory:null,
         addPrice:null,
         dialog: false,
-        items:[{}]
+        accounts:this.data.accounts
       }
     },
     components:{
@@ -131,5 +157,8 @@ import AccountComp from "../components/AccountComp";
 <style>
 .addData{
   font-size: 18px
+}
+#add_b{
+  align-content: center
 }
 </style>
