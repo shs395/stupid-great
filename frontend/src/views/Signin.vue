@@ -3,7 +3,7 @@
   <v-form id="signin">
 
     <h1 id="title">Stupit? Great!</h1>
-
+    
     <v-container fluid>
         <v-flex xs12 sm12>
           <v-text-field
@@ -61,7 +61,7 @@
                         <v-autocomplete
                           :items="['직장인','전업주부','대학생', '고등학생', '중학생', '백수']"
                           label="직업"
-                          v-model="userjob"
+                          v-model="user.userjob"
                           :rules="[v => !!v || '직업을 선택해 주세요']"
                           required
                         ></v-autocomplete>
@@ -181,10 +181,15 @@
       submit () {
         if (this.$refs.form.validate()) {
           // Native form submission is not yet supported
-          
-          alert(JSON.stringify(this.user));
-          return location.href="/signin"
-          
+          this.$http.post('/users/signup', this.user)
+          .then((response) => {
+            if(response.data == 'saved') {
+              alert('회원가입이 완료되었습니다!');
+              return location.href="/signin";
+            }else if(response.data == 'exist');
+              alert('이미 존재하는 회원입니다')
+              return this.$refs.form.reset();
+          });          
         }
       },
       reset () {
