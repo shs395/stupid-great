@@ -26,7 +26,7 @@
         </v-flex>
 
         <div id="signbtn">
-          <v-btn color="primary" large>로그인</v-btn>
+          <v-btn v-on:click="OnClickLogin" color="primary" large>로그인</v-btn>
           <v-dialog v-model="signupForm" persistent max-width="600px">
             <v-btn slot="activator" color="success" large>회원가입</v-btn>
 
@@ -174,7 +174,7 @@
         v => !!v || '이메일을 입력해 주세요',
         v => /.+@.+/.test(v) || '이메일을 정확히 입력해 주세요'
         ],
-      
+             
       }
     },
 
@@ -195,6 +195,24 @@
       },
       reset () {
         return this.$refs.form.reset()
+      },
+
+      OnClickLogin (){
+        this.$http.post('/users/signin', {id: this.id, pw: this.password})
+        .then((response) => {
+          if(response.data == 'fail'){
+            alert('입력한 아이디 또는 비밀번호가 올바르지 않습니다.')
+          }else{
+            alert('stupid-great에 오신 것을 환영합니다~')
+            if (response.status === 200 && 'token' in response.data) {
+              this.$session.start()
+              this.$session.set('jwt', response.data.token)
+              console.log(this.$http.headers);
+              this.$http.headers.common['Authorization'] = 'Bearer ' + response.body.token
+              this.$router.push('/')
+              }
+            }
+        });         
       }
     }
 

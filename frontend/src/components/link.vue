@@ -3,7 +3,6 @@
     <v-footer id="footer" color="indigo lighten-5" class="pa-3">
         <div id="links">
             <router-link to="/">Home</router-link> |
-            <router-link to="/signin">Sign in</router-link> |
             <router-link to="/developers">Developers</router-link> 
         </div>
         <v-spacer></v-spacer>
