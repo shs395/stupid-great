@@ -3,7 +3,7 @@
     <toolbar />
     <v-tabs fixed-tabs>
         <v-tab>
-            가계부 보기
+            가계부 보기2
         </v-tab>
         <v-tab>
             통계 보기
@@ -11,12 +11,12 @@
 
         <!-- 가계부 -->
         <v-tab-item>
-            <Account v-bind:data="{userid:userid}"/>
+            <Account v-bind:data="{id:id}"/>
         </v-tab-item>
  
         <!-- 통계 -->
         <v-tab-item>
-          <AccountChart v-bind:data="{userid:userid}"/>
+          <AccountChart v-bind:data="{id:id}"/>
         </v-tab-item>
     </v-tabs>
     
@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       // is:true,
-      userid:'jihye',
+      id:'jihye',
       selectedDate: null,
       startDate: null,
       endDate: null,

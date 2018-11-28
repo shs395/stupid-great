@@ -1,6 +1,6 @@
 const { Router } = require('Express')
 const router = Router()
-const userModel = require('../db/models/user')
+// const userModel = require('../db/models/user')
 const accountModel = require('../db/models/account')
 const bodyparser = require('body-parser')
 const g_category=['월급', '부수입', '용돈', '상여', '금융소득', '기타']
@@ -18,7 +18,7 @@ router.post('/create', function(req,res){
   try{
     const result = accountModel.create(
       {
-        userid: req.body.userid, 
+        id: req.body.id, 
         year: req.body.year, 
         month: req.body.month,
         day: req.body.day,
@@ -43,7 +43,7 @@ router.get('/list/:id/:date/:is',(req,res)=>{
   console.log('year: '+n_y+'month: '+n_m+'day: '+ n_d);
   console.log(req.params.is)
   accountModel.find({
-    userid: req.params.id, 
+    id: req.params.id, 
     year:n_y, month:n_m, day:n_d,
     is: req.params.is
     },function(err,accounts){
@@ -80,7 +80,7 @@ router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
   }
   
   accountModel.find({
-  userid:req.params.id,
+  id:req.params.id,
   
   $or:[
     {year:{$gt:s_y, $lt:e_y}}, 

@@ -14,10 +14,10 @@
             </v-card>
         </v-flex>
         <v-flex xs6 >
-            <AccountShow v-bind:data="{is:'수입', date:selectedDate, userid:data.userid, accounts: g_accounts}"/>
+            <AccountShow v-bind:data="{is:'수입', date:selectedDate, id:data.id, accounts: g_accounts}"/>
         </v-flex>
         <v-flex xs6>
-            <AccountShow v-bind:data="{is:'지출', date:selectedDate, userid:data.userid, accounts: l_accounts}"/>
+            <AccountShow v-bind:data="{is:'지출', date:selectedDate, id:data.id, accounts: l_accounts}"/>
         </v-flex>
     </v-layout>
 </template>
@@ -48,22 +48,12 @@ export default {
   methods:{
       get_accounts:function(){
           if(this.selectedDate!=null){
-<<<<<<< HEAD
-            var api = 'http://localhost:3000/account/list/'+this.data.userid+'/'+this.selectedDate+'/'+'수입';
-=======
-            var api = '/account/list/'+this.userid+'/'+this.selectedDate+'/'+'수입';
->>>>>>> 7455468bc0e2c3757fda6f648d669be3f25b280e
-            console.log(api)
+            var api = '/account/list/'+this.data.id+'/'+this.selectedDate+'/'+'수입';
             this.$http.get(api)
             .then((result)=>{
-                
                 this.g_accounts = result.data
                 console.log(this.g_accounts)
-<<<<<<< HEAD
-                this.$http.get('http://localhost:3000/account/list/'+this.data.userid+'/'+this.selectedDate+'/'+'지출')
-=======
-                this.$http.get('/account/list/'+this.userid+'/'+this.selectedDate+'/'+'지출')
->>>>>>> 7455468bc0e2c3757fda6f648d669be3f25b280e
+                this.$http.get('/account/list/'+this.data.id+'/'+this.selectedDate+'/'+'지출')
                 .then((result)=>{ 
                     this.l_accounts = result.data
                     console.log(result)
@@ -77,6 +67,9 @@ export default {
             })
           }
       }
+  },
+  mounted:function(){
+      alert('hi')
   }
 }
 

@@ -136,13 +136,13 @@ import 'v-calendar/lib/v-calendar.min.css'
         if(this.startDate==null) alert('시작 날짜를 선택해 주세요')
         else if(this.endDate==null) alert('끝 날짜를 입력해 주세요')
         else{
-          this.$http.get('http://localhost:3000/account/list/'+this.data.userid+'/'+this.startDate+'/'+this.endDate+'/'+'수입')
+          this.$http.get('http://localhost:3000/account/list/'+this.data.id+'/'+this.startDate+'/'+this.endDate+'/'+'수입')
           .then((result)=>{
             this.gain = result.data
             alert(this.gain)
             this.g_datasets.data = this.gain
             alert(this.g_datasets.data)
-            this.$http.get('http://localhost:3000/account/list/'+this.data.userid+'/'+this.startDate+'/'+this.endDate+'/'+'지출')
+            this.$http.get('http://localhost:3000/account/list/'+this.data.id+'/'+this.startDate+'/'+this.endDate+'/'+'지출')
             .then((result)=>{
               this.lose = result.data
               alert(this.lose)
