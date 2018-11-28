@@ -14,10 +14,10 @@
             </v-card>
         </v-flex>
         <v-flex xs6 >
-            <AccountShow v-bind:data="{is:'수입', date:selectedDate, userid:userid, accounts: g_accounts}"/>
+            <AccountShow v-bind:data="{is:'수입', date:selectedDate, userid:data.userid, accounts: g_accounts}"/>
         </v-flex>
         <v-flex xs6>
-            <AccountShow v-bind:data="{is:'지출', date:selectedDate, userid:userid, accounts: l_accounts}"/>
+            <AccountShow v-bind:data="{is:'지출', date:selectedDate, userid:data.userid, accounts: l_accounts}"/>
         </v-flex>
     </v-layout>
 </template>
@@ -32,11 +32,11 @@ import 'v-calendar/lib/v-calendar.min.css'
 
 export default {
   name: 'account',
+  props:["data"],
   data () {
     return {
       // is:true,
       selectedDate: null,
-      userid:'jihye',
       g_accounts:[],
       l_accounts:[]
     };
@@ -48,14 +48,14 @@ export default {
   methods:{
       get_accounts:function(){
           if(this.selectedDate!=null){
-            var api = 'http://localhost:3000/account/list/'+this.userid+'/'+this.selectedDate+'/'+'수입';
+            var api = 'http://localhost:3000/account/list/'+this.data.userid+'/'+this.selectedDate+'/'+'수입';
             console.log(api)
             this.$http.get(api)
             .then((result)=>{
                 
                 this.g_accounts = result.data
                 console.log(this.g_accounts)
-                this.$http.get('http://localhost:3000/account/list/'+this.userid+'/'+this.selectedDate+'/'+'지출')
+                this.$http.get('http://localhost:3000/account/list/'+this.data.userid+'/'+this.selectedDate+'/'+'지출')
                 .then((result)=>{ 
                     this.l_accounts = result.data
                     console.log(result)

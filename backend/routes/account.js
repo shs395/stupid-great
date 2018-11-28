@@ -3,7 +3,8 @@ const router = Router()
 const userModel = require('../db/models/user')
 const accountModel = require('../db/models/account')
 const bodyparser = require('body-parser')
-
+const g_category=['월급', '부수입', '용돈', '상여', '금융소득', '기타']
+const l_category=['식비', '교통/차량', '문화생활', '마트/편의점', '패션/미용', '생활용품', '주거/통신', '건강', '교육', '경조사/회비', '가족', '기타']
 
 
 /* GET users listing. */
@@ -58,7 +59,60 @@ router.get('/list',(req,res)=>{
     if(err) return res.status(500).send({error: 'database failure'});
     res.json(accounts)
   })
+})
 
+router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
+  var s_y= parseInt(req.params.startDate.slice(0,4));
+  var s_m = parseInt(req.params.startDate.slice(5,7));
+  var s_d=parseInt(req.params.startDate.slice(8,10));
+  var e_y= parseInt(req.params.endDate.slice(0,4));
+  var e_m = parseInt(req.params.endDate.slice(5,7));
+  var e_d=parseInt(req.params.endDate.slice(8,10));
+
+  var price=[];
+  if(req.params.is=='수입') {
+    categories=g_category;
+    price=[0,0,0,0,0,0,0];
+  }
+  else if(req.params.is=='지출') {
+    categories = l_category;
+    price=[0,0,0,0,0,0,0,0,0,0,0,0];
+  }
+  
+  accountModel.find({
+  userid:req.params.id,
+  
+  $or:[
+    {year:{$gt:s_y, $lt:e_y}}, 
+    {year:{$gte:s_y, $lt:e_y}, month:{$gt:s_m}},
+    {year:{$gte:s_y, $lt:e_y}, month:s_m, day:{$gte:s_d}},
+    {year:{$gt:s_y, $lte:e_y}, month:{$lt:e_m}},
+    {year:{$gt:s_y, $lte:e_y}, month:e_m, day:{$lte:e_d}},
+    {year:{$eq:e_y, $eq:s_y}, month:{$gt:s_m, $lt:e_m}},
+    {year:{$eq:e_y, $eq:s_y}, month:{$gte:s_m, $lt:e_m}, day:{$gte:s_d}},
+    {year:{$eq:e_y, $eq:s_y}, month:{$gt:s_m, $lte:e_m}, day:{$lte:e_d}},
+    {year:{$eq:e_y, $eq:s_y}, month:{$eq:s_m, $eq:e_m}, day:{$gte:s_d, $lte:e_d}},
+  ],
+  is:req.params.is,
+  // category:categories[i]
+  },'price category')
+  .then((accounts)=>{
+    console.log(accounts)
+    var sz = accounts.length;
+    var size=categories.length;
+
+    for(var i = 0;i<size;i++){
+      for(var j = 0;j<sz;j++){
+        if(categories[i]==accounts[j].category) price[i]+=accounts[j].price
+      }
+    } 
+    
+    console.log(price);
+    res.send(price);
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
 })
 
 module.exports = router;

@@ -16,7 +16,7 @@
       </v-layout>
       <v-container
       id="scroll-target"
-      style="height: 350px"
+      style="height: 300px"
       class="scroll-y"
       >
       <div v-for="account in this.data.accounts">

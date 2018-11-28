@@ -11,12 +11,12 @@
 
         <!-- 가계부 -->
         <v-tab-item>
-            <Account />
+            <Account v-bind:data="{userid:userid}"/>
         </v-tab-item>
  
         <!-- 통계 -->
         <v-tab-item>
-          <AccountChart />
+          <AccountChart v-bind:data="{userid:userid}"/>
         </v-tab-item>
     </v-tabs>
     
@@ -39,6 +39,7 @@ export default {
   data () {
     return {
       // is:true,
+      userid:'jihye',
       selectedDate: null,
       startDate: null,
       endDate: null,
