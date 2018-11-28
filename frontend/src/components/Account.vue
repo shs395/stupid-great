@@ -48,14 +48,22 @@ export default {
   methods:{
       get_accounts:function(){
           if(this.selectedDate!=null){
+<<<<<<< HEAD
             var api = 'http://localhost:3000/account/list/'+this.data.userid+'/'+this.selectedDate+'/'+'수입';
+=======
+            var api = '/account/list/'+this.userid+'/'+this.selectedDate+'/'+'수입';
+>>>>>>> 7455468bc0e2c3757fda6f648d669be3f25b280e
             console.log(api)
             this.$http.get(api)
             .then((result)=>{
                 
                 this.g_accounts = result.data
                 console.log(this.g_accounts)
+<<<<<<< HEAD
                 this.$http.get('http://localhost:3000/account/list/'+this.data.userid+'/'+this.selectedDate+'/'+'지출')
+=======
+                this.$http.get('/account/list/'+this.userid+'/'+this.selectedDate+'/'+'지출')
+>>>>>>> 7455468bc0e2c3757fda6f648d669be3f25b280e
                 .then((result)=>{ 
                     this.l_accounts = result.data
                     console.log(result)

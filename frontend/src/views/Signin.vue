@@ -3,7 +3,7 @@
   <v-form id="signin">
 
     <h1 id="title">Stupit? Great!</h1>
-
+    
     <v-container fluid>
         <v-flex xs12 sm12>
           <v-text-field
@@ -26,7 +26,7 @@
         </v-flex>
 
         <div id="signbtn">
-          <v-btn color="primary" large>로그인</v-btn>
+          <v-btn v-on:click="OnClickLogin" color="primary" large>로그인</v-btn>
           <v-dialog v-model="signupForm" persistent max-width="600px">
             <v-btn slot="activator" color="success" large>회원가입</v-btn>
 
@@ -61,7 +61,7 @@
                         <v-autocomplete
                           :items="['직장인','전업주부','대학생', '고등학생', '중학생', '백수']"
                           label="직업"
-                          v-model="userjob"
+                          v-model="user.userjob"
                           :rules="[v => !!v || '직업을 선택해 주세요']"
                           required
                         ></v-autocomplete>
@@ -139,6 +139,7 @@
     },
 
 
+
     data () {
       return {
 
@@ -173,7 +174,7 @@
         v => !!v || '이메일을 입력해 주세요',
         v => /.+@.+/.test(v) || '이메일을 정확히 입력해 주세요'
         ],
-      
+             
       }
     },
 
@@ -181,14 +182,37 @@
       submit () {
         if (this.$refs.form.validate()) {
           // Native form submission is not yet supported
-          
-          alert(JSON.stringify(this.user));
-          return location.href="/signin"
-          
+          this.$http.post('/users/signup', this.user)
+          .then((response) => {
+            if(response.data == 'saved') {
+              alert('회원가입이 완료되었습니다!');
+              return location.href="/signin";
+            }else if(response.data == 'exist');
+              alert('이미 존재하는 회원입니다')
+              return this.$refs.form.reset();
+          });          
         }
       },
       reset () {
         return this.$refs.form.reset()
+      },
+
+      OnClickLogin (){
+        this.$http.post('/users/signin', {id: this.id, pw: this.password})
+        .then((response) => {
+          if(response.data == 'fail'){
+            alert('입력한 아이디 또는 비밀번호가 올바르지 않습니다.')
+          }else{
+            alert('stupid-great에 오신 것을 환영합니다~')
+            if (response.status === 200 && 'token' in response.data) {
+              this.$session.start()
+              this.$session.set('jwt', response.data.token)
+              console.log(this.$http.headers);
+              this.$http.headers.common['Authorization'] = 'Bearer ' + response.body.token
+              this.$router.push('/')
+              }
+            }
+        });         
       }
     }
 

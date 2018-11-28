@@ -1,31 +1,31 @@
 const { mongoose} = require('../mongo')
 
 const userSchema = new mongoose.Schema({
-    usersex:{
+    id:{
+        type: String,
+        required: true,
+        unique: true
+    },
+    pw:{
         type: String,
         required: true
     },
-    userage:{
+    sex:{
+        type: String,
+        required: true
+    },
+    age:{
         type: Number,
         required: true
     },
-    userjob:{
+    job:{
         type: String,
         required: true
     },
-    useremail:{
+    email:{
         type: String,
         required: true,
         unique: true
-    },
-    userid:{
-        type: String,
-        required: true,
-        unique: true
-    },
-    userpw:{
-        type: String,
-        required: true
     }
 })
 

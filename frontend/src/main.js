@@ -14,6 +14,12 @@ Vue.prototype.$http = Vue.prototype.axios = axios
 Vue.use(Vuetify)
 Vue.use(window.VueCharts)
 
+import VueSession from 'vue-session'
+Vue.use(VueSession)
+
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
