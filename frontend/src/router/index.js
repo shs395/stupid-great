@@ -54,6 +54,11 @@ export default new Router({
       component: () => import('../views/Statistic.vue')
     },
     {
+      path: '/stats',
+      name: 'stats',
+      component: () => import('../views/Stats.vue')
+    },
+    {
       path: '/evaluation',
       name: 'evaluation',
       component: () => import('../views/Evaluation.vue')

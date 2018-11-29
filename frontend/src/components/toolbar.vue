@@ -70,7 +70,7 @@ export default {
       },
       statistic (){        
         if (this.$session.exists()) {
-          return location.href="/statistic";
+          return location.href="/stats";
         }else{
           alert('로그인을 먼저해주세요');
           this.$router.push('/signin')
