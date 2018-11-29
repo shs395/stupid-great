@@ -24,7 +24,6 @@ export default {
       }).then((response)=>{
         this.user_response = response
         console.log(response)
-
       })
     }
 

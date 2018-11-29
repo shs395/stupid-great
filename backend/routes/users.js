@@ -44,7 +44,10 @@ router.post('/signin', function(req, res, next){
     }else{
       var payload = {
         id : user.id,
-        email : user.email
+        email : user.email,
+        sex : user.sex,
+        age : user.age,
+        job : user.job
       };
 
       var secret = 'stupid_great';
