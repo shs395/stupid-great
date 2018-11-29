@@ -58,5 +58,10 @@ export default new Router({
       name: 'evaluation',
       component: () => import('../views/Evaluation.vue')
     },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('../views/Test.vue')
+    },
   ]
 })
