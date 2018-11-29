@@ -20,12 +20,12 @@ export default {
     getUserData : function(){
       var token = this.$session.get('jwt')
       console.log(token)
-      this.$http.post('/test',
+      this.$http.post('/users/verify',
       {
         token : token
       }).then((response)=>{
         this.user_response = response.body
-        console.log(response.body)
+        console.log(response.body) //payload 에 넣었던 값
         console.log(response)
       })
     }
