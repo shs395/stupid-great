@@ -38,6 +38,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/account', accountRouter);
 
+//test router
+const testRouter = require('./routes/test')
+app.use('/test/',testRouter)
+
+
  // catch 404 and forward to error handler
  app.use(function(req, res, next) {
    next(createError(404));
