@@ -30,7 +30,6 @@ router.post('/signup', function(req, res, next) {
         res.send('exist')
       }
     });
-
 });
 
 router.post('/signin', function(req, res, next){
@@ -57,7 +56,8 @@ router.post('/signin', function(req, res, next){
         if(err) return console.log(err);
         res.json({
           state : "success",
-          token : token
+          token : token,
+          id : user.id
         });
       })
     }
