@@ -97,9 +97,7 @@ import AccountComp from "../components/AccountComp";
     props:["data"],
     methods:{
       add:async function(){
-        alert('hi')
-        alert(this.data.id+this.data.is)
-        await this.$http.post('http://localhost:3000/account/create', {
+        await this.$http.post('/account/create', {
           id: this.data.id,
           year: parseInt(this.data.date.slice(0,4)),
           month: parseInt(this.data.date.slice(5,7)),

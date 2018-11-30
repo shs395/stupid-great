@@ -3,7 +3,7 @@
     <toolbar />
     <v-tabs fixed-tabs>
         <v-tab>
-            가계부 보기2
+            가계부 보기
         </v-tab>
         <v-tab>
             통계 보기
@@ -55,9 +55,6 @@ export default {
     AccountChart
   },
   methods:{
-    a_btn:function(){
-      alert(this.todayDate)
-    }
   }
 }
 

@@ -48,12 +48,12 @@ export default {
   methods:{
       get_accounts:function(){
           if(this.selectedDate!=null){
-            var api = '/account/list/'+this.data.id+'/'+this.selectedDate+'/'+'수입';
+            var api = 'http://localhost:3000/account/list/'+this.data.id+'/'+this.selectedDate+'/'+'수입';
             this.$http.get(api)
             .then((result)=>{
                 this.g_accounts = result.data
                 console.log(this.g_accounts)
-                this.$http.get('/account/list/'+this.data.id+'/'+this.selectedDate+'/'+'지출')
+                this.$http.get('http://localhost:3000/account/list/'+this.data.id+'/'+this.selectedDate+'/'+'지출')
                 .then((result)=>{ 
                     this.l_accounts = result.data
                     console.log(result)
@@ -67,9 +67,6 @@ export default {
             })
           }
       }
-  },
-  mounted:function(){
-      alert('hi')
   }
 }
 
