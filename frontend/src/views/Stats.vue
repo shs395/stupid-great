@@ -7,16 +7,28 @@
         <v-flex>
           <v-card>
             <v-card-text>
-               <v-tabs right>
-                {{selectedYear}}년 {{selectedMonth}}월 통계
-                <v-tab
-                  v-for="n in 3"
-                  :key="n"
-                >
-                  Item {{ n }}
+          
+              <v-tabs>
+                <v-tab>
+                  수입/지출
                 </v-tab>
+                <v-tab>
+                  수입
+                </v-tab>
+                <v-tab>
+                  지출
+                </v-tab>
+                <v-tab-item lazy="true"> 
+                  <StatsChart></StatsChart>
+                </v-tab-item>
+                <v-tab-item lazy="true">
+                  <StatsChart2></StatsChart2>
+                </v-tab-item>
+                <v-tab-item lazy="true">
+                  <StatsChart3></StatsChart3>
+                </v-tab-item>
               </v-tabs>
-              <StatsChart></StatsChart>
+            
             </v-card-text>
           </v-card>
         </v-flex>
@@ -79,19 +91,24 @@
 <script>
   import toolbar from '../components/toolbar.vue'
   import StatsChart from '../components/StatsChart.vue'
+  import StatsChart2 from '../components/StatsChart2.vue'
+  import StatsChart3 from '../components/StatsChart3.vue'
+
   export default{
     name: 'stats',
     components:{
       toolbar,
-      StatsChart
+      StatsChart,
+      StatsChart2,
+      StatsChart3,
     },
     data:function(){
       return{
         age: [],
         job: [],
         sex: [],
-        years:['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010',
-                '2011','2012','2013','2014','2015','2016','2017','2018'],
+        years:['2018','2017','2016','2015','2014','2013','2012','2011','2010',
+              '2009','2008','2007','2006','2005','2004','2003','2002','2001','2000'],
         months:['1','2','3','4','5','6','7','8','9','10','11','12'],
         selectedYear : '',
         selectedMonth : '',
@@ -100,8 +117,24 @@
         sexList:['남자','여자'],
         selectedAge:[],
         selectedJob:[],
-        selectedSex:[]
+        selectedSex:[],
+        tabList:[
+          {name:'수입 / 지출', num:1},
+          {name:'지출', num:2},
+          {name:'수입', num:3}
+        ]
       }
+    },
+    methods:{
+      changeToOne :function(){
+      this.a = 1
+      },
+     changeToTwo :function(){
+      this.a = 2
+      },
+      changeToThree :function(){
+      this.a = 3
+      },
     }
   }
 </script>
