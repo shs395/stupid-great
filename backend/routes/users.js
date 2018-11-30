@@ -30,7 +30,6 @@ router.post('/signup', function(req, res, next) {
         res.send('exist')
       }
     });
-
 });
 
 router.post('/signin', function(req, res, next){
@@ -44,7 +43,10 @@ router.post('/signin', function(req, res, next){
     }else{
       var payload = {
         id : user.id,
-        email : user.email
+        email : user.email,
+        sex : user.sex,
+        age : user.age,
+        job : user.job
       };
 
       var secret = 'stupid_great';
@@ -54,11 +56,22 @@ router.post('/signin', function(req, res, next){
         if(err) return console.log(err);
         res.json({
           state : "success",
-          token : token
+          token : token,
+          id : user.id
         });
       })
     }
   })
 });
+
+router.post('/verify',(req,res)=>{
+  var token = req.body.token
+  // console.log(req.body.token) //요청된 token값 찍어줌
+  jwt.verify(token, 'stupid_great', function(err, decoded) {
+    console.log(decoded)    //id와 email 반환
+    res.send(decoded)
+  });
+})
+
 
 module.exports = router;

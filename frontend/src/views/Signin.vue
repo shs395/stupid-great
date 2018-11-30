@@ -207,6 +207,7 @@
             if (response.status === 200 && 'token' in response.data) {
               this.$session.start()
               this.$session.set('jwt', response.data.token)
+              this.$session.set('id', response.data.id)
               console.log(this.$http.headers);
               this.$http.headers.common['Authorization'] = 'Bearer ' + response.body.token
               this.$router.push('/')
