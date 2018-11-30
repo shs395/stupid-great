@@ -14,10 +14,10 @@
             </v-card>
         </v-flex>
         <v-flex xs6 >
-            <AccountShow v-bind:data="{is:'수입', date:selectedDate, id:data.id, accounts: g_accounts}"/>
+            <AccountShow v-bind:data="{is:'수입', date:selectedDate, accounts: g_accounts}"/>
         </v-flex>
         <v-flex xs6>
-            <AccountShow v-bind:data="{is:'지출', date:selectedDate, id:data.id, accounts: l_accounts}"/>
+            <AccountShow v-bind:data="{is:'지출', date:selectedDate, accounts: l_accounts}"/>
         </v-flex>
     </v-layout>
 </template>
@@ -35,7 +35,6 @@ export default {
   props:["data"],
   data () {
     return {
-      // is:true,
       selectedDate: null,
       g_accounts:[],
       l_accounts:[]
@@ -48,12 +47,12 @@ export default {
   methods:{
       get_accounts:function(){
           if(this.selectedDate!=null){
-            var api = '/account/list/'+this.data.id+'/'+this.selectedDate+'/'+'수입';
+            var api = 'http://localhost:3000/account/list/'+this.$session.get('id')+'/'+this.selectedDate+'/'+'수입';
             this.$http.get(api)
             .then((result)=>{
                 this.g_accounts = result.data
                 console.log(this.g_accounts)
-                this.$http.get('/account/list/'+this.data.id+'/'+this.selectedDate+'/'+'지출')
+                this.$http.get('http://localhost:3000/account/list/'+this.$session.get('id')+'/'+this.selectedDate+'/'+'지출')
                 .then((result)=>{ 
                     this.l_accounts = result.data
                     console.log(result)
@@ -67,9 +66,6 @@ export default {
             })
           }
       }
-  },
-  mounted:function(){
-      alert('hi')
   }
 }
 

@@ -19,3 +19,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+backend/public/index.html
+backend/js/
+backend/css/

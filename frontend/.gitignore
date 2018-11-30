@@ -12,3 +12,7 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+backend/public/index.html
+backend/js/
+backend/css/

@@ -3,7 +3,7 @@
     <toolbar />
     <v-tabs fixed-tabs>
         <v-tab>
-            가계부 보기2
+            가계부 보기
         </v-tab>
         <v-tab>
             통계 보기
@@ -11,12 +11,12 @@
 
         <!-- 가계부 -->
         <v-tab-item>
-            <Account v-bind:data="{id:id}"/>
+            <Account/>
         </v-tab-item>
  
         <!-- 통계 -->
         <v-tab-item>
-          <AccountChart v-bind:data="{id:id}"/>
+          <AccountChart/>
         </v-tab-item>
     </v-tabs>
     
@@ -38,8 +38,6 @@ export default {
   name: 'account-book',
   data () {
     return {
-      // is:true,
-      id:'jihye',
       selectedDate: null,
       startDate: null,
       endDate: null,
@@ -55,9 +53,6 @@ export default {
     AccountChart
   },
   methods:{
-    a_btn:function(){
-      alert(this.todayDate)
-    }
   }
 }
 
