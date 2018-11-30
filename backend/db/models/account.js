@@ -36,8 +36,19 @@ const accountSchema = new mongoose.Schema({
     rate:{
         type: Number,
         required: true
-    }
-    
+    },
+    sex:{
+        type: String,
+        required: true
+    },
+    age:{
+        type: Number,
+        required: true
+    },
+    job:{
+        type: String,
+        required: true
+    }    
 })
 
 module.exports = mongoose.model('Account', accountSchema)

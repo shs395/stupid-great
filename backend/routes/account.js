@@ -2,6 +2,7 @@ const { Router } = require('express')
 const router = Router()
 // const userModel = require('../db/models/user')
 const accountModel = require('../db/models/account')
+const userModel = require('../db/models/user')
 const bodyparser = require('body-parser')
 const g_category=['월급', '부수입', '용돈', '상여', '금융소득', '기타']
 const l_category=['식비', '교통/차량', '문화생활', '마트/편의점', '패션/미용', '생활용품', '주거/통신', '건강', '교육', '경조사/회비', '가족', '기타']
@@ -14,8 +15,9 @@ router.use((req, res, next)=>{
 });
 
 //가계부 작성
-router.post('/create', function(req,res){
+router.post('/create', async function(req,res){
   try{
+    const user = await userModel.findOne({id:req.body.id})
     const result = accountModel.create(
       {
         id: req.body.id, 
@@ -26,7 +28,10 @@ router.post('/create', function(req,res){
         price: req.body.price, 
         name: req.body.name, 
         rate: req.body.rate,
-        category: req.body.category
+        category: req.body.category,
+        sex : user.sex,
+        age: user.age,
+        job : user.job
       }
     )
     console.log(result)
