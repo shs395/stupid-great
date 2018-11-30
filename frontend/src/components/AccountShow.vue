@@ -98,7 +98,7 @@ import AccountComp from "../components/AccountComp";
     methods:{
       add:async function(){
         await this.$http.post('/account/create', {
-          id: this.data.id,
+          id: this.$session.get('id'),
           year: parseInt(this.data.date.slice(0,4)),
           month: parseInt(this.data.date.slice(5,7)),
           day: parseInt(this.data.date.slice(8,10)),
@@ -119,11 +119,9 @@ import AccountComp from "../components/AccountComp";
       addbtn:function(){
         if(this.data.date==null){
           alert('날짜를 선택해 주세요');
-          alert(this.data.id)
           this.dialog=false;
         }
         else this.dialog=true;
-        console.log(this.data.accounts)
       },
       // get_accounts:function(){
       //   var api = 'http://localhost:3000/account/list/'+this.data.id+'/'+this.data.date+'/'+this.data.is;
