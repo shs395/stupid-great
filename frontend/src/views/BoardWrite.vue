@@ -70,10 +70,10 @@ export default {
                 console.log(res.data)}).catch((err)=>console.log(err))
         }
     },
-    // mounted() {
-    //      this.$http.get('http://localhost:8000/board').then(response=>
-    //      console.log(response.data))
-    // }
+    mounted() {
+         this.$http.get('/board/list').then(response=>
+         console.log(response.data))
+    }
 }
 
           

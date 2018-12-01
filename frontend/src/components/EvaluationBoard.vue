@@ -6,6 +6,7 @@
                 <v-text-field v-model="search" label="제목 & 작성자" single-line
                     hide-details></v-text-field>
             </v-card-title>  
+            <v-card-text>
                     <v-data-table hide-actions 
                        :headers="headers"
                         :items="items"
@@ -22,11 +23,15 @@
                         </v-alert>
                    </v-data-table> 
 
-                    <div v-for="item in items" :key="item.id" :pagination.sync="pagination"> 
-                        <v-card-text>{{item.title}}</v-card-text>
-                          <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
-                    </div>
+                    <!-- <div v-for="item in items" :key="item.id" :pagination.sync="pagination">  -->
+                        <!-- <v-card-text>{{item.title}}</v-card-text> -->
+                          <!-- <v-pagination v-model="pagination.page" :length="pages"></v-pagination> -->
+                       
+                    <!-- </div> -->
+                       <v-card-text class="text-xs-center">
+                       <v-pagination v-model="pagination.page" :length="pagination.total" :total-visible="pagination.visible"></v-pagination>
                 </v-card-text>
+            </v-card-text>
 </v-card>
 </template>
 
@@ -40,16 +45,18 @@ export default {
             info:'',
             items:[],
             pagination:{
-                page:1,
-                total:5,
+                 page:1,
+                 total:5,
                 visible:7
             },
             headers: [
                 {text:"제목", value:"title" ,sortable:false},
                 {text:"작성자", value:"writer", sortable:false},
                 {text:"작성일", value:"createdAt",sortable:false}
-            ],    
-        methods:{
+            ],   
+        }
+    },
+    //  methods:{
             // get : function(){
                 // this.axios.get('/board/list').then(({response})=>{
             // if (!response.success) throw new Error(response.msg)
@@ -62,27 +69,27 @@ export default {
         //       })
         //   }
         // }, 
-                // alert('hi')  
-                // this.$http.get('http://localhost:3000/board/list').then((res)=>{
-                //     this.items=res.data
-                //     console.log(items)
+                //  alert('hi')  
+                //  this.$http.get('/board/list').then((res)=>{
+                    //  this.items=res.data
+                    //  console.log(items)
                 // }).catch((err)=>{
-                //     console.log(err)})
-            },
+                    // console.log(err)})}
+        // },
 
       mounted(){
-    
-            console.log('hi')
-      },
+           this.$http.get('/board/list').then(response=>{
+               this.items=response.data
+               console.log(response.data)})
+           },
        computed: {
           pages () {
             if (this.pagination.rowsPerPage == null ||
                this.pagination.totalItems == null   ) return 0
+               return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
 
                }
           }
-        }
-    }
 }
 
 
