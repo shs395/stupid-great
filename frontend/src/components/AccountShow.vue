@@ -15,12 +15,7 @@
       <AccountComp  id='ac' v-bind:data="{category:'항목', name:'이름', price:'가격', rate:'평가'}"></AccountComp>
       <span v-for="account in this.data.accounts">
         <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate}"></AccountComp>
-<<<<<<< HEAD
       </span>
-=======
-      </div>
-      
->>>>>>> d790dece59aa295eb2f1a33e72747c19f22f43cc
       </v-container>
     </v-card-text>
     <v-card-actions>
@@ -29,7 +24,6 @@
           <v-btn slot="activator" color="orange" dark v-on:click="addbtn" id="add_b">추가</v-btn>
           <v-dialog v-model="dialog"  persistent max-width="600px" v-if="dialog==true">
             <v-card>
-<<<<<<< HEAD
               <v-form ref="form">
                 <v-card-title>
                   <span class="headline">가계부 작성</span>
@@ -53,38 +47,6 @@
                       </v-flex> 
                       <v-flex xs12>
                         <span v-if="data.is=='수입'">
-=======
-              <v-card-title>
-                <span class="headline">가계부 작성</span>
-              </v-card-title>
-              <v-card-text>
-                <v-container grid-list-md>
-                  <v-layout wrap>
-                    <v-flex xs12 class="addData">
-                      날짜: {{data.date}}
-                      <!-- <v-text-field label="Legal first name*" required></v-text-field> -->
-                    </v-flex>
-                    <v-flex xs12 class="addData">
-                      <br>
-                      분류: {{data.is}}
-                    </v-flex>
-                    <v-flex xs12>
-                      <v-text-field label="금액" type="number" required v-model="addPrice"></v-text-field>
-                    </v-flex>
-                    <v-flex xs12>
-                      <v-text-field label="이름" type="text" required v-model="addName"></v-text-field>
-                    </v-flex> 
-                    <v-flex xs12>
-                      <span v-if="data.is=='수입'">
-                      <v-select
-                        :items="['월급', '부수입', '용돈', '상여', '금융소득', '기타']"
-                        label="카테고리"
-                        required
-                        v-model="addCategory"
-                      ></v-select>
-                      </span>
-                      <span v-else>
->>>>>>> d790dece59aa295eb2f1a33e72747c19f22f43cc
                         <v-select
                           :items="['월급', '부수입', '용돈', '상여', '금융소득', '기타']"
                           label="항목"
