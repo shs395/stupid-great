@@ -40,7 +40,7 @@
             </v-flex>
             <div id="sg-create-btns">
                 <v-btn id="contents-reset" color="red">초기화</v-btn>
-                <v-btn id="contents-upload" color="blue">게시물 업로드 </v-btn>
+                <v-btn @click="OnClickUpload" id="contents-upload" color="blue">게시물 업로드 </v-btn>
             </div>
         </v-card>
     </v-layout>
@@ -64,7 +64,7 @@ export default {
                 sgTitle:"",
                 sgContent:"",
                 sgPrice:"",
-                sgImg:"",
+//                sgImg:"",
             },
         }
     },
@@ -81,6 +81,17 @@ export default {
                 imgDiv.appendChild(img);
             }
             fr.readAsDataURL(event.target.files[0]);
+        },
+        OnClickUpload(){
+            this.$http.post('/stupid_great/create', {writerid:this.$session.get('id') ,post: this.sgForm})
+            .then((response) => {
+                console.log(response.data);
+                if(response.data == 'saved'){
+                    return location.href="/stupid-great-community";
+                }else if(response.data == 'fail'){
+                    alert("게시물 업로드에 실패 하였습니다.");
+                }
+            });
         }
     }
     
@@ -94,8 +105,8 @@ export default {
 }
 
 #sg-img-create-card{
-    width: 618px;
-    height: 650px;
+    width: 500px;
+    height: 500px;
 }
 #sg-form-create-card{
     width: 900px;

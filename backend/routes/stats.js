@@ -10,7 +10,6 @@ router.post('/find',async (req,res)=>{
 })
 
 router.post('/conditional-search',async(req,res)=>{
-  console.log(req.data)
   console.log(req.body)
   res.send("good")
 })

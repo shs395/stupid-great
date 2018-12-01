@@ -23,3 +23,4 @@ yarn-error.log*
 backend/public/index.html
 backend/public/static/js/
 backend/public/static/css/
+backend/routes/board.js
