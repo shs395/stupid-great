@@ -7,16 +7,17 @@
                     hide-details></v-text-field>
             </v-card-title>  
             <v-card-text>
-                    <v-data-table hide-actions 
+                    <v-data-table 
+                        hide-actions 
                        :headers="headers"
                         :items="items"
                         :search="search"
                         :pagination.sync="pagination">
                        
-                        <template slot="items" slot-scope="props">
-                            <td :class="headers[0].class">{{props.item.title}}</td>
-                            <td :class="headers[1].class">{{props.item.writer}}</td>
-                            <td :class="headers[2].class">{{props.item.createdAt}}</td>
+                        <template slot="items" slot-scope="data">
+                            <td :class="headers[0].class"><a @click="readData">{{data.item.title}}</a></td>
+                            <td :class="headers[1].class"><a @click="readData">{{data.item.writer}}</a></td>
+                            <td :class="headers[2].class"><a @click="readData">{{data.item.createdAt}}</a></td>
                         </template>
                         <v-alert slot="no-results" :value="true" color="error" icon="warning">
                              "{{search}}" no result.
@@ -56,27 +57,12 @@ export default {
             ],   
         }
     },
-    //  methods:{
-            // get : function(){
-                // this.axios.get('/board/list').then(({response})=>{
-            // if (!response.success) throw new Error(response.msg)
-            // for(var i=0; i<response.data.length; i++){
-                // items[i].title=response.data[i].title
-                // items[i].writer=response.data[i].writer
-            //     // items[i].createdAt=response.data[i].createdAt
-        //       }).catch((err)=>{
-        //           this.pop(e.message,'error')
-        //       })
-        //   }
-        // }, 
-                //  alert('hi')  
-                //  this.$http.get('/board/list').then((res)=>{
-                    //  this.items=res.data
-                    //  console.log(items)
-                // }).catch((err)=>{
-                    // console.log(err)})}
-        // },
+    methods:{
+        readData(){
+             return location.href="/boardshow";
+        }
 
+    },
       mounted(){
            this.$http.get('/board/list').then(response=>{
                this.items=response.data

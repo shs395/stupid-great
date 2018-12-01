@@ -63,10 +63,10 @@ export default {
     },
     methods:{
         savepost(){
-            var writer={id:this.$session.get('id'),title:this.title,body:this.body,date:this.date}
+            var infoPost={id:this.$session.get('id'),title:this.title,body:this.body,date:this.date}
             this.title=""
             this.body=""
-            this.axios.post('/board/post',writer).then(res=>{
+            this.axios.post('/board/post',infoPost).then(res=>{
                 console.log(res.data)
                  return location.href="/evaluation";}).catch((err)=>console.log(err))
         }

@@ -73,5 +73,10 @@ export default new Router({
       name: 'boardwrite',
       component: () => import('../views/BoardWrite.vue')
     },
+    {
+      path: '/boardshow',
+      name: 'boardshow',
+      component: () => import('../views/BoardShow.vue')
+    },
   ]
 })
