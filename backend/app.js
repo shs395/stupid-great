@@ -9,6 +9,7 @@ require('./db/mongo')
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const accountRouter = require('./routes/account')
+const statsRouter = require('./routes/stats')
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(bodyParser.json())
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/account', accountRouter);
+app.use('/stats',statsRouter)
 
 //test router
 const testRouter = require('./routes/test')
