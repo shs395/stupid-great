@@ -13,6 +13,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-backend/public/index.html
-backend/js/
-backend/css/
+
+
