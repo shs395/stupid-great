@@ -6,6 +6,12 @@ cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 require('./db/mongo')
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const accountRouter = require('./routes/account')
+const statsRouter = require('./routes/stats')
+const sgRouter = require('./routes/stupid_great');
+const boardRouter=require('./routes/board')
 
 const app = express();
 
@@ -31,15 +37,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const accountRouter = require('./routes/account')
-const sgRouter = require('./routes/stupid_great');
-const boardRouter=require('./routes/board')
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/account', accountRouter);
+app.use('/stats',statsRouter)
 app.use('/stupid_great', sgRouter);
 app.use('/board',boardRouter);
 
