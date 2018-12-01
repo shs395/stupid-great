@@ -42,8 +42,8 @@
 
                       <v-flex xs12 sm4>
                       <v-radio-group row :rules="[v => !!v || '성별을 선택해 주세요']" v-model="user.usersex" required>
-                        <v-radio label="남성" color="primary" value="male"></v-radio>
-                        <v-radio label="여성" color="red" value="female"></v-radio>
+                        <v-radio label="남성" color="primary" value="남자"></v-radio>
+                        <v-radio label="여성" color="red" value="여자"></v-radio>
                       </v-radio-group>
                       </v-flex>
 
