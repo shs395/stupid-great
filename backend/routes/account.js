@@ -38,15 +38,14 @@ router.post('/create', async function(req,res){
   }catch(err){
     console.log(err)
   }
-  res.send('create')
+  // res.send('create')
 })
 
 router.get('/list/:id/:date/:is',(req,res)=>{
   var n_y= parseInt(req.params.date.slice(0,4));
   var n_m = parseInt(req.params.date.slice(5,7));
   var n_d=parseInt(req.params.date.slice(8,10));
-  console.log('year: '+n_y+'month: '+n_m+'day: '+ n_d);
-  console.log(req.params.is)
+  // console.log('year: '+n_y+'month: '+n_m+'day: '+ n_d);
   accountModel.find({
     id: req.params.id, 
     year:n_y, month:n_m, day:n_d,
@@ -59,12 +58,12 @@ router.get('/list/:id/:date/:is',(req,res)=>{
   // res.send(req.params.id+req.params.date);
 })
 
-router.get('/list',(req,res)=>{
-  accountModel.find(function(err,accounts){
-    if(err) return res.status(500).send({error: 'database failure'});
-    res.json(accounts)
-  })
-})
+// router.get('/list',(req,res)=>{
+//   accountModel.find(function(err,accounts){
+//     if(err) return res.status(500).send({error: 'database failure'});
+//     res.json(accounts)
+//   })
+// })
 
 router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
   var s_y= parseInt(req.params.startDate.slice(0,4));
@@ -103,11 +102,11 @@ router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
   },'price category')
   .then((accounts)=>{
     console.log(accounts)
-    var sz = accounts.length;
-    var size=categories.length;
+    var a_sz = accounts.length;
+    var c_sz=categories.length;
 
-    for(var i = 0;i<size;i++){
-      for(var j = 0;j<sz;j++){
+    for(var i = 0;i<c_sz;i++){
+      for(var j = 0;j<a_sz;j++){
         if(categories[i]==accounts[j].category) price[i]+=accounts[j].price
       }
     } 

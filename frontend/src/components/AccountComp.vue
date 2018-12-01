@@ -1,17 +1,25 @@
 <template>
-    
     <v-layout row>
-      <!-- <v-subheader>항목</v-subheader>
-      
-      <v-subheader>이름</v-subheader>
-     
-      <v-subheader>금액</v-subheader>
-      
-      <v-subheader>평가</v-subheader> -->
-      {{data.category}}
-      {{data.name}}
-      {{data.price}}
-      <v-rating v-model="rate" readonly="readonly"></v-rating>
+      <v-flex xs3>
+        <v-card flat tile>
+          {{data.category}}
+        </v-card>
+      </v-flex>
+      <v-flex xs3>
+        <v-card flat tile>
+          {{data.name}}
+        </v-card>
+      </v-flex>
+      <v-flex xs3 >
+        <v-card flat tile>
+          {{data.price}}
+        </v-card>
+      </v-flex>
+      <v-flex xs6>
+        <v-card flat tile>
+           <v-rating v-model="rate" readonly="readonly"></v-rating>
+        </v-card>
+      </v-flex>
     </v-layout>
      
 </template>
