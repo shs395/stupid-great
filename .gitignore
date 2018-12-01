@@ -21,5 +21,6 @@ yarn-error.log*
 *.sw*
 
 backend/public/index.html
-backend/js/
-backend/css/
+backend/public/static/js/
+backend/public/static/css/
+backend/routes/board.js

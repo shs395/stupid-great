@@ -5,7 +5,7 @@
               <v-card>
                  <v-card-title>가계부 게시판
                         <v-spacer></v-spacer>
-                        <v-btn fab right>post</v-btn>
+                        <v-btn right flat color="orange" v-on:click="clickpost">POST</v-btn>
                  </v-card-title>
                       <v-card-text>
                         <evaluation-board></evaluation-board>
@@ -27,7 +27,14 @@ export default{
         EvaluationBoard
     },
     data(){
-        return 
+        return {
+            info:''
+        }
+    },
+    methods:{
+        clickpost(){
+            return location.href="/boardwrite";
+        }
     }
 }
 </script>

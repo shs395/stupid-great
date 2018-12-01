@@ -16,6 +16,8 @@ router.use((req, res, next)=>{
 
 //가계부 작성
 router.post('/create', async function(req,res){
+  console.log(req);
+
   try{
     const user = await userModel.findOne({id:req.body.id})
     const result = accountModel.create(

@@ -42,6 +42,7 @@ router.post('/signin', function(req, res, next){
       res.send('fail')
     }else{
       var payload = {
+        _id : user._id,
         id : user.id,
         email : user.email,
         sex : user.sex,
@@ -57,7 +58,8 @@ router.post('/signin', function(req, res, next){
         res.json({
           state : "success",
           token : token,
-          id : user.id
+          id : user.id,
+          _id : user._id
         });
       })
     }
