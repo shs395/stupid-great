@@ -9,6 +9,9 @@ const StupidGreatSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    image: {
+
+    },
     title:{
         type: String,
         required: true
@@ -35,6 +38,7 @@ StupidGreatSchema.plugin(autoIncrement, {
      model: 'StupidGreat',
      field: 'PostNumber',
      startAt: 1
- })
+ });
+
 
 module.exports = mongoose.model('StupidGreat', StupidGreatSchema)
