@@ -22,6 +22,7 @@
       <div v-for="account in this.data.accounts">
         <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate}"></AccountComp>
       </div>
+      
       </v-container>
     </v-card-text>
     <v-card-actions>
@@ -45,10 +46,10 @@
                       분류: {{data.is}}
                     </v-flex>
                     <v-flex xs12>
-                      <v-text-field label="금액" required v-model="addPrice"></v-text-field>
+                      <v-text-field label="금액" type="number" required v-model="addPrice"></v-text-field>
                     </v-flex>
                     <v-flex xs12>
-                      <v-text-field label="이름" required v-model="addName"></v-text-field>
+                      <v-text-field label="이름" type="text" required v-model="addName"></v-text-field>
                     </v-flex> 
                     <v-flex xs12>
                       <span v-if="data.is=='수입'">
@@ -137,7 +138,7 @@ import AccountComp from "../components/AccountComp";
       //   })
       // }
     },
-    data:function(){
+    data: function(){
       return{
         addRate:null,
         addName:null,

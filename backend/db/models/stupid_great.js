@@ -1,14 +1,13 @@
-const { mongoose} = require('../mongo')
+const { mongoose, autoIncrement} = require('../mongo')
 
 const StupidGreatSchema = new mongoose.Schema({
     PostNumber: {
         type: Number,
         required: true
     },
-    WriterId:{
+    writer:{
         type: String,
         required: true,
-        unique: true
     },
     title:{
         type: String,
@@ -16,6 +15,10 @@ const StupidGreatSchema = new mongoose.Schema({
     },
     content:{
         type: String,
+        required: true
+    },
+    price:{
+        type: Number,
         required: true
     },
     stupid:{

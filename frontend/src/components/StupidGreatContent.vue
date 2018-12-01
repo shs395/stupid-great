@@ -13,9 +13,9 @@
                 <v-flex xs7>
                     <v-card-title primary-title>
                         <div>
-                        <div class="headline"><span>Supermodel</span></div>
-                        <div><span>Foster the People</span></div>
-                        <div><span>(2014)</span></div>
+                        <div class="headline"><span>{{title}}</span></div>
+                        <div>{{content}}</div>
+                        <div>{{price}}</div>
                         </div>
                     </v-card-title>
                     </v-flex>
@@ -36,6 +36,11 @@
 <script>
 export default {
     name: 'StupidGreatContent',
+    props: {
+        title : {},
+        content: {},
+        price: {}
+    },
     
 }
 </script>
