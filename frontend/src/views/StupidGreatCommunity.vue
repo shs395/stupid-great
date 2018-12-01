@@ -79,7 +79,6 @@ export default {
     computed: {
         showpost (){
             this.$http.get('/stupid_great')
-            console.log("푸시확인용")
             .then((result) => {
                 this.posts = result.data;
             });

@@ -7,6 +7,7 @@ mongoose.connect(DB, {useNewUrlParser: true})
 mongoose.connection.on('connected', () => {
     console.info(`Running mongoose v${mongoose.version}`)
 })
+
 // Auto Increment 플러그인
 autoIncrement.initialize(mongoose.connection)
 
