@@ -43,7 +43,7 @@ export default {
     data: function(){
         return {
             search: '',
-            info:'',
+            d_info:'',
             items:[],
             pagination:{
                  page:1,
@@ -59,7 +59,8 @@ export default {
     },
     methods:{
         readData(){
-             return location.href="/boardshow";
+            alert('게시글 페이지로 이동합니다!')
+             return location.href="/boardshow";        
         }
 
     },

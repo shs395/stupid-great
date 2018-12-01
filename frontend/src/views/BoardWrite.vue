@@ -67,6 +67,7 @@ export default {
             this.title=""
             this.body=""
             this.axios.post('/board/post',infoPost).then(res=>{
+                alert('게시글이 작성되었습니다!')
                 console.log(res.data)
                  return location.href="/evaluation";}).catch((err)=>console.log(err))
         }

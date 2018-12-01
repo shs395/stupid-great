@@ -22,7 +22,7 @@ router.post('/post',(req,res,next)=>{
 })
 
 //게시글 목록보기
-router.get('/list',(req,res,next)=>{
+router.get('/list',async(req,res,next)=>{
     boardModel.find({},function(err,boards){
         if(err) {console.log(err)}
 
@@ -30,15 +30,32 @@ router.get('/list',(req,res,next)=>{
     })
 })
 
-//게시글 내용보기
-router.get('/read/:id/:postNumber',async(req,res,next)=>{
-    const id=req.param.id;
-    const postNumber=req.params.postNumber;
+//게시글 내용보기-컨텐츠,제목
+router.get('/read/board/:id',(req,res,next)=>{
+    const id=req.params.id;
+    console.log(id)
+    boardModel.find({
+        writer:id
+    },function(err,result){
+        if(err) {console.log(err)}
+        
+        console.log('find_board_info')
+        res.send(result)
+       
+    })
+})
 
-    var boardFind=await boardModel.find({})
+//게시글 내용보기-가계부
+router.get('/read/account/:id',async(req,res,next)=>{
+    const id=req.params.id;
+    const postNumber=req.params.postNumber;
     
-    console.log(boardFind)
-    res.send(boardFind)
+    accountModel.find({id:id},function(err,result){
+        if(err) console.log(err)
+
+        console.log('find Account info')
+        res.send(result)
+    })
 })
 
    

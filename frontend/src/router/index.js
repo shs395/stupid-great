@@ -77,6 +77,6 @@ export default new Router({
       path: '/boardshow',
       name: 'boardshow',
       component: () => import('../views/BoardShow.vue')
-    },
+    }
   ]
 })
