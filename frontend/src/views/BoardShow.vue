@@ -2,9 +2,11 @@
     <div>
         <toolbar></toolbar>
         <v-card>
+            <v-card-title>게시글 보기</v-card-title>
             <board-content-show></board-content-show>
+            <!-- <router-view></router-view> -->
         </v-card>
-       
+       <!-- 목록보기 필요 -->
     </div>
 </template>
 
@@ -21,7 +23,7 @@ export default{
     },
     data(){
         return {
-            info:''
+        
         }
     }
 }

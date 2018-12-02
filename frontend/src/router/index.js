@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
+import BoardContentShow from '../components/BoardContentShow.vue'
 
 Vue.use(Router)
 
@@ -63,7 +64,7 @@ export default new Router({
       name: 'evaluation',
       component: () => import('../views/Evaluation.vue')
     },
-    {
+    { 
       path: '/test',
       name: 'test',
       component: () => import('../views/Test.vue')
@@ -74,9 +75,12 @@ export default new Router({
       component: () => import('../views/BoardWrite.vue')
     },
     {
-      path: '/boardshow',
+      path: '/boardshow/:postNumber/:writer',
       name: 'boardshow',
-      component: () => import('../views/BoardShow.vue')
+      component: () => import('../views/BoardShow.vue'),
+      // children: [
+      //   { path:':postNumber/:writer',  component: BoardContentShow }
+      // ]
     }
   ]
 })

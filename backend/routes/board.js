@@ -58,10 +58,27 @@ router.get('/read/account/:id',async(req,res,next)=>{
     })
 })
 
+
+router.get('/:postNumber/:writer',(req,res,next)=>{
+    const _postNumber=req.params.postNumber;
+    const _writer=req.params.writer;
+
+    boardModel.find({
+        postNumber:_postNumber,
+        writer:_writer     
+    },function(err,result){
+        if(err) console.log(err)
+
+        console.log('find성공'+result)
+        
+        res.send(result)
+    })  
+})
    
 router.all('*',(req,res,next)=>{
 
-    res.send('api없지롱')
+    res.send('Cannot Found API')
+
 })
 
 
