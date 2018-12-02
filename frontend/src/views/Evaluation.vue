@@ -5,11 +5,10 @@
               <v-card>
                  <v-card-title>가계부 게시판
                         <v-spacer></v-spacer>
-                        <v-btn right flat color="orange" v-on:click="clickpost">POST</v-btn>
+                        <v-btn right flat color="orange" v-on:click="savePost">POST</v-btn>
                  </v-card-title>
-                      <v-card-text>
                         <evaluation-board></evaluation-board>
-                     </v-card-text>
+        
               </v-card>
         </v-container>
     </div>
@@ -32,7 +31,7 @@ export default{
         }
     },
     methods:{
-        clickpost(){
+        savePost(){
             return location.href="/boardwrite";
         }
     }

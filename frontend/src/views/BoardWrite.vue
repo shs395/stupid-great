@@ -63,10 +63,11 @@ export default {
     },
     methods:{
         savepost(){
-            var writer={id:this.$session.get('id'),title:this.title,body:this.body,date:this.date}
+            var infoPost={id:this.$session.get('id'),title:this.title,body:this.body,date:this.date}
             this.title=""
             this.body=""
-            this.axios.post('/board/post',writer).then(res=>{
+            this.axios.post('/board/post',infoPost).then(res=>{
+                alert('게시글이 작성되었습니다!')
                 console.log(res.data)
                  return location.href="/evaluation";}).catch((err)=>console.log(err))
         }
