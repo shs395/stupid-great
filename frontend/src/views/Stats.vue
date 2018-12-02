@@ -19,13 +19,13 @@
                   지출
                 </v-tab>
                 <v-tab-item lazy="true"> 
-                  <StatsChart :chartdata="chartData"  v-if="loaded"></StatsChart>
+                  <StatsChart :dataMe="dataMe" :dataOthers="dataOthers" v-if="loaded"></StatsChart>
                 </v-tab-item>
                 <v-tab-item lazy="true">
-                  <StatsChart2></StatsChart2>
+                  <StatsChart2 :dataMe="dataMe2" :dataOthers="dataOthers2" v-if="loaded"></StatsChart2>
                 </v-tab-item>
                 <v-tab-item lazy="true">
-                  <StatsChart3></StatsChart3>
+                  <StatsChart3 :dataMe="dataMe3" :dataOthers="dataOthers3" v-if="loaded"></StatsChart3>
                 </v-tab-item>
               </v-tabs>
             
@@ -116,9 +116,8 @@
         age: [],
         job: [],
         sex: [],
-        years:['2018','2017','2016','2015','2014','2013','2012','2011','2010',
-              '2009','2008','2007','2006','2005','2004','2003','2002','2001','2000'],
-        months:['1','2','3','4','5','6','7','8','9','10','11','12'],
+        years:[2018,2017,2016,2015,2014,2013,2012,2011,2010],
+        months:[1,2,3,4,5,6,7,8,9,10,11,12],
         selectedYear : '',
         selectedMonth : '',
         ageList:[],
@@ -129,12 +128,6 @@
         selectedEndAge : '',
         selectedJob:[],
         selectedSex:[],
-        requestAge:[],
-        requestJob:[],
-        requestSex:[],
-        searchAge : [],
-        searchJob : [],
-        searchSex : [],
         tabList:[
           {name:'수입 / 지출', num:1},
           {name:'지출', num:2},
@@ -144,32 +137,45 @@
         spendOthers:0,
         incomeMe:0,
         spendMe:0,
+        dataMe : [],
+        dataOthers: [],
+        dataMe2 : [],
+        dataOthers2: [],
+        dataMe3 : [],
+        dataOthers3: [],
         countOthers : 0,
-        chartData: {
-          labels:['지출 평균','수입 평균'],
-          datasets:[
-            {
-              label:'나',
-              backgroundColor: '#f879798',
-              data : []      
-            },
-            {
-              label: '다른 사람들',
-              backgroundColor: '#f87979',
-              data : []
-            },
-          ],
-          xAxisId : 'hi'
-        }
+        datacollection : ''
+        // chartData: {
+        //   labels:['수입 평균','지출 평균'],
+        //   datasets:[
+        //     {
+        //       label:'나',
+        //       backgroundColor: '#f879798',
+        //       data : []      
+        //     },
+        //     {
+        //       label: '다른 사람들',
+        //       backgroundColor: '#f87979',
+        //       data : []
+        //     },
+        //   ],
+        //   xAxisId : 'hi'
+        // }
       }
     },
     methods:{
-      searchProcess: function(){
+      searchProcess: function(){ 
+        this.loaded = false
+        //찾을 때 0으로 값 초기화해줌
         this.incomeMe = 0
         this.spendMe = 0
         this.incomeOthers = 0
         this.spendOthers = 0
-        alert(this.requestAge + this.requestJob + this.requestSex + this.selectedYear + this.selectedMonth + "으로 검색하기") 
+        this.dataMe = []
+        this.dataOthers = []
+        //검색 조건 맞나 확인
+        alert(this.selectedAge + " " + this.selectedJob + " " + this.selectedSex + " " + this.selectedYear + " " + this.selectedMonth + " 으로 검색하기") 
+        //조건 검색하러 요청
         this.$http.post('/stats/conditional-search',
         {
           startAge : this.selectedStartAge,
@@ -179,10 +185,10 @@
           year : this.selectedYear,
           month : this.selectedMonth,
         }).then((response)=>{
-          console.log("searchProcess good")
           console.log(response.body)
           var i = 0; 
           //베열의 마지막에 찾은 사람의 개수를 넣어주었기 때문에 배열 개수 -1 해줌
+          //검색조건에 맞는 것 갖고와서 나랑 타인을 나눠주는 while 문
           while(i < response.body.length - 1){
             if(response.body[i].id === this.$session.get('id')){
               if(response.body[i].is==="수입"){
@@ -204,9 +210,36 @@
             i++
           }
           //-1 해주는 이유 => 나 자신 빼주려고 
+          //다른 사람 수 구하기
           this.countOthers = response.body[response.body.length-1].length - 1
-          this.incomeOthers = this.incomeOthers / this.countOthers
-          this.spendOthers = this.spendOthers / this.countOthers
+          //다른 사람 수입 평균 구하기
+          this.incomeOthers = Math.floor(this.incomeOthers / this.countOthers)
+          //다른 사람 지출 평균 구하기
+          this.spendOthers = Math.floor(this.spendOthers / this.countOthers)
+
+          alert("countOthers : "+ this.countOthers)
+          alert("incomeOthers : "+ this.incomeOthers)
+          alert("spendOthers : "+ this.spendOthers)
+
+          //0번 인덱스 => 나
+          this.dataMe.push(this.incomeMe)
+          this.dataMe.push(this.spendMe)
+          
+          //1번 인덱스 => 타인
+
+          this.dataOthers.push(this.incomeOthers)
+          this.dataOthers.push(this.spendOthers)
+
+          alert("dataMe : " + this.dataMe)
+          alert("dataOthers : "+ this.dataOthers)
+          
+    
+          alert(this.datacollection)
+          console.log("datacollections")
+          console.log(this.datacollection)
+          alert("loaded before true " + this.loaded)
+          this.loaded = true
+          alert("loaded after true" + this.loaded)
         })
       }
     },
@@ -227,6 +260,8 @@
         var month = currentTime.getMonth() + 1
         var year = currentTime.getFullYear()
         // this.selectedMonth = month
+
+        //현재 년,월과 나와 같은 정보를 가진 사람의 데이터 값으로 초기화 해줌
         this.selectedMonth = 11
         this.selectedYear = year
         this.selectedSex.push(response.data.sex)
@@ -235,65 +270,8 @@
         this.selectedAge = response.data.age
         this.selectedJob.push(response.data.job)
 
-
-        //데이터 가져오기
-        this.$http.post('/stats/conditional-search',
-        {
-          startAge : this.selectedStartAge,
-          endAge : this.selectedEndAge,
-          job : this.selectedJob,
-          sex : this.selectedSex,
-          year : this.selectedYear,
-          month : this.selectedMonth,
-        }).then((response)=>{
-          console.log("searchProcess good")
-          console.log(response.body)
-          var i = 0; 
-          //베열의 마지막에 찾은 사람의 개수를 넣어주었기 때문에 배열 개수 -1 해줌
-          while(i < response.body.length - 1){
-            if(response.body[i].id === this.$session.get('id')){
-              if(response.body[i].is==="수입"){
-                this.incomeMe += response.body[i].price
-              }else if(response.body[i].is==="지출"){
-                this.spendMe += response.body[i].price
-              }else{
-                alert("spendMe / incomeMe 분류 error")
-              }
-            }else{
-              if(response.body[i].is==="수입"){
-                this.incomeOthers += response.body[i].price
-              }else if(response.body[i].is==="지출"){
-                this.spendOthers += response.body[i].price
-              }else{
-                alert("spendOthers / incomeOthers 분류 error")
-              }
-            }
-            i++
-          }
-          console.log("spendMe" + this.spendMe)
-          console.log("incomeMe" + this.incomeMe)
-          console.log("spendOthers" + this.spendOthers)
-          console.log("incomeOthers" + this.incomeOthers)
-          
-          //-1 해주는 이유 => 나 자신 빼주려고 
-          this.countOthers = response.body[response.body.length-1].length - 1
-          this.incomeOthers = this.incomeOthers / this.countOthers
-          this.spendOthers = this.spendOthers / this.countOthers
-          //0번 인덱스 => 지출 평균
-          console.log(this.chartData)
-          // this.chartData.datasets[0].data.push(this.spendMe.toString()) 
-          // this.chartData.datasets[0].data.push(this.spendOthers.toString())
-          this.chartData.datasets[0].data.push(this.spendMe) 
-          this.chartData.datasets[0].data.push(this.incomeMe) 
-          console.log(this.chartData)
-          //1번 인덱스 => 수입 평균  
-          this.chartData.datasets[1].data.push(this.spendOthers)
-          this.chartData.datasets[1].data.push(this.incomeOthers)
-          console.log(this.chartData)
-          this.loaded = true
+        this.searchProcess()      
         })
-        
-      })
     }
   }
 </script>

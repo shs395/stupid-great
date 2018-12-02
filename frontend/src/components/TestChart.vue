@@ -1,62 +1,52 @@
+<template>
+  <div class="small">
+    <line-chart :chart-data="datacollection"></line-chart>
+    <button @click="fillData()">Randomize</button>
+  </div>
+</template>
+
 <script>
-import VueCharts from 'vue-chartjs'
-import { Bar, Line } from 'vue-chartjs'
+  import LineChart from './LineChart.js'
 
-export default {
-  extends: Bar,
-  props:{
-    chartdata:{
-      type : Object,
-      default : null
+  export default {
+    components: {
+      LineChart
     },
-    options:{
-
+    data () {
+      return {
+        datacollection: null
+      }
+    },
+    mounted () {
+      this.fillData()
+    },
+    methods: {
+      fillData () {
+        this.datacollection = {
+          labels: [this.getRandomInt(), this.getRandomInt()],
+          datasets: [
+            {
+              label: 'Data One',
+              backgroundColor: '#f87979',
+              data: [this.getRandomInt(), this.getRandomInt()]
+            }, {
+              label: 'Data One',
+              backgroundColor: '#f87979',
+              data: [this.getRandomInt(), this.getRandomInt()]
+            }
+          ]
+        }
+      },
+      getRandomInt () {
+        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+      }
     }
-  },
-
-  
-  mounted () {
-    // Overwriting base render method with actual data.
-    this.renderChart(
-    //charData
-    this.chartdata,
-    //options
-      {
-        scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                },
-              }],
-            },
-        responsive: true,
-        maintainAspectRatio: false,
-      })
   }
-}
-
-
 </script>
 
 <style>
-
+  .small {
+    max-width: 600px;
+    margin:  150px auto;
+  }
 </style>
-
-
-
-{
-        labels: ['지출 평균', '수입 평균'],
-        datasets: [
-          {
-            label: '다른 사람들',
-            backgroundColor: '#f87979',
-            data : [20,21]
-          },
-          {
-            label:'나',
-            backgroundColor: '#f879798',
-            data : [21,21]      
-          }
-        ],
-        xAxisID :'hi'
-      },

@@ -2,21 +2,28 @@
 import VueCharts from 'vue-chartjs'
 import { Bar, Line } from 'vue-chartjs'
 
+
 export default {
   extends: Bar,
-  props:{
-    chartdata:{
-      type : Object,
-      default : null
-    },
-    options:{
-
-    }
-  },
-  mounted () {
-    // Overwriting base render method with actual data.
+  props:['dataMe','dataOthers'],
+  mounted() {
     this.renderChart(
-      this.chartdata, 
+      {
+        labels: ['수입 평균','지출 평균'],
+          datasets: [
+              {
+                label:'나',
+                backgroundColor: '#f879798',
+                data : this.dataMe
+              },
+              {
+                label: '다른 사람들',
+                backgroundColor: '#f87979',
+                data : this.dataOthers
+              }        
+            ],
+            xAxisID :'hi'
+      }, 
       {
         scales: {
               yAxes: [{

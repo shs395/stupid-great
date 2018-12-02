@@ -72,6 +72,11 @@ export default new Router({
       path: '/boardshow',
       name: 'boardshow',
       component: () => import('../views/BoardShow.vue')
+    },
+    {
+      path: '/test-chart',
+      name: 'TestChart',
+      component: () => import('../components/TestChart.vue')
     }
   ]
 })
