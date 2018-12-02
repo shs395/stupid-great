@@ -27,9 +27,9 @@
                        <template slot="items" slot-scope="props">
                            <tr class="text-xs-center"> 
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.postNumber}}</router-link>
-                            <router-link to="/boardshow" tag="td">{{props.item.title}}</router-link>
-                            <router-link to="/boardshow" tag="td">{{props.item.writer}}</router-link>
-                            <router-link to="/boardshow" tag="td">{{props.item.createdAt}}</router-link>
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.title}}</router-link>
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.writer}}</router-link>
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.createdAt}}</router-link>
                            </tr>
                         </template> 
                         <v-alert slot="no-results" :value="true" color="error" icon="warning">

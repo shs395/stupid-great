@@ -69,7 +69,7 @@ router.get('/:postNumber/:writer',(req,res,next)=>{
     },function(err,result){
         if(err) console.log(err)
 
-        console.log('find성공'+result)
+        console.log('content find성공')
         
         res.send(result)
     })  
