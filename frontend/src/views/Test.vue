@@ -37,21 +37,15 @@
         :items="states"
         :label="나이"
       >
-       <!-- <v-slide-x-reverse-transition
-          slot="append-outer"
-          mode="out-in"
-        >
-          <v-icon
-            :color="isEditing ? 'success' : 'info'"
-            :key="`icon-${isEditing}`"
-            @click="isEditing = !isEditing"
-            v-text="isEditing ? 'mdi-check-outline' : 'mdi-circle-edit-outline'"
-          ></v-icon>
-        </v-slide-x-reverse-transition> -->
         
       </v-autocomplete>
 
-      <p>autocomplete model : {{model}}</p>
+      <p>autocomplete 에서 선택된 값 : {{model}}</p>
+
+
+    <p>Chart Test</p>
+    <TestChart :chartdata="chartData"></TestChart>
+
 
   </div>
 </template>
@@ -59,20 +53,37 @@
 import StatsChart from '../components/StatsChart.vue'
 import StatsChart2 from '../components/StatsChart2.vue'
 import StatsChart3 from '../components/StatsChart3.vue'
+import TestChart from '../components/TestChart.vue'
 export default {
 
   name: 'test',
   components:{
     StatsChart,
     StatsChart2,
-    StatsChart3
+    StatsChart3,
+    TestChart
   },
   data: function(){
     return{
       user_response : null,
       a: 2,
       model : '',
-      states : [ '1','2','3','4','5']
+      states : [ '1','2','3','4','5'],
+      chartData : {
+        labels: ['지출 평균', '수입 평균'],
+        datasets:[
+          {
+            label : '나',
+            backgroundColor: '#f879798',
+            data : [4,50]   
+          },
+          {
+            label : '다른 사람들',
+            backgroundColor: '#f87979',
+            data : [30,1]
+          }
+        ]
+      }
     }
   },
   methods:{

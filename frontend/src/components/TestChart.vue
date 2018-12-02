@@ -13,10 +13,14 @@ export default {
 
     }
   },
+
+  
   mounted () {
     // Overwriting base render method with actual data.
     this.renderChart(
-      this.chartdata, 
+    //charData
+    this.chartdata,
+    //options
       {
         scales: {
               yAxes: [{
@@ -27,8 +31,7 @@ export default {
             },
         responsive: true,
         maintainAspectRatio: false,
-      }
-    )
+      })
   }
 }
 
@@ -41,3 +44,19 @@ export default {
 
 
 
+{
+        labels: ['지출 평균', '수입 평균'],
+        datasets: [
+          {
+            label: '다른 사람들',
+            backgroundColor: '#f87979',
+            data : [20,21]
+          },
+          {
+            label:'나',
+            backgroundColor: '#f879798',
+            data : [21,21]      
+          }
+        ],
+        xAxisID :'hi'
+      },

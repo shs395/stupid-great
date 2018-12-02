@@ -7,7 +7,7 @@
         <v-flex>
           <v-card>
             <v-card-text>
-              나와 비슷한 사람 ({{selectedAge}},{{selectedSex}},{{selectedJob}} )의 {{selectedYear}}년 {{selectedMonth}}월 가계부 평균 내 수입 {{incomeMe}} / 지출 {{spendMe}}||| 다른 사람 수입 {{incomeOthers}}/ 지출{{spendOthers}}
+              나와 비슷한 사람 ({{selectedAge}},{{selectedSex}},{{selectedJob}} )의 {{selectedYear}}년 {{selectedMonth}}월 가계부 평균 내 수입 {{incomeMe}} / 지출 {{spendMe}}||| 다른 사람 수입 {{incomeOthers}}/ 지출{{spendOthers}} / 다른 사람 수 {{countOthers}}
               <v-tabs right>
                 <v-tab>
                   수입/지출
@@ -19,7 +19,7 @@
                   지출
                 </v-tab>
                 <v-tab-item lazy="true"> 
-                  <StatsChart></StatsChart>
+                  <StatsChart :chartdata="chartData"  v-if="loaded"></StatsChart>
                 </v-tab-item>
                 <v-tab-item lazy="true">
                   <StatsChart2></StatsChart2>
@@ -112,6 +112,7 @@
     },
     data:function(){
       return{
+        loaded : false,
         age: [],
         job: [],
         sex: [],
@@ -142,7 +143,24 @@
         incomeOthers:0 ,
         spendOthers:0,
         incomeMe:0,
-        spendMe:0
+        spendMe:0,
+        countOthers : 0,
+        chartData: {
+          labels:['지출 평균','수입 평균'],
+          datasets:[
+            {
+              label:'나',
+              backgroundColor: '#f879798',
+              data : []      
+            },
+            {
+              label: '다른 사람들',
+              backgroundColor: '#f87979',
+              data : []
+            },
+          ],
+          xAxisId : 'hi'
+        }
       }
     },
     methods:{
@@ -163,8 +181,9 @@
         }).then((response)=>{
           console.log("searchProcess good")
           console.log(response.body)
-          var i = 0;
-          while(i < response.body.length){
+          var i = 0; 
+          //베열의 마지막에 찾은 사람의 개수를 넣어주었기 때문에 배열 개수 -1 해줌
+          while(i < response.body.length - 1){
             if(response.body[i].id === this.$session.get('id')){
               if(response.body[i].is==="수입"){
                 this.incomeMe += response.body[i].price
@@ -184,10 +203,15 @@
             }
             i++
           }
+          //-1 해주는 이유 => 나 자신 빼주려고 
+          this.countOthers = response.body[response.body.length-1].length - 1
+          this.incomeOthers = this.incomeOthers / this.countOthers
+          this.spendOthers = this.spendOthers / this.countOthers
         })
       }
     },
     mounted:function(){
+      this.loaded = false
       //ageList 에 일일히 쓰기 귀찮아서 , 나이목록 생성
       var i = 0
       for(i ; i<100 ; i++){
@@ -202,26 +226,73 @@
         var currentTime = new Date()
         var month = currentTime.getMonth() + 1
         var year = currentTime.getFullYear()
-        this.selectedMonth = month
+        // this.selectedMonth = month
+        this.selectedMonth = 11
         this.selectedYear = year
         this.selectedSex.push(response.data.sex)
         this.selectedStartAge = response.data.age
         this.selectedEndAge = response.data.age
         this.selectedAge = response.data.age
         this.selectedJob.push(response.data.job)
-        // if(response.data.age < 10){
-        //   this.selectedAge.push("10대 이하")
-        // }else if(response.data.age < 20){
-        //   this.selectedAge.push("10대")
-        // }else if(response.data.age < 30){
-        //   this.selectedAge.push("20대")
-        // }else if(response.data.age < 40){
-        //   this.selectedAge.push("30대")
-        // }else if(response.data.age < 50){
-        //   this.selectedAge.push("40대")
-        // }else{
-        //   this.selectedAge.push("50대")
-        // }
+
+
+        //데이터 가져오기
+        this.$http.post('/stats/conditional-search',
+        {
+          startAge : this.selectedStartAge,
+          endAge : this.selectedEndAge,
+          job : this.selectedJob,
+          sex : this.selectedSex,
+          year : this.selectedYear,
+          month : this.selectedMonth,
+        }).then((response)=>{
+          console.log("searchProcess good")
+          console.log(response.body)
+          var i = 0; 
+          //베열의 마지막에 찾은 사람의 개수를 넣어주었기 때문에 배열 개수 -1 해줌
+          while(i < response.body.length - 1){
+            if(response.body[i].id === this.$session.get('id')){
+              if(response.body[i].is==="수입"){
+                this.incomeMe += response.body[i].price
+              }else if(response.body[i].is==="지출"){
+                this.spendMe += response.body[i].price
+              }else{
+                alert("spendMe / incomeMe 분류 error")
+              }
+            }else{
+              if(response.body[i].is==="수입"){
+                this.incomeOthers += response.body[i].price
+              }else if(response.body[i].is==="지출"){
+                this.spendOthers += response.body[i].price
+              }else{
+                alert("spendOthers / incomeOthers 분류 error")
+              }
+            }
+            i++
+          }
+          console.log("spendMe" + this.spendMe)
+          console.log("incomeMe" + this.incomeMe)
+          console.log("spendOthers" + this.spendOthers)
+          console.log("incomeOthers" + this.incomeOthers)
+          
+          //-1 해주는 이유 => 나 자신 빼주려고 
+          this.countOthers = response.body[response.body.length-1].length - 1
+          this.incomeOthers = this.incomeOthers / this.countOthers
+          this.spendOthers = this.spendOthers / this.countOthers
+          //0번 인덱스 => 지출 평균
+          console.log(this.chartData)
+          // this.chartData.datasets[0].data.push(this.spendMe.toString()) 
+          // this.chartData.datasets[0].data.push(this.spendOthers.toString())
+          this.chartData.datasets[0].data.push(this.spendMe) 
+          this.chartData.datasets[0].data.push(this.incomeMe) 
+          console.log(this.chartData)
+          //1번 인덱스 => 수입 평균  
+          this.chartData.datasets[1].data.push(this.spendOthers)
+          this.chartData.datasets[1].data.push(this.incomeOthers)
+          console.log(this.chartData)
+          this.loaded = true
+        })
+        
       })
     }
   }

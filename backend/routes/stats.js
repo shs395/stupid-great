@@ -25,6 +25,27 @@ router.post('/conditional-search',async(req,res)=>{
       {month : req.body.month}
     ]
   })
+  console.log(find)
+  console.log("*********find*********")
+
+
+  var personCount = await accountModel.distinct("id",{
+    $and : [
+      {job : { $in : req.body.job}},
+      {sex : { $in : req.body.sex}},
+      {$and :  [
+        {age : {$gte:startAge,$lte:endAge}}
+      ]},
+      {year : req.body.year},
+      {month : req.body.month}
+    ]
+  });
+  console.log(personCount)
+  find.push(personCount)
+  console.log("*********personCount*********")
+
+
+
   res.send(find)
 })
 
