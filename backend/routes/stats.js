@@ -10,12 +10,10 @@ router.post('/find',async (req,res)=>{
 })
 
 router.post('/conditional-search',async(req,res)=>{
+  console.log("---------- 조건검색에서 조건 ----------")
   console.log(req.body)
-  console.log(req.body.sex)
   var startAge = req.body.startAge
-  console.log("startAge : " + startAge)
   var endAge = req.body.endAge
-  console.log("endAge : " + endAge)
   var find = await accountModel.find({
     $and : [
       {job : { $in : req.body.job}},
@@ -27,8 +25,7 @@ router.post('/conditional-search',async(req,res)=>{
       {month : req.body.month}
     ]
   })
-  console.log(find)
-  res.send("good")
+  res.send(find)
 })
 
 module.exports = router;

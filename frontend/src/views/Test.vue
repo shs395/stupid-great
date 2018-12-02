@@ -30,6 +30,29 @@
       <StatsChart3></StatsChart3>
     </div>
 
+    <!-- auto complete test-->
+
+       <v-autocomplete
+        v-model="model"
+        :items="states"
+        :label="나이"
+      >
+       <!-- <v-slide-x-reverse-transition
+          slot="append-outer"
+          mode="out-in"
+        >
+          <v-icon
+            :color="isEditing ? 'success' : 'info'"
+            :key="`icon-${isEditing}`"
+            @click="isEditing = !isEditing"
+            v-text="isEditing ? 'mdi-check-outline' : 'mdi-circle-edit-outline'"
+          ></v-icon>
+        </v-slide-x-reverse-transition> -->
+        
+      </v-autocomplete>
+
+      <p>autocomplete model : {{model}}</p>
+
   </div>
 </template>
 <script>
@@ -47,7 +70,9 @@ export default {
   data: function(){
     return{
       user_response : null,
-      a: 2
+      a: 2,
+      model : '',
+      states : [ '1','2','3','4','5']
     }
   },
   methods:{
