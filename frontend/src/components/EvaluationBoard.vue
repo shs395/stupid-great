@@ -16,27 +16,31 @@
                         :search="search"
                         :pagination.sync="pagination">
                      
-                         <template slot="items" slot-scope="props"> 
+                         <!-- <template slot="items" slot-scope="props"> 
                            <tr @click="readData(props.item)">
                             <td class="text-xs-center">{{props.item.postNumber}}</td>
                             <td class="text-xs-center">{{props.item.title}}</td>
                             <td class="text-xs-center">{{props.item.writer}}</td>
                             <td class="text-xs-center">{{props.item.createdAt}}</td>
                            </tr>
+                        </template>  -->
+                       <template slot="items" slot-scope="props">
+                           <tr class="text-xs-center"> 
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.postNumber}}</router-link>
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.title}}</router-link>
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.writer}}</router-link>
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.createdAt}}</router-link>
+                           </tr>
                         </template> 
-
-                        
-            
                         <v-alert slot="no-results" :value="true" color="error" icon="warning">
                              "{{search}}" no result.
                         </v-alert>
-                   </v-data-table> 
-              
+                    </v-data-table> 
                        <v-card-text class="text-xs-center">
-                       <v-pagination v-model="pagination.page" :length="pagination.total" :total-visible="pagination.visible"></v-pagination>
-                </v-card-text>
+                            <v-pagination v-model="pagination.page" :length="pagination.total" :total-visible="pagination.visible"></v-pagination>
+                        </v-card-text>
             </v-card-text>
-</v-card>
+    </v-card>
 </template>
 
 <script>
@@ -67,13 +71,13 @@ export default {
         //     alert('게시글 페이지로 이동합니다!')
         //      return location.href="/boardshow";        
         //}
-        readData(a){
-             if (event.target.classList.contains('btn__content')) return;
-             alert(a.title+'게시글로 이동합니다');
-             this.$router.push('/boardshow')
-    }
+    //     readData(a){
+    //          if (event.target.classList.contains('btn__content')) return;
+    //          alert(a.title+'게시글로 이동합니다');
+    //          this.$router.push('/boardshow')
+    // }
     },
-      mounted(){
+      created(){
            this.$http.get('/board/list').then(response=>{
                this.items=response.data
                console.log(response.data)})

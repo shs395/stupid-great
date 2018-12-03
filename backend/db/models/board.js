@@ -18,7 +18,29 @@ const boardSchema = new mongoose.Schema({
     createdAt: {   
         type: Date,    
         default: Date.now
-    }
+    },
+    date_year:{
+        type:Number
+    },
+    date_month:{
+        type:Number
+    },
+    comment:[
+        {
+            name:String,
+            body:String
+        }
+    ],
+    accountinfo:[
+        {
+            id:String,
+            year:Number,
+            month:Number,
+            day:Number,
+            is:String,
+            price:Number
+        }
+    ]
 })
 
 boardSchema.plugin(autoIncrement, {

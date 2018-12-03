@@ -23,7 +23,7 @@
                             <v-spacer/>
                             <v-flex px-3>
                                 <v-card-actions>
-                                    <v-btn  flat color="orange"> <v-icon>edit</v-icon>저장된 가계부 불러오기</v-btn> 
+                                    <v-btn  @click="saveAccount" flat color="orange"> <v-icon>edit</v-icon>저장된 가계부 불러오기</v-btn> 
                                 </v-card-actions>
                             </v-flex>
                         </v-layout>
@@ -70,6 +70,9 @@ export default {
                 alert('게시글이 작성되었습니다!')
                 console.log(res.data)
                  return location.href="/evaluation";}).catch((err)=>console.log(err))
+        },
+        saveAccount(){
+            alert(this.date+'의 가계부가 선택되었습니다')
         }
     },
     mounted() {
