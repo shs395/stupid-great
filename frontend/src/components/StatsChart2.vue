@@ -8,7 +8,7 @@ export default {
   mounted () {
     // Overwriting base render method with actual data.
     this.renderChart({
-      labels: ['수입 평균','월급', '부수입', '용돈', '상여', '금융소득', '기타'],
+      labels: ['월급', '부수입', '용돈', '상여', '금융소득', '기타'],
       datasets: [
         {
           label:'나',
@@ -29,7 +29,7 @@ export default {
               },
             }],
           },
-      responsive: true,
+      responsive: false,
       maintainAspectRatio: false,
     })
   }
