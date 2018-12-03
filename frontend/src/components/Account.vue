@@ -14,10 +14,10 @@
             </v-card>
         </v-flex>
         <v-flex xs6 >
-            <AccountShow v-bind:data="{is:'수입', date:selectedDate, accounts: g_accounts}"/>
+            <AccountShow v-bind:data="{is:'수입', y:y, m:m, d:d, accounts: g_accounts, selectedDate: selectedDate}"/>
         </v-flex>
         <v-flex xs6>
-            <AccountShow v-bind:data="{is:'지출', date:selectedDate, accounts: l_accounts}"/>
+            <AccountShow v-bind:data="{is:'지출', y:y, m:m, d:d, accounts: l_accounts}"/>
         </v-flex>
     </v-layout>
 </template>
@@ -35,9 +35,13 @@ export default {
   props:["data"],
   data () {
     return {
-      selectedDate: null,
-      g_accounts:[],
-      l_accounts:[]
+        selectedDate: null,
+        g_accounts:[],
+        l_accounts:[],
+        y:'xxxx',
+        m:'xx',
+        d:'xx'
+      
     };
   },
   components:{
@@ -47,6 +51,10 @@ export default {
   methods:{
       get_accounts:function(){
           if(this.selectedDate!=null){
+            this.y=parseInt(this.selectedDate.slice(0,4))
+            this.m=parseInt(this.selectedDate.slice(5,7))
+            this.d=parseInt(this.selectedDate.slice(8,10))
+            
             var api = 'http://localhost:3000/account/list/'+this.$session.get('id')+'/'+this.selectedDate+'/'+'수입';
             this.$http.get(api)
             .then((result)=>{

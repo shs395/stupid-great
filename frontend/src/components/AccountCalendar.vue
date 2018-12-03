@@ -19,7 +19,7 @@
                   prepend-icon="event"
                   readonly
                 ></v-text-field>
-                <v-date-picker v-model="startDate" @input="menu1 = false" :max = "todayDate"></v-date-picker>
+                <v-date-picker v-model="startDate" @input="menu1 = false"></v-date-picker>
               </v-menu>
             </v-flex>
             <v-spacer></v-spacer>
@@ -41,10 +41,9 @@
                   prepend-icon="event"
                   readonly
                 ></v-text-field>
-                <v-date-picker v-model="endDate" @input="menu2 = false" :min = "startDate" :max = "todayDate"></v-date-picker>    
+                <v-date-picker v-model="endDate" @input="menu2 = false" :min = "startDate"></v-date-picker>    
               </v-menu>
             </v-flex>
-            <!-- <v-date-picker v-model="selectedMonth" type="month"></v-date-picker> -->
             <v-spacer></v-spacer>
           </v-layout>
     </v-card>
