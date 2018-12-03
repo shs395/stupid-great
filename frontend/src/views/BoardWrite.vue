@@ -58,12 +58,14 @@ export default {
             date: new Date().toISOString().substr(0, 7),
             menu: false,
             modal: false,
+            in:'수입',
+            out:'지출'
 
         }
     },
     methods:{
         savepost(){
-            var infoPost={id:this.$session.get('id'),title:this.title,body:this.body,date:this.date}
+            var infoPost={id:this.$session.get('id'),title:this.title,body:this.body,date:this.date,is:this.in}
             this.title=""
             this.body=""
             this.axios.post('/board/post',infoPost).then(res=>{
@@ -72,6 +74,7 @@ export default {
                  return location.href="/evaluation";}).catch((err)=>console.log(err))
         },
         saveAccount(){
+           
             alert(this.date+'의 가계부가 선택되었습니다')
         }
     },

@@ -2,8 +2,16 @@
     <div>
         <v-container fluid>
              <v-card>
-                 <p>{{test1}}</p>
+                 <v-layout row>
+                    <v-flex xs4 pa-3>
+                        {{post_items}}
+                    </v-flex>    
+                    <v-flex xs4>
+                       {{in_items}}
+                    </v-flex>
+
              </v-card>
+             {{out_items}}
         </v-container>
     
     </div>
@@ -14,38 +22,36 @@
         name:'board-content-show',
         data: function(){
             return{
-                b_items:'',
-                a_items:'',
+                post_items:'',
+                in_items:'',
+                out_items:'',
                // postNumber:''
-               test1:''
+               items:'',
             }
         },
         methods:{
-            // get_boardinfo(){
-            // var id=this.$session.get('id')
-            // this.$http.get(`/board/read/board/${id}`).then(response=>{
-            //    this.b_items=response.data
-            //    console.log(response.data)}).catch((err)=>console.log(err))
-            // },
-            // get_accountinfo(){
-            // var id=this.$session.get('id')
-            // this.$http.get(`/board/read/account/${id}`).then(response=>{
-            //    this.a_items=response.data
-            //    console.log(response.data)}).catch((err)=>console.log(err))
-            // },
-            test(){
-                console.log(this.$route.params.postNumber)
+            get(){
+              console.log(this.$route.params.postNumber)
                 this.$http.get(`/board/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
-                    console.log(this.$route.params.postNumber+'1')
-                    this.test1=response.data
-                    console.log(response.data)}).catch((err)=>console.log(err))
+                    this.post_items=response.data
+                //console.log(response.data)
+                }).catch((err)=>console.log(err))
+            },
+            get_in_account(){
+                this.$http.get(`/board/in/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
+                    this.in_items=response.data
+                    console.log(this.in_items)}).catch((err)=>console.log(err))
+            },
+               get_out_account(){
+                this.$http.get(`/board/out/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
+                    this.out_items=response.data
+                    console.log(this.out_items)}).catch((err)=>console.log(err))
             }
         },
         created(){
-            // this.get_boardinfo(),
-            // this.get_accountinfo(),
-            console.log(this.$route.params.postNumber)
-            this.test()
+            this.get()
+            this.get_in_account(),
+            this.get_out_account()
            },
     }
 </script>
