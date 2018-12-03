@@ -1,6 +1,11 @@
-const { mongoose} = require('../mongo')
+const { mongoose, autoIncrement} = require('../mongo')
 
 const accountSchema = new mongoose.Schema({
+    accountId: {
+        type: Number,
+        unique: true,
+        required:true
+    },
     id:{
         type: String,
         required: true
@@ -49,6 +54,13 @@ const accountSchema = new mongoose.Schema({
         type: String,
         required: true
     }    
+})
+
+// accountId를 Auto Increment 필드로 지정
+accountSchema.plugin(autoIncrement, {
+    model: 'Account',
+    field: 'accountId',
+    startAt: 1
 })
 
 module.exports = mongoose.model('Account', accountSchema)
