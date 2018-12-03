@@ -58,8 +58,7 @@ export default {
             date: new Date().toISOString().substr(0, 7),
             menu: false,
             modal: false,
-            in:'수입',
-            out:'지출'
+    
 
         }
     },
@@ -69,13 +68,13 @@ export default {
             this.title=""
             this.body=""
             this.axios.post('/board/post',infoPost).then(res=>{
+                alert(this.date+'의 가계부가 선택되었습니다')
                 alert('게시글이 작성되었습니다!')
                 console.log(res.data)
                  return location.href="/evaluation";}).catch((err)=>console.log(err))
         },
         saveAccount(){
            
-            alert(this.date+'의 가계부가 선택되었습니다')
         }
     },
     mounted() {

@@ -26,6 +26,10 @@ const boardSchema = new mongoose.Schema({
     date_month:{
         type:Number
     },
+    views:{
+        type:Number,
+        default:0
+    },
     comment:[
         {
             author: {type:mongoose.Schema.Types.ObjectId, ref:'User', required:true},

@@ -55,33 +55,6 @@ router.get('/list',async(req,res,next)=>{
     })
 })
 
-//게시글 내용보기-컨텐츠,제목
-// router.get('/read/board/:id',(req,res,next)=>{
-//     const id=req.params.id;
-//     console.log(id)
-//     boardModel.find({
-//         writer:id
-//     },function(err,result){
-//         if(err) {console.log(err)}
-        
-//         console.log('find_board_info')
-//         res.send(result)
-       
-//     })
-// })
-
-// //게시글 내용보기-가계부
-// router.get('/read/account/:id',async(req,res,next)=>{
-//     const id=req.params.id;
-//     const postNumber=req.params.postNumber;
-    
-//     accountModel.find({id:id},function(err,result){
-//         if(err) console.log(err)
-
-//         console.log('find Account info')
-//         res.send(result)
-//     })
-// })
 
 
 //게시글 내용보기
@@ -91,16 +64,16 @@ router.get('/:postNumber/:writer',(req,res,next)=>{
 
     boardModel.find({
         postNumber:_postNumber,
-        writer:_writer},
-        {account_info:0     
+        writer:_writer   
     },function(err,result){
         if(err) console.log(err)
 
-       // console.log(result)
+       //console.log(result.views)
         res.json(result)
     })  
 })
 
+//가계부 수입 데이터 가져오기
 router.get('/in/:postNumber/:writer',(req,res,next)=>{
     const _postNumber=req.params.postNumber;
     const _writer=req.params.writer;
@@ -117,10 +90,11 @@ router.get('/in/:postNumber/:writer',(req,res,next)=>{
       ,function(err,result){
             if(err) console.log(err)
 
-            //console.log('결과'+result+'1')
+           
             res.send(result)})
 })
     
+//가계부 지출 데이터 가져오기
 router.get('/out/:postNumber/:writer',(req,res,next)=>{
     const _postNumber=req.params.postNumber;
     const _writer=req.params.writer;
@@ -137,7 +111,7 @@ router.get('/out/:postNumber/:writer',(req,res,next)=>{
       ,function(err,result){
             if(err) console.log(err)
 
-            console.log('결과'+result+'1')
+          
             res.send(result)})
 })
     

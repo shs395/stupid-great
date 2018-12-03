@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
-import BoardContentShow from '../components/BoardContentShow.vue'
+//import BoardContentShow from '../components/BoardContentShow.vue'
 
 Vue.use(Router)
 
