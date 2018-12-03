@@ -13,11 +13,11 @@
                 <v-flex xs7>
                   <v-card-title primary-title>
                     <div id="random-content">
-                      <div id="random-head">제목 : <span>마카롱</span></div>
+                      <div id="random-head">제목 : <span>{{post.title}}</span></div>
                       <v-divider light></v-divider><br>
-                      <div>내용 : <span>마카롱 먹고싶은데 살까요 말까요</span></div><br>
+                      <div>내용 : <span>{{post.content}}</span></div><br>
                       <v-divider light></v-divider>
-                      <div id="random-price">가격 : <span>2000원</span></div>
+                      <div id="random-price">가격 : <span>{{post.price}}</span></div>
                     </div>
                   </v-card-title>
                 </v-flex>
@@ -28,7 +28,6 @@
                         <v-btn class="sg-random-btns" id="random-stupid-btn" color="red">스튜핏!</v-btn>
                         <v-btn class="sg-random-btns" id="skip-btn" color="grey darken-4">SKIP</v-btn>
                         <v-btn class="sg-random-btns" id="random-great-btn" color="blue">그레잇!</v-btn>
-
                 </center>
               </v-card-actions>
             </v-card>
@@ -38,10 +37,22 @@
 
 <script>
 export default {
+   
+    created (){
+        console.log('?');
+        this.$http.get('/stupid_great/random')
+        .then((result) => {
+            this.post = result.data;
+            console.log(this.post);
+        });
+    },
+    
     name : 'StupidGreatRandom',
-    props : [
-
-    ],
+    data (){
+        return{
+            post : {},            
+        }
+    }
 }
 </script>
 
@@ -83,7 +94,7 @@ export default {
 
 .sg-random-btns{
     width: 373px;
-    height:150px;
+    height:300px;
     font-size: 70px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }

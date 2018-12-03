@@ -13,7 +13,15 @@ router.get('/', function(req, res){
 });
 
 router.get('/random', function(req, res){
-
+    StupidGreatModel.find({}, function(err, posts){
+        if(err) return console.log(err);
+        var result = Math.floor(Math.random() * posts.length) + 1;
+        console.log(result);
+        StupidGreatModel.findOne({PostNumber : result}, function(err, post){
+            if(err) console.log(err);
+            res.send(post);
+        });
+    });
 })
 
 router.post('/create', function(req, res){
