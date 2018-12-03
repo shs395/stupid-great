@@ -50,11 +50,6 @@ export default new Router({
       component: () => import('../views/StupidGreatContentCreate.vue')
     },
     {
-      path: '/statistic',
-      name: 'statistic',
-      component: () => import('../views/Statistic.vue')
-    },
-    {
       path: '/stats',
       name: 'stats',
       component: () => import('../views/Stats.vue')

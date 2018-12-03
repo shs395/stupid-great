@@ -4,21 +4,22 @@ import { Bar, Line } from 'vue-chartjs'
 
 export default {
   extends: Bar,
+  props:['dataMe','dataOthers'],
   mounted () {
     // Overwriting base render method with actual data.
     this.renderChart({
-      labels: ['수입 평균','월급', '부수입', '용돈', '상여', '금융소득', '기타'],
+      labels: ['월급', '부수입', '용돈', '상여', '금융소득', '기타'],
       datasets: [
-        {
-          label: '다른 사람들',
-          backgroundColor: '#f87979',
-          data : [20,21,22,21,21,21,21]
-        },
         {
           label:'나',
           backgroundColor: '#f879798',
-          data : [21,21,22,21,22,22,22]      
-        }
+          data : this.dataMe
+        },
+        {
+          label: '다른 사람들',
+          backgroundColor: '#f87979',
+          data : this.dataOthers
+        }        
       ],
       xAxisID :'hi'
     },{scales: {
@@ -28,7 +29,7 @@ export default {
               },
             }],
           },
-      responsive: true,
+      responsive: false,
       maintainAspectRatio: false,
     })
   }

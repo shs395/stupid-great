@@ -2,35 +2,40 @@
 import VueCharts from 'vue-chartjs'
 import { Bar, Line } from 'vue-chartjs'
 
+
 export default {
   extends: Bar,
-  mounted () {
-    // Overwriting base render method with actual data.
-    this.renderChart({
-      labels: ['지출 평균', '수입 평균'],
-      datasets: [
-        {
-          label: '다른 사람들',
-          backgroundColor: '#f87979',
-          data : [20,21]
-        },
-        {
-          label:'나',
-          backgroundColor: '#f879798',
-          data : [21,21]      
-        }
-      ],
-      xAxisID :'hi'
-    },{scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
+  props:['dataMe','dataOthers'],
+  mounted() {
+    this.renderChart(
+      {
+        labels: ['수입 평균','지출 평균'],
+          datasets: [
+              {
+                label:'나',
+                backgroundColor: '#f879798',
+                data : this.dataMe
               },
-            }],
-          },
-      responsive: true,
-      maintainAspectRatio: false,
-    })
+              {
+                label: '다른 사람들',
+                backgroundColor: '#f87979',
+                data : this.dataOthers
+              }        
+            ],
+            xAxisID :'hi'
+      }, 
+      {
+        scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                },
+              }],
+            },
+        responsive: false,
+        maintainAspectRatio: false,
+      }
+    )
   }
 }
 

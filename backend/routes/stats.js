@@ -10,12 +10,10 @@ router.post('/find',async (req,res)=>{
 })
 
 router.post('/conditional-search',async(req,res)=>{
+  console.log("---------- 조건검색에서 조건 ----------")
   console.log(req.body)
-  console.log(req.body.sex)
   var startAge = req.body.startAge
-  console.log("startAge : " + startAge)
   var endAge = req.body.endAge
-  console.log("endAge : " + endAge)
   var find = await accountModel.find({
     $and : [
       {job : { $in : req.body.job}},
@@ -28,7 +26,27 @@ router.post('/conditional-search',async(req,res)=>{
     ]
   })
   console.log(find)
-  res.send("good")
+  console.log("*********find*********")
+
+
+  var personCount = await accountModel.distinct("id",{
+    $and : [
+      {job : { $in : req.body.job}},
+      {sex : { $in : req.body.sex}},
+      {$and :  [
+        {age : {$gte:startAge,$lte:endAge}}
+      ]},
+      {year : req.body.year},
+      {month : req.body.month}
+    ]
+  });
+  console.log(personCount)
+  find.push(personCount)
+  console.log("*********personCount*********")
+
+
+
+  res.send(find)
 })
 
 module.exports = router;
