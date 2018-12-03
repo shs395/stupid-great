@@ -16,57 +16,71 @@ router.use((req, res, next)=>{
 
 //가계부 작성
 router.post('/create', async function(req,res){
-  console.log(req);
-
-  try{
-    const user = await userModel.findOne({id:req.body.id})
-    const result = accountModel.create(
-      {
-        id: req.body.id, 
-        year: req.body.year, 
-        month: req.body.month,
-        day: req.body.day,
-        is:req.body.is, 
-        price: req.body.price, 
-        name: req.body.name, 
-        rate: req.body.rate,
-        category: req.body.category,
-        sex : user.sex,
-        age: user.age,
-        job : user.job
-      }
-    )
-    console.log(result)
-  }catch(err){
-    console.log(err)
-  }
-  // res.send('create')
+  const user = await userModel.findOne({id:req.body.id})
+  accountModel.create(
+  {
+    id: req.body.id, 
+    year: req.body.year, 
+    month: req.body.month,
+    day: req.body.day,
+    is:req.body.is, 
+    price: req.body.price, 
+    name: req.body.name, 
+    rate: req.body.rate,
+    category: req.body.category,
+    sex : user.sex,
+    age: user.age,
+    job : user.job
+  }, function(err, account){
+    if(err) {
+      console.log(err)
+      res.send('create fail')
+    }
+    else{
+      res.send('create')
+    }
+  })
 })
 
+//가계부 수정
+router.post('/change', async function(req,res){
+  accountModel.findOneAndUpdate(
+  {accountId: req.body.accountId},
+  {
+    price: req.body.price,
+    name:req.body.name,
+    category: req.body.category,
+    rate: req.body.rate,
+  }, function(err){
+    if(err) {
+      console.log(err)
+      res.send('change fail')
+    }
+    else{
+      res.send('change')
+    }
+  })
+})
+
+
+//특정 날짜 리스트 가져오기
 router.get('/list/:id/:date/:is',(req,res)=>{
   var n_y= parseInt(req.params.date.slice(0,4));
   var n_m = parseInt(req.params.date.slice(5,7));
   var n_d=parseInt(req.params.date.slice(8,10));
-  // console.log('year: '+n_y+'month: '+n_m+'day: '+ n_d);
   accountModel.find({
     id: req.params.id, 
     year:n_y, month:n_m, day:n_d,
-    is: req.params.is
+    is: req.params.is,
     },function(err,accounts){
     if(err) console.log(err) 
     res.send(accounts)
     } 
   )
-  // res.send(req.params.id+req.params.date);
 })
 
-// router.get('/list',(req,res)=>{
-//   accountModel.find(function(err,accounts){
-//     if(err) return res.status(500).send({error: 'database failure'});
-//     res.json(accounts)
-//   })
-// })
 
+//특정 기간 account 리스트 받아오기
 router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
   var s_y= parseInt(req.params.startDate.slice(0,4));
   var s_m = parseInt(req.params.startDate.slice(5,7));
@@ -100,7 +114,6 @@ router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
     {year:{$eq:e_y, $eq:s_y}, month:{$eq:s_m, $eq:e_m}, day:{$gte:s_d, $lte:e_d}},
   ],
   is:req.params.is,
-  // category:categories[i]
   },'price category')
   .then((accounts)=>{
     console.log(accounts)
@@ -118,6 +131,7 @@ router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
   })
   .catch((err)=>{
     console.log(err)
+    res.send(err)
   })
 })
 

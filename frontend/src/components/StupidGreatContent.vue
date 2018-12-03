@@ -24,8 +24,8 @@
             <v-divider light></v-divider>
             
             <v-card-actions id="sg-btns-group">
-                <v-btn color="red" class="sg-btns" id="stupid-btn">스튜핏!</v-btn>
-                <v-btn color="blue" class="sg-btns" id="great-btn">그레잇!</v-btn>
+                <v-btn color="red" @click="OnClickStupid" class="sg-btns" id="stupid-btn">스튜핏!</v-btn>
+                <v-btn color="blue" @click="OnClickGreat" class="sg-btns" id="great-btn">그레잇!</v-btn>
             </v-card-actions>
             
         </v-card>
@@ -39,8 +39,32 @@ export default {
     props: {
         title : {},
         content: {},
-        price: {}
+        price: {},
+        postnum: {}
     },
+    data (){
+        return{
+        }
+    },
+    methods: {
+        OnClickStupid (){
+            this.$http.get(`/stupid_great/add/stupid/${this.postnum}`)
+            .then((result) => {
+                this.post = result.data;
+                console.log(this.post);
+            });
+            alert('stupid를 선택하셨습니다!');
+        },
+        OnClickGreat (){
+            this.$http.get(`/stupid_great/add/great/${this.postnum}`)
+            .then((result) => {
+                this.post = result.data;
+                console.log(this.post);
+            });
+            alert('great를 선택하셨습니다!');
+   
+        }
+    }
     
 }
 </script>

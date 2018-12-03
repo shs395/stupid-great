@@ -2,8 +2,7 @@
   <v-card height="100%">
     <v-card-title>
       <!-- 수입 or 지출 인지 받아옴 -->
-      {{data.date}}
-      {{data.is}}
+      <h2>{{data.y}}년 {{data.m}}월 {{data.d}}일 {{data.is}}</h2>
     </v-card-title>
     <!-- 날짜 받아온걸로 해당 날짜의 수입 or 지출 내용을 v-for로 넣기 -->
     <v-card-text> 
@@ -12,9 +11,9 @@
       style="height: 300px"
       class="scroll-y"
       >
-      <AccountComp  id='ac' v-bind:data="{category:'항목', name:'이름', price:'가격', rate:'평가'}"></AccountComp>
+      <AccountComp  id='ac' v-bind:data="{selectedDate: data.selectedDate, category:'항목', name:'이름', price:'가격', rate:'평가'}"></AccountComp>
       <span v-for="account in this.data.accounts">
-        <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate}"></AccountComp>
+        <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate, accountId: account.accountId, y:data.y, m:data.m, d:data.d, is:data.is}"></AccountComp>
       </span>
       </v-container>
     </v-card-text>
@@ -32,18 +31,17 @@
                   <v-container grid-list-md>
                     <v-layout wrap>
                       <v-flex xs12 class="addData">
-                        날짜: {{data.date}}
-                        <!-- <v-text-field label="Legal first name*" required></v-text-field> -->
+                        날짜: {{data.y}}년 {{data.m}}월 {{data.d}}일
                       </v-flex>
                       <v-flex xs12 class="addData">
                         <br>
                         분류: {{data.is}}
                       </v-flex>
                       <v-flex xs12>
-                        <v-text-field label="금액" required v-model="addPrice" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
+                        <v-text-field label="금액" type="number" required v-model="addPrice" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
                       </v-flex>
                       <v-flex xs12>
-                        <v-text-field label="이름" required v-model="addName" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
+                        <v-text-field label="이름" type="string" required v-model="addName" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
                       </v-flex> 
                       <v-flex xs12>
                         <span v-if="data.is=='수입'">
@@ -70,7 +68,6 @@
                       </v-flex>
                     </v-layout>
                   </v-container>
-                  <small>*indicates required field</small>
                 </v-card-text>
                 <v-card-actions>
                   <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
@@ -96,10 +93,10 @@ import AccountComp from "../components/AccountComp";
       add:async function(){
         if(this.$refs.form.validate()){
           this.$http.post('/account/create', {
+            year: this.data.y,
+            month: this.data.m,
+            day: this.data.d,
             id: this.$session.get('id'),
-            year: parseInt(this.data.date.slice(0,4)),
-            month: parseInt(this.data.date.slice(5,7)),
-            day: parseInt(this.data.date.slice(8,10)),
             is: this.data.is,
             price: this.addPrice,
             name:this.addName,
@@ -107,10 +104,11 @@ import AccountComp from "../components/AccountComp";
             rate: this.addRate
             })
             .then((result)=>{
-              console.log(result)
-              this.dialog=false
-              alert(this.dialog)
-              this.$refs.form.reset()
+              if(result.data=='create'){
+                this.dialog=false
+                this.$refs.form.reset()
+                alert('추가되었습니다')
+              }
             })
             .catch((err)=>{
               console.log(err)
@@ -118,10 +116,10 @@ import AccountComp from "../components/AccountComp";
         }
       },
       reset(){
-        // return this.$refs.form.reset()
+        return this.$refs.form.reset()
       },
       addbtn:function(){
-        if(this.data.date==null){
+        if(this.data.y=='xxxx'){
           alert('날짜를 선택해 주세요');
           this.dialog=false;
         }
@@ -135,7 +133,10 @@ import AccountComp from "../components/AccountComp";
         addCategory:null,
         addPrice:null,
         dialog: false,
-        accounts:this.data.accounts
+        accounts:this.data.accounts,
+        // year: parseInt(this.data.date.slice(0,4)),
+        // month: parseInt(this.data.date.slice(5,7)),
+        // day: parseInt(this.data.date.slice(8,10))
       }
     },
     components:{

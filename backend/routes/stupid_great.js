@@ -13,59 +13,80 @@ router.get('/', function(req, res){
 });
 
 router.get('/random', function(req, res){
+    StupidGreatModel.find({}, function(err, posts){
+        if(err) return console.log(err);
+        var result = Math.floor(Math.random() * posts.length) + 1;
+        console.log(result);
+        StupidGreatModel.findOne({PostNumber : result}, function(err, post){
+            if(err) console.log(err);
+            res.send(post);
+        });
+    });
+});
 
-})
+router.get('/add/stupid/:postnum', function(req, res){
+    StupidGreatModel.findOne({PostNumber: req.params.postnum}, function(err, sgpost){
+        if(err) console.log(err);
+        var s_count = sgpost.stupid;
+        s_count++;
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.params.postnum},{stupid: s_count},function(err, post){
+            if(err) console.log(err);
+            res.send(post);
+        });
+    })
+});
+
+router.get('/add/great/:postnum', function(req, res){
+    StupidGreatModel.findOne({PostNumber: req.params.postnum}, function(err, sgpost){
+        if(err) console.log(err);
+        var g_count = sgpost.great;
+        g_count++;
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.params.postnum},{great: g_count},function(err, post){
+            if(err) console.log(err);
+            res.send(post);
+        });
+    })
+});
 
 router.post('/create', function(req, res){
 
+     var StupidGreat = new StupidGreatModel({ 
+        writer: req.body.writerid,
+        title : req.body.post.sgTitle, 
+        content: req.body.post.sgContent,
+        price: parseInt(req.body.post.sgPrice),
+        stupid: 0,
+        great: 0
+    });
 
+    StupidGreat.save(function (err) {
+        if(err) {
+            console.log(err);
+            res.send('fail');
+        }
+        console.log('stupid great information saved!');
+    });
 
-     var StupidGreat = new StupidGreatModel(
-        { 
-            writer: req.body.writerid,
-            title : req.body.post.sgTitle, 
-            content: req.body.post.sgContent,
-            price: parseInt(req.body.post.sgPrice),
-            stupid: 0,
-            great: 0
-        });
-
-        StupidGreat.save(function (err) {
-            if(err) {
-                console.log(err);
-                res.send('fail');
-            }
-            console.log('stupid great information saved!');
-        });
-
-        res.send('saved');
-
+    res.send('saved');
 });
 
-
-router.use('/uploadImg', express.static('upload'));
-
-const storage = multer.diskStorage({
-    destination : (req, file, cb) =>{
-        cb(null, '../sg_upload_images')
-    },
-    filename: (req, file, cb) => {
-        console.log(file)
-        const fileName = "StupidGreatImg" + req.params.id + ".jpg";
-        cb(null, fileName);
-    }
-});
+/*이미지 업로드 하기*/
+var imgname;
 
 const upload = multer({
-    storage: storage
-}).single('imgFile');
+    storage: multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, 'sg_upload_images/');
+      },
+      filename: function (req, file, cb) {
+        imgname = new Date().valueOf() + file.originalname;
+        cb(null, imgname);
+      }
+    }),
+});
 
-
-router.post('/create/img', function(req, res){
-    upload((req, res, err) =>{
-        if(err) console.log(err);
-    });
-    res.send('ok');
+router.post('/create/img',upload.single('img'),function(req, res){
+    res.json({"state": "ok", "imgname":imgname});
 });
 
 module.exports = router;

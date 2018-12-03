@@ -13,11 +13,11 @@
                 <v-flex xs7>
                   <v-card-title primary-title>
                     <div id="random-content">
-                      <div id="random-head">제목 : <span>마카롱</span></div>
+                      <div id="random-head">제목 : <span>{{post.title}}</span></div>
                       <v-divider light></v-divider><br>
-                      <div>내용 : <span>마카롱 먹고싶은데 살까요 말까요</span></div><br>
+                      <div>내용 : <span>{{post.content}}</span></div><br>
                       <v-divider light></v-divider>
-                      <div id="random-price">가격 : <span>2000원</span></div>
+                      <div id="random-price">가격 : <span>{{post.price}}</span></div>
                     </div>
                   </v-card-title>
                 </v-flex>
@@ -25,10 +25,9 @@
               <v-divider light></v-divider>
               <v-card-actions class="pa-3">
                    <center id="center">
-                        <v-btn class="sg-random-btns" id="random-stupid-btn" color="red">스튜핏!</v-btn>
-                        <v-btn class="sg-random-btns" id="skip-btn" color="grey darken-4">SKIP</v-btn>
-                        <v-btn class="sg-random-btns" id="random-great-btn" color="blue">그레잇!</v-btn>
-
+                        <v-btn @click="OnClickRandomStupid" class="sg-random-btns" id="random-stupid-btn" color="red">스튜핏!</v-btn>
+                        <v-btn @click="OnClickRandomSkip" class="sg-random-btns" id="skip-btn" color="grey darken-4">SKIP</v-btn>
+                        <v-btn @click="OnClickRandomGreat" class="sg-random-btns" id="random-great-btn" color="blue">그레잇!</v-btn>
                 </center>
               </v-card-actions>
             </v-card>
@@ -38,10 +37,45 @@
 
 <script>
 export default {
-    name : 'StupidGreatRandom',
-    props : [
+    created (){
+        this.$http.get('/stupid_great/random')
+        .then((result) => {
+            this.post = result.data;
+        });
+    },
 
-    ],
+    name : 'StupidGreatRandom',
+
+    data (){
+        return{
+            post : {},           
+        }
+    },
+
+    methods: {
+        OnClickRandomStupid (){
+            this.$http.get(`/stupid_great/add/stupid/${this.post.PostNumber}`)
+            .then((result) => {
+                this.post = result.data;
+                console.log(this.post);
+            });
+            alert('stupid를 선택하셨습니다!');
+        },
+        OnClickRandomGreat (){
+            this.$http.get(`/stupid_great/add/great/${this.post.PostNumber}`)
+            .then((result) => {
+                this.post = result.data;
+                console.log(this.post);
+            });
+            alert('great를 선택하셨습니다!');
+        },
+        OnClickRandomSkip (){
+            this.$http.get('/stupid_great/random')
+            .then((result) => {
+                this.post = result.data;
+            });
+        }
+    }
 }
 </script>
 
@@ -83,7 +117,7 @@ export default {
 
 .sg-random-btns{
     width: 373px;
-    height:150px;
+    height:300px;
     font-size: 70px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }

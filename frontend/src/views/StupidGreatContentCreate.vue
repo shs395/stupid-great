@@ -4,12 +4,6 @@
     <v-layout row wrap>
         <v-card id="sg-img-create-card">
             <v-flex xs12 sm7>
-            <!--<input type="file"
-                id="upload-btn" 
-                title="이미지 올리기" 
-                color="grey" 
-                :fileChangedCallback="fileChanged">
-            -->
             <div id="dropbox">
                 <input type="file" id="imgFile" name="imgFile" @change="uploadIMG($event.target.name, $event.target.files)" @drop="uploadIMG($event.target.name, $event.target.files)">
                 <h3>파일을 드래그해서 드랍해주세요!</h3>
@@ -43,7 +37,7 @@
             ></v-text-field>
             </v-flex>
             <div id="sg-create-btns">
-                <v-btn id="contents-reset" color="red">초기화</v-btn>
+                <v-btn @click="OnClickReset" id="contents-reset" color="red">초기화</v-btn>
                 <v-btn @click="OnClickUpload" id="contents-upload" color="blue">게시물 업로드 </v-btn>
             </div>
         </v-card>
@@ -65,40 +59,44 @@ export default {
     data (){
         return{
             sgForm: {
-                sgTitle:"",
-                sgContent:"",
-                sgPrice:"",
-                sgImg:"",
+                sgTitle: "",
+                sgContent: "",
+                sgPrice: "",
+                sgImg: ""
             },
-            files: []
+            files: [],
+            count : Number
         }
     },
 
     methods:{
 
         uploadIMG(name, files){
-            console.log($event);
-            const formData = new FormData();
-            formData.append(name, files[0], files[0].name);
-            this.$http.post('/stupid_great/create/img', formData)
-            .then((result)=>{
-                console.log(result);
-            });
-        },
+            if(this.count == 1){
+                alert('이미지는 한장만 올려주세요!');
+            }else{
+                const formData = new FormData();
+                console.log(files)
+                formData.append('img', files[0]);
+                this.$http.post('/stupid_great/create/img', formData)
+                .then((result)=>{
+                    console.log(result);
+                    this.sgForm.sgImg = result.body.imgname;
+                });
 
-        fileChanged(file){
-
-            var fr = new FileReader();
-            var img = document.createElement("img");
-            var imgDiv = document.querySelector("#imgDiv");
-            fr.onload = function() {
-                img.src = fr.result;
-                img.classList.add("margin-bottom");
-                imgDiv.appendChild(img);
+                var fr = new FileReader();
+                var img = document.createElement("img");
+                var imgDiv = document.querySelector("#imgDiv");
+                fr.onload = function() {
+                    img.src = fr.result;
+                    img.classList.add("margin-bottom");
+                    imgDiv.appendChild(img);
+                }
+                fr.readAsDataURL(event.target.files[0]);
+                this.count = 1;
             }
-            fr.readAsDataURL(event.target.files[0]);
-            this.sgForm.sgImg = event.target.files[0];
         },
+
         OnClickUpload(){
             this.$http.post('/stupid_great/create', {writerid:this.$session.get('id') ,post: this.sgForm})
             .then((response) => {
@@ -110,6 +108,11 @@ export default {
                 }
             });
         },
+        OnClickReset (){
+            this.sgForm.sgTitle = '';
+            this.sgForm.sgContent = '';
+            this.sgForm.sgPrice = '';
+        }
     }
     
 }
@@ -118,18 +121,18 @@ export default {
 <style>
 
 #dropbox{
-    outline: 2px dashed #aaa;
-    background: #7fb4dd;
-    width: 300px;
-    height: 300px;
+    background: #26C6DA;
+    width: 550px;
+    height: 150px;
     position: relative; 
     margin: 0 auto;
 }
 
 #dropbox > h3{
     position: absolute;
+    color: white;
+    left: 110px;
     top: 50px;
-    left: 0;
     z-index: 2;
 }
 
@@ -148,11 +151,12 @@ export default {
 }
 
 #sg-img-create-card{
-    width: 500px;
-    height: 500px;
+    width: 550px;
+    height: 650px;
 }
+
 #sg-form-create-card{
-    width: 900px;
+    width: 950px;
     height: 650px;
 }
 
@@ -161,8 +165,8 @@ export default {
 }
 
 #imgDiv{
-    width: 300px;
-    height: 300px;
+    width: 550px;
+    height: 500px;
 }
 
 #sg-create-btns{
@@ -180,7 +184,7 @@ export default {
 .margin-bottom{
     margin-bottom:10px;
     display: block;
-    width: 200px;
-    height: 200px;
+    width: 550px;
+    height: 500px;
 }
 </style>
