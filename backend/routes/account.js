@@ -40,7 +40,7 @@ router.post('/create', async function(req,res){
   }catch(err){
     console.log(err)
   }
-  // res.send('create')
+  res.send('create')
 })
 
 router.get('/list/:id/:date/:is',(req,res)=>{

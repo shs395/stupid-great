@@ -40,10 +40,10 @@
                         분류: {{data.is}}
                       </v-flex>
                       <v-flex xs12>
-                        <v-text-field label="금액" required v-model="addPrice" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
+                        <v-text-field label="금액" type="number" required v-model="addPrice" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
                       </v-flex>
                       <v-flex xs12>
-                        <v-text-field label="이름" required v-model="addName" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
+                        <v-text-field label="이름" type="string" required v-model="addName" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
                       </v-flex> 
                       <v-flex xs12>
                         <span v-if="data.is=='수입'">
@@ -107,9 +107,7 @@ import AccountComp from "../components/AccountComp";
             rate: this.addRate
             })
             .then((result)=>{
-              console.log(result)
               this.dialog=false
-              alert(this.dialog)
               this.$refs.form.reset()
             })
             .catch((err)=>{
@@ -118,7 +116,7 @@ import AccountComp from "../components/AccountComp";
         }
       },
       reset(){
-        // return this.$refs.form.reset()
+        return this.$refs.form.reset()
       },
       addbtn:function(){
         if(this.data.date==null){
