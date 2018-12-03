@@ -22,7 +22,31 @@ router.get('/random', function(req, res){
             res.send(post);
         });
     });
-})
+});
+
+router.get('/add/stupid/:postnum', function(req, res){
+    StupidGreatModel.findOne({PostNumber: req.params.postnum}, function(err, sgpost){
+        if(err) console.log(err);
+        var s_count = sgpost.stupid;
+        s_count++;
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.params.postnum},{stupid: s_count},function(err, post){
+            if(err) console.log(err);
+            res.send(post);
+        });
+    })
+});
+
+router.get('/add/great/:postnum', function(req, res){
+    StupidGreatModel.findOne({PostNumber: req.params.postnum}, function(err, sgpost){
+        if(err) console.log(err);
+        var g_count = sgpost.great;
+        g_count++;
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.params.postnum},{great: g_count},function(err, post){
+            if(err) console.log(err);
+            res.send(post);
+        });
+    })
+});
 
 router.post('/create', function(req, res){
 

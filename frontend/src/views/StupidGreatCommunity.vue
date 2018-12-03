@@ -44,10 +44,10 @@
             >
               <v-icon>edit</v-icon>
             </v-btn>
-            <v-layout v-show="showpost" row wrap>
+            <v-layout row wrap>
                 <v-flex v-for="post in posts.slice().reverse()" :key="post.PostNumber">
                     <v-card id="sg-content-cards" color="transparent">
-                        <stupid-great-content :title="post.title" :content="post.content" :price="post.price"></stupid-great-content>
+                        <stupid-great-content :title="post.title" :content="post.content" :price="post.price" :postnum="post.PostNumber"></stupid-great-content>
                     </v-card>
                 </v-flex>
             </v-layout>
@@ -64,6 +64,12 @@ import StupidGreatRandom from '../components/StupidGreatRandom'
 import StupidGreatContent from '../components/StupidGreatContent'
 
 export default {
+    created (){
+        this.$http.get('/stupid_great')
+        .then((result) => {
+            this.posts = result.data;
+        });    
+    },
 
     components: {
       toolbar,
@@ -76,15 +82,7 @@ export default {
             posts: [],
         }
     },
-    computed: {
-        showpost (){
-            this.$http.get('/stupid_great')
-            .then((result) => {
-                this.posts = result.data;
-            });
-            return true;
-        }
-    },
+
     methods: {
         OnEditBtnClick (){
             return location.href="/stupid-great-content-create";

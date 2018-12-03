@@ -26,11 +26,13 @@ const StupidGreatSchema = new mongoose.Schema({
     },
     stupid:{
         type: Number,
-        required: true
+        required: true,
+        default : 0
     },
     great:{
         type: Number,
-        required: true
+        required: true,
+        default: 0
     }
 })
 
