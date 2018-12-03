@@ -7,8 +7,8 @@
         <v-flex>
           <v-card>
             <v-card-text>
-              나와 비슷한 사람 ({{selectedAge}},{{selectedSex}},{{selectedJob}} )의 {{selectedYear}}년 {{selectedMonth}}월 가계부 평균 내 수입 {{incomeMe}} / 지출 {{spendMe}}||| 다른 사람 수입 {{incomeOthers}}/ 지출{{spendOthers}} / 다른 사람 수 {{countOthers}}
-              <v-tabs right>
+              나와 비슷한 사람 ({{selectedAge}},{{selectedSex}},{{selectedJob}} )의 {{selectedYear}}년 {{selectedMonth}}월 가계부 평균
+              <v-tabs right> 
                 <v-tab>
                   수입/지출
                 </v-tab>
@@ -19,13 +19,13 @@
                   지출
                 </v-tab>
                 <v-tab-item lazy="true"> 
-                  <StatsChart :dataMe="dataMe" :dataOthers="dataOthers" :width="1118" :height="400" v-if="loaded"></StatsChart>
+                  <StatsChart :dataMe="dataMe" :dataOthers="dataOthers" :width="1250" :height="400" v-if="loaded"></StatsChart>
                 </v-tab-item>
                 <v-tab-item lazy="true">
-                  <StatsChart2 :dataMe="dataMe2" :dataOthers="dataOthers2" :width="1118" :height="400" v-if="loaded"></StatsChart2>
+                  <StatsChart2 :dataMe="dataMe2" :dataOthers="dataOthers2" :width="1250" :height="400" v-if="loaded"></StatsChart2>
                 </v-tab-item>
                 <v-tab-item lazy="true">
-                  <StatsChart3 :dataMe="dataMe3" :dataOthers="dataOthers3" :width="1118" :height="400" v-if="loaded"></StatsChart3>
+                  <StatsChart3 :dataMe="dataMe3" :dataOthers="dataOthers3" :width="1250" :height="400" v-if="loaded"></StatsChart3>
                 </v-tab-item>
               </v-tabs>
             
@@ -116,8 +116,8 @@
         loaded : false,
         //select 안에 들어갈 변수
         ageList:[],
-        sexList:['모두','남자','여자'],
-        jobList:['모두','백수','중학생','고등학생','대학생','직장인','전업주부'],
+        sexList:['남자','여자'],
+        jobList:['백수','중학생','고등학생','대학생','직장인','전업주부'],
         years:[2018,2017,2016,2015,2014,2013,2012,2011,2010],
         months:[1,2,3,4,5,6,7,8,9,10,11,12],
         //선택되는 값들 (여기 값들에 따라 검색을 함 / 초기값은 나와 비슷한 사람들)
@@ -244,6 +244,7 @@
         this.spend10 = 0
         this.spend11 = 0
         this.spend12 = 0
+
 
        
       },
@@ -442,25 +443,25 @@
           // this.dataOthers3.push(this.spendOthers)
 
 
-          this.oincome1 = (this.oincome1 / this.countOthers)
-          this.oincome2 = (this.oincome2 / this.countOthers)
-          this.oincome3 = (this.oincome3 / this.countOthers)
-          this.oincome4 = (this.oincome4 / this.countOthers)
-          this.oincome5 = (this.oincome5 / this.countOthers)
-          this.oincome6 = (this.oincome6 / this.countOthers)
+          this.oincome1 = Math.floor(this.oincome1 / this.countOthers)
+          this.oincome2 = Math.floor(this.oincome2 / this.countOthers)
+          this.oincome3 = Math.floor(this.oincome3 / this.countOthers)
+          this.oincome4 = Math.floor(this.oincome4 / this.countOthers)
+          this.oincome5 = Math.floor(this.oincome5 / this.countOthers)
+          this.oincome6 = Math.floor(this.oincome6 / this.countOthers)
 
-          this.ospend1 = this.ospend1 / this.countOthers
-          this.ospend2 = this.ospend2 / this.countOthers
-          this.ospend3 = this.ospend3 / this.countOthers
-          this.ospend4 = this.ospend4 / this.countOthers
-          this.ospend5 = this.ospend5 / this.countOthers
-          this.ospend6 = this.ospend6 / this.countOthers
-          this.ospend7 = this.ospend7 / this.countOthers
-          this.ospend8 = this.ospend8 / this.countOthers
-          this.ospend9 = this.ospend9 / this.countOthers
-          this.ospend10 = this.ospend10 / this.countOthers
-          this.ospend11 = this.ospend11 / this.countOthers
-          this.ospend12 = this.ospend12 / this.countOthers
+          this.ospend1 = Math.floor(this.ospend1 / this.countOthers)
+          this.ospend2 = Math.floor(this.ospend2 / this.countOthers)
+          this.ospend3 = Math.floor(this.ospend3 / this.countOthers)
+          this.ospend4 = Math.floor(this.ospend4 / this.countOthers)
+          this.ospend5 = Math.floor(this.ospend5 / this.countOthers)
+          this.ospend6 = Math.floor(this.ospend6 / this.countOthers)
+          this.ospend7 = Math.floor(this.ospend7 / this.countOthers)
+          this.ospend8 = Math.floor(this.ospend8 / this.countOthers)
+          this.ospend9 = Math.floor(this.ospend9 / this.countOthers)
+          this.ospend10 = Math.floor(this.ospend10 / this.countOthers)
+          this.ospend11 = Math.floor(this.ospend11 / this.countOthers)
+          this.ospend12 = Math.floor(this.ospend12 / this.countOthers)
 
           this.dataMe2.push(this.income1)
           this.dataMe2.push(this.income2)
@@ -514,6 +515,8 @@
           // alert(this.oincome1+this.oincome2+this.oincome3+this.oincome4+this.oincome5+this.oincome6)
           // alert(this.ospend1+this.ospend2+this.ospend3+this.ospend4+this.ospend5+this.ospend6+this.ospend7+this.ospend8+this.ospend9+this.ospend10+this.ospend11+this.ospend12)
           this.loaded = true
+
+          alert("내 수입 : " + this.incomeMe + " 내 지출 : " + this.spendMe + "\n다른 사람 수입 : " + this.incomeOthers + "다른 사람 지출 : " + this.spendOthers + "다른 사람 수 : " +  this.countOthers) 
         })
       }
     },

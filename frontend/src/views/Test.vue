@@ -44,7 +44,7 @@
 
 
     <p>Chart Test</p>
-    <TestChart :chartdata="chartData"></TestChart>
+    
 
 
   </div>
@@ -53,7 +53,6 @@
 import StatsChart from '../components/StatsChart.vue'
 import StatsChart2 from '../components/StatsChart2.vue'
 import StatsChart3 from '../components/StatsChart3.vue'
-import TestChart from '../components/TestChart.vue'
 export default {
 
   name: 'test',
@@ -61,7 +60,6 @@ export default {
     StatsChart,
     StatsChart2,
     StatsChart3,
-    TestChart
   },
   data: function(){
     return{
