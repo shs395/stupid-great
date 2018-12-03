@@ -10,7 +10,7 @@ const StupidGreatSchema = new mongoose.Schema({
         required: true,
     },
     image: {
-
+        type: String,
     },
     title:{
         type: String,

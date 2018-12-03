@@ -71,6 +71,7 @@ router.post('/create', function(req, res){
 });
 
 /*이미지 업로드 하기*/
+var imgname;
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -78,13 +79,14 @@ const upload = multer({
         cb(null, 'sg_upload_images/');
       },
       filename: function (req, file, cb) {
-        cb(null, new Date().valueOf() + file.originalname);
+        imgname = new Date().valueOf() + file.originalname;
+        cb(null, imgname);
       }
     }),
 });
 
 router.post('/create/img',upload.single('img'),function(req, res){
-    res.send('ok');
+    res.json({"state": "ok", "imgname":imgname});
 });
 
 module.exports = router;

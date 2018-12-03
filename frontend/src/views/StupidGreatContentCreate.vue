@@ -59,9 +59,10 @@ export default {
     data (){
         return{
             sgForm: {
-                sgTitle:"",
-                sgContent:"",
-                sgPrice:"",
+                sgTitle: "",
+                sgContent: "",
+                sgPrice: "",
+                sgImg: ""
             },
             files: [],
             count : Number
@@ -80,6 +81,7 @@ export default {
                 this.$http.post('/stupid_great/create/img', formData)
                 .then((result)=>{
                     console.log(result);
+                    this.sgForm.sgImg = result.body.imgname;
                 });
 
                 var fr = new FileReader();
@@ -91,8 +93,6 @@ export default {
                     imgDiv.appendChild(img);
                 }
                 fr.readAsDataURL(event.target.files[0]);
-                this.sgForm.sgImg = event.target.files[0];
-
                 this.count = 1;
             }
         },
