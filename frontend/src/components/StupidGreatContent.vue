@@ -23,7 +23,7 @@
                 
             <v-divider light></v-divider>
             
-            <v-card-actions v-show="ShowBtn" id="sg-btns-group">
+            <v-card-actions id="sg-btns-group">
                 <v-btn color="red" @click="OnClickStupid" class="sg-btns" id="stupid-btn">스튜핏!</v-btn>
                 <v-btn color="blue" @click="OnClickGreat" class="sg-btns" id="great-btn">그레잇!</v-btn>
             </v-card-actions>
@@ -44,7 +44,6 @@ export default {
     },
     data (){
         return{
-            ShowBtn: true,
         }
     },
     methods: {
@@ -55,7 +54,6 @@ export default {
                 console.log(this.post);
             });
             alert('stupid를 선택하셨습니다!');
-            this.ShowBtn = false;
         },
         OnClickGreat (){
             this.$http.get(`/stupid_great/add/great/${this.postnum}`)
@@ -64,7 +62,6 @@ export default {
                 console.log(this.post);
             });
             alert('great를 선택하셨습니다!');
-            this.ShowBtn = false;
    
         }
     }
@@ -81,7 +78,6 @@ export default {
 
 #sg-btns-group{
     width: 277px;
-    height: 300px;
     margin: 0 auto;
     margin-top:5px;
 }

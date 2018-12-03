@@ -4,12 +4,6 @@
     <v-layout row wrap>
         <v-card id="sg-img-create-card">
             <v-flex xs12 sm7>
-            <!--<input type="file"
-                id="upload-btn" 
-                title="이미지 올리기" 
-                color="grey" 
-                :fileChangedCallback="fileChanged">
-            -->
             <div id="dropbox">
                 <input type="file" id="imgFile" name="imgFile" @change="uploadIMG($event.target.name, $event.target.files)" @drop="uploadIMG($event.target.name, $event.target.files)">
                 <h3>파일을 드래그해서 드랍해주세요!</h3>
@@ -70,14 +64,14 @@ export default {
                 sgPrice:"",
             },
             files: [],
-            count : 0
+            count : Number
         }
     },
 
     methods:{
 
         uploadIMG(name, files){
-            if(this.count > 0){
+            if(this.count == 1){
                 alert('이미지는 한장만 올려주세요!');
             }else{
                 const formData = new FormData();
@@ -99,22 +93,8 @@ export default {
                 fr.readAsDataURL(event.target.files[0]);
                 this.sgForm.sgImg = event.target.files[0];
 
-                this.count++;
+                this.count = 1;
             }
-        },
-
-        fileChanged(file){
-
-            var fr = new FileReader();
-            var img = document.createElement("img");
-            var imgDiv = document.querySelector("#imgDiv");
-            fr.onload = function() {
-                img.src = fr.result;
-                img.classList.add("margin-bottom");
-                imgDiv.appendChild(img);
-            }
-            fr.readAsDataURL(event.target.files[0]);
-            this.sgForm.sgImg = event.target.files[0];
         },
 
         OnClickUpload(){
@@ -142,8 +122,8 @@ export default {
 
 #dropbox{
     background: #26C6DA;
-    width: 500px;
-    height: 200px;
+    width: 550px;
+    height: 150px;
     position: relative; 
     margin: 0 auto;
 }
@@ -151,7 +131,7 @@ export default {
 #dropbox > h3{
     position: absolute;
     color: white;
-    left: 100px;
+    left: 110px;
     top: 50px;
     z-index: 2;
 }
@@ -171,12 +151,12 @@ export default {
 }
 
 #sg-img-create-card{
-    width: 500px;
-    height: 500px;
+    width: 550px;
+    height: 650px;
 }
 
 #sg-form-create-card{
-    width: 900px;
+    width: 950px;
     height: 650px;
 }
 
@@ -185,8 +165,8 @@ export default {
 }
 
 #imgDiv{
-    width: 500px;
-    height: 400px;
+    width: 550px;
+    height: 500px;
 }
 
 #sg-create-btns{
@@ -204,7 +184,7 @@ export default {
 .margin-bottom{
     margin-bottom:10px;
     display: block;
-    width: 200px;
-    height: 200px;
+    width: 550px;
+    height: 500px;
 }
 </style>
