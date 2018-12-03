@@ -7,28 +7,31 @@
                     hide-details></v-text-field>
             </v-card-title>  
             <v-card-text>
+               
                     <v-data-table 
+                        v-model="selected"
                         hide-actions 
-                       :headers="headers"
+                        :headers="headers"
                         :items="items"
                         :search="search"
                         :pagination.sync="pagination">
-                       
-                        <template slot="items" slot-scope="data">
-                            <td :class="headers[0].class"><a @click="readData">{{data.item.title}}</a></td>
-                            <td :class="headers[1].class"><a @click="readData">{{data.item.writer}}</a></td>
-                            <td :class="headers[2].class"><a @click="readData">{{data.item.createdAt}}</a></td>
-                        </template>
+                     
+                         <template slot="items" slot-scope="props"> 
+                           <tr @click="readData(props.item)">
+                            <td class="text-xs-center">{{props.item.postNumber}}</td>
+                            <td class="text-xs-center">{{props.item.title}}</td>
+                            <td class="text-xs-center">{{props.item.writer}}</td>
+                            <td class="text-xs-center">{{props.item.createdAt}}</td>
+                           </tr>
+                        </template> 
+
+                        
+            
                         <v-alert slot="no-results" :value="true" color="error" icon="warning">
                              "{{search}}" no result.
                         </v-alert>
                    </v-data-table> 
-
-                    <!-- <div v-for="item in items" :key="item.id" :pagination.sync="pagination">  -->
-                        <!-- <v-card-text>{{item.title}}</v-card-text> -->
-                          <!-- <v-pagination v-model="pagination.page" :length="pages"></v-pagination> -->
-                       
-                    <!-- </div> -->
+              
                        <v-card-text class="text-xs-center">
                        <v-pagination v-model="pagination.page" :length="pagination.total" :total-visible="pagination.visible"></v-pagination>
                 </v-card-text>
@@ -45,24 +48,30 @@ export default {
             search: '',
             d_info:'',
             items:[],
+            selected:[],
             pagination:{
                  page:1,
                  total:5,
                 visible:7
             },
             headers: [
-                {text:"제목", value:"title" ,sortable:false},
-                {text:"작성자", value:"writer", sortable:false},
-                {text:"작성일", value:"createdAt",sortable:false}
+                {text:"게시글번호", value:"postNumber", sortable:false, align:"center"},
+                {text:"제목", value:"title" ,sortable:false, align:"center"},
+                {text:"작성자", value:"writer", sortable:false, align:"center"},
+                {text:"작성일", value:"createdAt",sortable:false, align:"center"}
             ],   
         }
     },
     methods:{
-        readData(){
-            alert('게시글 페이지로 이동합니다!')
-             return location.href="/boardshow";        
-        }
-
+        // readData(){
+        //     alert('게시글 페이지로 이동합니다!')
+        //      return location.href="/boardshow";        
+        //}
+        readData(a){
+             if (event.target.classList.contains('btn__content')) return;
+             alert(a.title+'게시글로 이동합니다');
+             this.$router.push('/boardshow')
+    }
     },
       mounted(){
            this.$http.get('/board/list').then(response=>{
