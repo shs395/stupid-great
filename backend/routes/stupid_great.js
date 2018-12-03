@@ -50,53 +50,40 @@ router.get('/add/great/:postnum', function(req, res){
 
 router.post('/create', function(req, res){
 
+     var StupidGreat = new StupidGreatModel({ 
+        writer: req.body.writerid,
+        title : req.body.post.sgTitle, 
+        content: req.body.post.sgContent,
+        price: parseInt(req.body.post.sgPrice),
+        stupid: 0,
+        great: 0
+    });
 
+    StupidGreat.save(function (err) {
+        if(err) {
+            console.log(err);
+            res.send('fail');
+        }
+        console.log('stupid great information saved!');
+    });
 
-     var StupidGreat = new StupidGreatModel(
-        { 
-            writer: req.body.writerid,
-            title : req.body.post.sgTitle, 
-            content: req.body.post.sgContent,
-            price: parseInt(req.body.post.sgPrice),
-            stupid: 0,
-            great: 0
-        });
-
-        StupidGreat.save(function (err) {
-            if(err) {
-                console.log(err);
-                res.send('fail');
-            }
-            console.log('stupid great information saved!');
-        });
-
-        res.send('saved');
-
+    res.send('saved');
 });
 
-
-router.use('/uploadImg', express.static('upload'));
-
-const storage = multer.diskStorage({
-    destination : (req, file, cb) =>{
-        cb(null, '../sg_upload_images')
-    },
-    filename: (req, file, cb) => {
-        console.log(file)
-        const fileName = "StupidGreatImg" + req.params.id + ".jpg";
-        cb(null, fileName);
-    }
-});
+/*이미지 업로드 하기*/
 
 const upload = multer({
-    storage: storage
-}).single('imgFile');
+    storage: multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, 'sg_upload_images/');
+      },
+      filename: function (req, file, cb) {
+        cb(null, new Date().valueOf() + file.originalname);
+      }
+    }),
+});
 
-
-router.post('/create/img', function(req, res){
-    upload((req, res, err) =>{
-        if(err) console.log(err);
-    });
+router.post('/create/img',upload.single('img'),function(req, res){
     res.send('ok');
 });
 

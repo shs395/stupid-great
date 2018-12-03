@@ -81,6 +81,7 @@ export default {
 
 #sg-btns-group{
     width: 277px;
+    height: 300px;
     margin: 0 auto;
     margin-top:5px;
 }

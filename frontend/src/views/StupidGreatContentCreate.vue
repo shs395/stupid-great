@@ -43,7 +43,7 @@
             ></v-text-field>
             </v-flex>
             <div id="sg-create-btns">
-                <v-btn id="contents-reset" color="red">초기화</v-btn>
+                <v-btn @click="OnClickReset" id="contents-reset" color="red">초기화</v-btn>
                 <v-btn @click="OnClickUpload" id="contents-upload" color="blue">게시물 업로드 </v-btn>
             </div>
         </v-card>
@@ -68,22 +68,39 @@ export default {
                 sgTitle:"",
                 sgContent:"",
                 sgPrice:"",
-                sgImg:"",
             },
-            files: []
+            files: [],
+            count : 0
         }
     },
 
     methods:{
 
         uploadIMG(name, files){
-            console.log($event);
-            const formData = new FormData();
-            formData.append(name, files[0], files[0].name);
-            this.$http.post('/stupid_great/create/img', formData)
-            .then((result)=>{
-                console.log(result);
-            });
+            if(this.count > 0){
+                alert('이미지는 한장만 올려주세요!');
+            }else{
+                const formData = new FormData();
+                console.log(files)
+                formData.append('img', files[0]);
+                this.$http.post('/stupid_great/create/img', formData)
+                .then((result)=>{
+                    console.log(result);
+                });
+
+                var fr = new FileReader();
+                var img = document.createElement("img");
+                var imgDiv = document.querySelector("#imgDiv");
+                fr.onload = function() {
+                    img.src = fr.result;
+                    img.classList.add("margin-bottom");
+                    imgDiv.appendChild(img);
+                }
+                fr.readAsDataURL(event.target.files[0]);
+                this.sgForm.sgImg = event.target.files[0];
+
+                this.count++;
+            }
         },
 
         fileChanged(file){
@@ -99,6 +116,7 @@ export default {
             fr.readAsDataURL(event.target.files[0]);
             this.sgForm.sgImg = event.target.files[0];
         },
+
         OnClickUpload(){
             this.$http.post('/stupid_great/create', {writerid:this.$session.get('id') ,post: this.sgForm})
             .then((response) => {
@@ -110,6 +128,11 @@ export default {
                 }
             });
         },
+        OnClickReset (){
+            this.sgForm.sgTitle = '';
+            this.sgForm.sgContent = '';
+            this.sgForm.sgPrice = '';
+        }
     }
     
 }
@@ -118,18 +141,18 @@ export default {
 <style>
 
 #dropbox{
-    outline: 2px dashed #aaa;
-    background: #7fb4dd;
-    width: 300px;
-    height: 300px;
+    background: #26C6DA;
+    width: 500px;
+    height: 200px;
     position: relative; 
     margin: 0 auto;
 }
 
 #dropbox > h3{
     position: absolute;
+    color: white;
+    left: 100px;
     top: 50px;
-    left: 0;
     z-index: 2;
 }
 
@@ -151,6 +174,7 @@ export default {
     width: 500px;
     height: 500px;
 }
+
 #sg-form-create-card{
     width: 900px;
     height: 650px;
@@ -161,8 +185,8 @@ export default {
 }
 
 #imgDiv{
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 400px;
 }
 
 #sg-create-btns{
