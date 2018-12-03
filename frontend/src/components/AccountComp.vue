@@ -20,7 +20,7 @@
            <v-rating v-model="rate" readonly="readonly" small></v-rating>
         </v-card>
       </v-flex>
-      <!-- <v-dialog v-model="dialog"  persistent max-width="600px" v-if="dialog==true">
+      <v-dialog v-model="dialog"  persistent max-width="600px" v-if="dialog==true">
         <v-card>
           <v-form ref="form">
             <v-card-title>
@@ -74,7 +74,7 @@
             </v-card-actions>
           </v-form>
         </v-card>
-      </v-dialog> -->
+      </v-dialog>
     </v-layout>
      
 </template>
@@ -90,7 +90,30 @@ export default {
       },
       doneChange:function(){
         alert(this.changePrice+ this.changeName+this.changeCategory+this.changeRate);
-        this.dialog=false;
+        if(this.$refs.form.validate()){
+          this.$http.post('/account/change', {
+            // year: this.data.y,
+            // month: this.data.m,
+            // day: this.data.d,
+            // id: this.$session.get('id'),
+            // is: this.data.is,
+            price: this.changePrice,
+            name:this.changeName,
+            category: this.changeCategory,
+            rate: this.changeRate,
+            accountId: this.data.accountId
+            })
+            .then((result)=>{
+              if(result.data=='change'){
+                this.dialog=false
+                alert('변경되었습니다')
+              }
+            })
+            .catch((err)=>{
+              console.log(err)
+            })
+        }
+
       }
   },
   data:function(){

@@ -42,6 +42,28 @@ router.post('/create', async function(req,res){
   })
 })
 
+//가계부 수정
+router.post('/change', async function(req,res){
+  accountModel.findOneAndUpdate(
+  {accountId: req.body.accountId},
+  {
+    price: req.body.price,
+    name:req.body.name,
+    category: req.body.category,
+    rate: req.body.rate,
+  }, function(err){
+    if(err) {
+      console.log(err)
+      res.send('change fail')
+    }
+    else{
+      res.send('change')
+    }
+  })
+})
+
+
+//특정 날짜 리스트 가져오기
 router.get('/list/:id/:date/:is',(req,res)=>{
   var n_y= parseInt(req.params.date.slice(0,4));
   var n_m = parseInt(req.params.date.slice(5,7));
@@ -57,6 +79,8 @@ router.get('/list/:id/:date/:is',(req,res)=>{
   )
 })
 
+
+//특정 기간 account 리스트 받아오기
 router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
   var s_y= parseInt(req.params.startDate.slice(0,4));
   var s_m = parseInt(req.params.startDate.slice(5,7));

@@ -91,7 +91,6 @@ import AccountComp from "../components/AccountComp";
     props:["data"],
     methods:{
       add:async function(){
-        alert(this.data.y)
         if(this.$refs.form.validate()){
           this.$http.post('/account/create', {
             year: this.data.y,
@@ -105,7 +104,7 @@ import AccountComp from "../components/AccountComp";
             rate: this.addRate
             })
             .then((result)=>{
-              if(result.data='create'){
+              if(result.data=='create'){
                 this.dialog=false
                 this.$refs.form.reset()
                 alert('추가되었습니다')
