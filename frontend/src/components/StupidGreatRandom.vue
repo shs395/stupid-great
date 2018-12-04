@@ -24,11 +24,12 @@
               </v-layout>
               <v-divider light></v-divider>
               <v-card-actions class="pa-3">
-                   <center id="center">
+                    <h2 v-show="!showbtn">이미 투표를 완료하셨습니다!</h2>
+                    <center v-show="showbtn" id="center">
                         <v-btn @click="OnClickRandomStupid" class="sg-random-btns" id="random-stupid-btn" color="red">스튜핏!</v-btn>
                         <v-btn @click="OnClickRandomSkip" class="sg-random-btns" id="skip-btn" color="grey darken-4">SKIP</v-btn>
                         <v-btn @click="OnClickRandomGreat" class="sg-random-btns" id="random-great-btn" color="blue">그레잇!</v-btn>
-                </center>
+                    </center>
               </v-card-actions>
             </v-card>
 
@@ -38,24 +39,50 @@
 <script>
 export default {
     created (){
-        this.$http.get('/stupid_great/random')
-        .then((result) => {
-            this.post = result.data;
-        });
 
+        console.log(this.sgposts);
+    
+        var lastPostNumber = this.sgposts[this.sgposts.length -1].PostNumber;
+        var random = Math.floor(Math.random() * lastPostNumber) + 1;
+        console.log(random);
+
+        for(var i = 0; i< this.sgposts.length; i++){
+            if(this.sgposts[i] == random){
+                this.post = this.sgposts[i];
+                break;
+            }
+        }
+        
+        
         if(!this.post.image){
-            return this.randomImagePath = "http://localhost:3000/static/img/noimage.jpg";
+            this.randomImagePath = "http://localhost:3000/static/img/noimage.jpg";
         }else {
-            return this.randomImagePaththis.imgpath = "http://localhost:3000/static/img/sg_images/"+this.sgpost.image;
+            this.randomImagePaththis.imgpath = "http://localhost:3000/static/img/sg_images/"+this.sgpost.image;
         }
     },
 
     name : 'StupidGreatRandom',
+    props : {
+        sgposts: [],
+        sgshow: []
+    },
 
     data (){
         return{
-            post : {}, 
+            posts: [],
+            post : {},
             randomImagePath : '',          
+        }
+    },
+    computed: {
+        showbtn (){
+
+            for(var i = 1; i<= this.sgshow.length; i++){
+                if(this.sgpost.PostNumber == this.sgshow[i]){
+                    return this.showbtn = false;
+                }
+            }
+            return this.showbtn = true;
         }
     },
 
@@ -67,6 +94,7 @@ export default {
                 console.log(this.post);
             });
             alert('stupid를 선택하셨습니다!');
+            return location.href="/stupid-great-community" 
         },
         OnClickRandomGreat (){
             this.$http.post('/stupid_great/add/great', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
@@ -75,9 +103,10 @@ export default {
                 console.log(this.post);
             });
             alert('great를 선택하셨습니다!');
+            return location.href="/stupid-great-community" 
         },
         OnClickRandomSkip (){
-            this.$http.get('/stupid_great/random')
+            this.$http.get('/stupid_great/content/random')
             .then((result) => {
                 this.post = result.data;
             });

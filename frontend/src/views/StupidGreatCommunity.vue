@@ -12,7 +12,7 @@
 
         <v-tab-item>
             <v-card id="random-component">
-                    <StupidGreatRandom />
+                    <StupidGreatRandom :sgposts="posts" :sgshow="readpost"></StupidGreatRandom>
             </v-card>
             <v-btn
               color="indigo lighten-2"
@@ -47,7 +47,7 @@
             <v-layout row wrap>
                 <v-flex v-for="post in posts.slice().reverse()" :key="post.PostNumber">
                     <v-card id="sg-content-cards" color="transparent">
-                        <stupid-great-content :sgpost="post" :sgshow="showflag" :postLength="posts.length"></stupid-great-content>
+                        <stupid-great-content :sgpost="post" :sgshow="readpost"></stupid-great-content>
                     </v-card>
                 </v-flex>
             </v-layout>
@@ -67,8 +67,9 @@ export default {
     created (){
         this.$http.get(`/stupid_great/${this.$session.get('id')}`)
         .then((result) => {
+            console.log(result.body)
             this.posts = result.body.data;
-            this.readpost = result.body.read;
+            this.readpost = result.body.read.selectSG;
         });    
     },
 

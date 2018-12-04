@@ -38,15 +38,11 @@
 export default {
 
     created (){
+
         if(!this.sgpost.image){
             this.imgpath = "http://localhost:3000/static/img/noimage.jpg";
         }else {
             this.imgpath = "http://localhost:3000/static/img/sg_images/"+this.sgpost.image;
-        }
-        for(var i = 1; i<= this.postLength; i++){
-            if(sgpost.PostNumber == sgshow[i]){
-                return this.showbtn = false;
-            }
         }
     },
 
@@ -54,32 +50,48 @@ export default {
     props: {
         sgpost: {},
         sgshow: {},
-        postLength : {}
     },
     data (){
         return{
             imgpath: '',
-            showbtn: true,
         }
     },
+    computed : {
+        showbtn (){
+            for(var i = 1; i<= this.sgshow.length; i++){
+                if(this.sgpost.PostNumber == this.sgshow[i]){
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    },
+
     methods: {
             
         OnClickStupid (){
-            this.$http.get(`/stupid_great/add/stupid/${this.sgpost.PostNumber}`)
+            this.$http.post('/stupid_great/add/stupid', {postnum: this.sgpost.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
+                console.log(result);
                 this.post = result.data;
                 console.log(this.post);
             });
-            alert('stupid를 선택하셨습니다!');    
+            alert('stupid를 선택하셨습니다!');
+
+            this.$http.get(`/stupid_great/${this.$session.get('id')}`)
+            .then((result) => {
+                console.log(result);
+            });
         },
         OnClickGreat (){
-            this.$http.get(`/stupid_great/add/great/${this.sgpost.PostNumber}`)
+            this.$http.post('/stupid_great/add/great', {postnum: this.sgpost.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
+                console.log(result);
                 this.post = result.data;
                 console.log(this.post);
             });
             alert('great를 선택하셨습니다!');
-   
         }
     }
 }
