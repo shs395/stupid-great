@@ -5,6 +5,7 @@ const userModel = require('../db/models/user')
 
 const multer = require('multer');
 
+
 router.get('/', function(req, res){
     StupidGreatModel.find({}, function(err, posts){
         if(err) return console.log(err);
@@ -12,38 +13,44 @@ router.get('/', function(req, res){
     });
 });
 
-router.get('/random', function(req, res){
+router.get('/:id', function(req, res){
     StupidGreatModel.find({}, function(err, posts){
         if(err) return console.log(err);
-        var result = Math.floor(Math.random() * posts.length) + 1;
-        console.log(result);
-        StupidGreatModel.findOne({PostNumber : result}, function(err, post){
-            if(err) console.log(err);
-            res.send(post);
+        userModel.findOne({id: req.params.id}, function(err, user){
+            if(err) return console.log(err);
+            res.json({"data" : posts, "read" : user});
         });
     });
 });
 
-router.get('/add/stupid/:postnum', function(req, res){
-    StupidGreatModel.findOne({PostNumber: req.params.postnum}, function(err, sgpost){
+router.post('/add/stupid', function(req, res){
+
+    StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, sgpost){
         if(err) console.log(err);
         var s_count = sgpost.stupid;
         s_count++;
-        StupidGreatModel.findOneAndUpdate({PostNumber: req.params.postnum},{stupid: s_count},function(err, post){
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {stupid: s_count},function(err, post){
             if(err) console.log(err);
-            res.send(post);
         });
-    })
+        userModel.findOneAndUpdate({id: req.body.userid},{$push : {sgSelect : sgpost.PostNumber}}, function(err, user){
+            if(err) console.log(err);
+            res.send(user);
+        });
+    });
+
 });
 
-router.get('/add/great/:postnum', function(req, res){
-    StupidGreatModel.findOne({PostNumber: req.params.postnum}, function(err, sgpost){
+router.post('/add/great', function(req, res){
+    StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, sgpost){
         if(err) console.log(err);
         var g_count = sgpost.great;
         g_count++;
-        StupidGreatModel.findOneAndUpdate({PostNumber: req.params.postnum},{great: g_count},function(err, post){
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {great: g_count},function(err, post){
             if(err) console.log(err);
-            res.send(post);
+        });
+        userModel.findOneAndUpdate({id: req.body.userid},{$push : {sgSelect : sgpost.PostNumber}}, function(err, user){
+            if(err) console.log(err);
+            res.send(user)
         });
     })
 });
@@ -55,6 +62,7 @@ router.post('/create', function(req, res){
         title : req.body.post.sgTitle, 
         content: req.body.post.sgContent,
         price: parseInt(req.body.post.sgPrice),
+        image : req.body.post.sgImg,
         stupid: 0,
         great: 0
     });
@@ -76,7 +84,7 @@ var imgname;
 const upload = multer({
     storage: multer.diskStorage({
       destination: function (req, file, cb) {
-        cb(null, 'sg_upload_images/');
+        cb(null, 'public/static/img/sg_images');
       },
       filename: function (req, file, cb) {
         imgname = new Date().valueOf() + file.originalname;

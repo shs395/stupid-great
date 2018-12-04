@@ -4,7 +4,6 @@ const bodyParser = require('body-parser')
 var path = require('path');
 cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const multer = require('multer');
 
 require('./db/mongo')
 const indexRouter = require('./routes/index');

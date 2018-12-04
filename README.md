@@ -1,6 +1,14 @@
 # stupid-great
 WebSystemDesign
 
+#12/05
+- home에 로딩되는 이미지랑 살까말까 게시판에 있는 이미지의 경로가 public폴더로 되어있어서 public/static/img에 이미지가 저장되어있는경우 
+정상적으로 이미지가 로딩이 되지만, npm run build 하고나면 backend 폴더의 public폴더가 계속 초기화?? public폴더의 내용이 계속 바뀌어지기 때문에 
+home에 있는 이미지랑 살까말까 게시판 이미지가 안불러와질 수 있어요.
+이미지를 넣으면 정상적으로 작동해요! 그래서 이 에러는 무시하시고 진행하시면 됩니다.
+
+
+
 #11/29
 session 관련 수정사항
 - 로그인 할 때 sessionstorage 에 jwt,id,session-id 의 key를 가진 세 개의 값이 저장

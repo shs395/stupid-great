@@ -4,7 +4,7 @@
               <v-layout>
                 <v-flex xs5>
                   <v-img
-                    src="https://cdn.pixabay.com/photo/2017/03/27/14/53/macaroons-2179198_1280.jpg"
+                    :src="randomImagePath"
                     height="400px"
                     contain
                     id="random-img"
@@ -24,11 +24,12 @@
               </v-layout>
               <v-divider light></v-divider>
               <v-card-actions class="pa-3">
-                   <center id="center">
+                    <h2 v-show="!showbtn">이미 투표를 완료하셨습니다!</h2>
+                    <center v-show="showbtn" id="center">
                         <v-btn @click="OnClickRandomStupid" class="sg-random-btns" id="random-stupid-btn" color="red">스튜핏!</v-btn>
                         <v-btn @click="OnClickRandomSkip" class="sg-random-btns" id="skip-btn" color="grey darken-4">SKIP</v-btn>
                         <v-btn @click="OnClickRandomGreat" class="sg-random-btns" id="random-great-btn" color="blue">그레잇!</v-btn>
-                </center>
+                    </center>
               </v-card-actions>
             </v-card>
 
@@ -38,39 +39,78 @@
 <script>
 export default {
     created (){
-        this.$http.get('/stupid_great/random')
+
+        this.$http.get('/stupid_great')
         .then((result) => {
-            this.post = result.data;
-        });
+            this.posts = result.data;
+            var flag = false;
+            while(!flag){
+            var lastPostNumber = this.posts[this.posts.length -1].PostNumber;
+            var random = Math.floor(Math.random() * lastPostNumber) + 1;
+            console.log(random);
+
+                for(var i = 0; i< this.posts.length; i++){
+                    if(this.posts[i].PostNumber == random){
+                        this.post = this.posts[i];
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+
+        });        
+        
+        if(!this.post.image){
+            this.randomImagePath = "http://localhost:3000/static/img/noimage.jpg";
+        }else {
+            this.randomImagePaththis.imgpath = "http://localhost:3000/static/img/sg_images/"+this.sgpost.image;
+        }
     },
 
     name : 'StupidGreatRandom',
 
     data (){
         return{
-            post : {},           
+            posts: [],
+            post : {},
+            readpost: [],
+            randomImagePath : '',          
+        }
+    },
+    computed: {
+        showbtn (){
+
+            for(var i = 1; i<= this.readpost.length; i++){
+                if(this.posts.PostNumber == this.readpost[i]){
+                    return false;
+                }
+            }
+            return true;
         }
     },
 
     methods: {
         OnClickRandomStupid (){
-            this.$http.get(`/stupid_great/add/stupid/${this.post.PostNumber}`)
+            this.$http.post('/stupid_great/add/stupid', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
-                this.post = result.data;
-                console.log(this.post);
+                this.readpost = result.data.selectSG;
+                console.log(this.readpost);
+
             });
             alert('stupid를 선택하셨습니다!');
+            return location.href="/stupid-great-community" 
         },
         OnClickRandomGreat (){
-            this.$http.get(`/stupid_great/add/great/${this.post.PostNumber}`)
+            this.$http.post('/stupid_great/add/great', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
-                this.post = result.data;
-                console.log(this.post);
+                this.readpost = result.data.selectSG;
+                console.log(this.readpost);
             });
             alert('great를 선택하셨습니다!');
+            return location.href="/stupid-great-community" 
         },
         OnClickRandomSkip (){
-            this.$http.get('/stupid_great/random')
+            this.$http.get('/stupid_great/content/random')
             .then((result) => {
                 this.post = result.data;
             });

@@ -18,13 +18,7 @@ const boardSchema = new mongoose.Schema({
     },
     createdAt: {   
         type: Date,    
-        default: Date.now
-    },
-    date_year:{
-        type:Number
-    },
-    date_month:{
-        type:Number
+        default: Date.now()
     },
     views:{
         type:Number,
@@ -32,12 +26,17 @@ const boardSchema = new mongoose.Schema({
     },
     comment:[
         {
-            author: {type:mongoose.Schema.Types.ObjectId, ref:'User', required:true},
-            creatdAt:{type:Date, default:Date.now},
-            body:{type:String}
+            author:String,
+            body:String,
+            createdAt: {   
+                type: Date,    
+                default: Date.now()
+            }
+
         }
-    ],
-    account_info:[]
+    ],  
+    in_account_info:[],
+    out_account_info:[]
 })
 
 boardSchema.plugin(autoIncrement, {
