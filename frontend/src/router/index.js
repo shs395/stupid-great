@@ -30,6 +30,11 @@ export default new Router({
       component: () => import('../views/Signin.vue')
     },
     {
+      path: '/mypage',
+      name: 'mypage',
+      component: () => import('../views/MyPage.vue')
+    },
+    {
       path: '/developers',
       name: 'developers',
       component: () => import('../views/Developers.vue')

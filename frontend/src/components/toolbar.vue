@@ -16,6 +16,9 @@
         <v-list-tile v-show="checksignin" v-on:click="OnClicksignin">
           <v-list-tile-title>Sign In</v-list-tile-title>
         </v-list-tile>
+        <v-list-tile v-show="checklogout" v-on:click="OnClickMyPage">
+          <v-list-tile-title>마이 페이지</v-list-tile-title>
+        </v-list-tile>
         <v-list-tile v-show="checklogout" v-on:click="OnClicklogout">
           <v-list-tile-title>Log out</v-list-tile-title>
         </v-list-tile>
@@ -55,6 +58,9 @@ export default {
       },
       OnClicksignin (){
         return location.href="/signin";
+      },
+      OnClickMyPage(){
+        return location.href="/mypage";
       },
       OnClicklogout() {
         this.$session.destroy()
