@@ -149,46 +149,16 @@
         dataOthers3: [],
         //다른 사람 몇 명인지 , 평균 구할 때 쓰임
         countOthers : 0,
-        // 내 수입
-        income1 : 0,
-        income2 : 0,
-        income3 : 0,
-        income4 : 0,
-        income5 : 0,
-        income6 : 0,
+
+        //12월 4일 수정 코드
+        //내 수입
+        income : [0,0,0,0,0,0,0] , 
         //내 지출
-        spend1 : 0,
-        spend2 : 0,
-        spend3 : 0,
-        spend4 : 0,
-        spend5 : 0,
-        spend6 : 0,
-        spend7 : 0,
-        spend8 : 0,
-        spend9 : 0,
-        spend10 : 0,
-        spend11 : 0,
-        spend12 : 0,
-        // 타인 수입
-        oincome1 : 0,
-        oincome2 : 0,
-        oincome3 : 0,
-        oincome4 : 0,
-        oincome5 : 0,
-        oincome6 : 0,
+        spend : [0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        //타입 수입
+        oincome : [0,0,0,0,0,0,0] , 
         //타인 지출
-        ospend1 : 0,
-        ospend2 : 0,
-        ospend3 : 0,
-        ospend4 : 0,
-        ospend5 : 0,
-        ospend6 : 0,
-        ospend7 : 0,
-        ospend8 : 0,
-        ospend9 : 0,
-        ospend10 : 0,
-        ospend11 : 0,
-        ospend12 : 0,
+        ospend : [0,0,0,0,0,0,0,0,0,0,0,0,0]
       }
     },
     methods:{
@@ -205,48 +175,11 @@
         this.dataMe3 = []
         this.dataOthers3 = []
 
-        this.oincome1 = 0
-        this.oincome2 = 0
-        this.oincome3 = 0
-        this.oincome4 = 0
-        this.oincome5 = 0
-        this.oincome6 = 0
-
-        this.ospend1 = 0
-        this.ospend2 = 0
-        this.ospend3 = 0
-        this.ospend4 = 0
-        this.ospend5 = 0
-        this.ospend6 = 0
-        this.ospend7 = 0
-        this.ospend8 = 0
-        this.ospend9 = 0
-        this.ospend10 = 0
-        this.ospend11 = 0
-        this.ospend12 = 0
-
-        this.income1 = 0
-        this.income2 = 0
-        this.income3 = 0
-        this.income4 = 0
-        this.income5 = 0
-        this.income6 = 0
-
-        this.spend1 = 0
-        this.spend2 = 0
-        this.spend3 = 0
-        this.spend4 = 0
-        this.spend5 = 0
-        this.spend6 = 0
-        this.spend7 = 0
-        this.spend8 = 0
-        this.spend9 = 0
-        this.spend10 = 0
-        this.spend11 = 0
-        this.spend12 = 0
-
-
-       
+        //12월 4일 수정 코드
+        this.income = [0,0,0,0,0,0,0] , 
+        this.spend = [0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        this.oincome = [0,0,0,0,0,0,0] , 
+        this.ospend = [0,0,0,0,0,0,0,0,0,0,0,0,0]
       },
       searchProcess: function(){ 
         //변수들 초기화 해주기  
@@ -267,28 +200,29 @@
           var i = 0; 
           //베열의 마지막에 찾은 사람의 개수를 넣어주었기 때문에 배열 개수 -1 해줌
           //검색조건에 맞는 것 갖고와서 나랑 타인을 나눠주는 while 문
-          while(i < response.body.length - 1){
+          //12월 4일 수정 코드
+           while(i < response.body.length - 1){
             if(response.body[i].id === this.$session.get('id')){
               if(response.body[i].is==="수입"){
                 this.incomeMe += response.body[i].price
                 switch (response.body[i].category){
                   case "월급" :
-                  this.income1 += response.body[i].price
+                  this.income[1] += response.body[i].price
                   break;
                   case "부수입" :
-                  this.income2 += response.body[i].price
+                  this.income[2] += response.body[i].price
                   break;
                   case "용돈" :
-                  this.income3 += response.body[i].price
+                  this.income[3] += response.body[i].price
                   break;
                   case "상여" :
-                  this.income4 += response.body[i].price
+                  this.income[4] += response.body[i].price
                   break;
                   case "금융소득" :
-                  this.income5 += response.body[i].price
+                  this.income[5] += response.body[i].price
                   break;
                   case "기타" :
-                  this.income6 += response.body[i].price
+                  this.income[6] += response.body[i].price
                   break;
                   default : 
                   alert("switch 1 error")
@@ -297,40 +231,40 @@
                 this.spendMe += response.body[i].price
                 switch(response.body[i].category){
                   case "식비":
-                  this.spend1 += response.body[i].price
+                  this.spend[1] += response.body[i].price
                   break;
                   case "교통/차량":
-                  this.spend2 += response.body[i].price
+                  this.spend[2] += response.body[i].price
                   break;
                   case "문화생활":
-                  this.spend3 += response.body[i].price
+                  this.spend[3] += response.body[i].price
                   break;
                   case "마트/편의점":
-                  this.spend4 += response.body[i].price
+                  this.spend[4] += response.body[i].price
                   break;
                   case "패션/미용":
-                  this.spend5 += response.body[i].price
+                  this.spend[5] += response.body[i].price
                   break;
                   case "생활용품":
-                  this.spend6 += response.body[i].price
+                  this.spend[6] += response.body[i].price
                   break;
                   case "주거/통신":
-                  this.spend7 += response.body[i].price
+                  this.spend[7] += response.body[i].price
                   break;
                   case "건강":
-                  this.spend8 += response.body[i].price
+                  this.spend[8] += response.body[i].price
                   break;
                   case "교육":
-                  this.spend9 += response.body[i].price
+                  this.spend[9] += response.body[i].price
                   break;
                   case "경조사/회비":
-                  this.spend10 += response.body[i].price
+                  this.spend[10] += response.body[i].price
                   break;
                   case "가족":
-                  this.spend11 += response.body[i].price
+                  this.spend[11] += response.body[i].price
                   break;
                   case "기타":
-                  this.spend12 += response.body[i].price
+                  this.spend[12] += response.body[i].price
                   break;
                   default : 
                   alert("switch 2 error")
@@ -343,22 +277,22 @@
                 this.incomeOthers += response.body[i].price
                 switch (response.body[i].category){
                   case "월급" :
-                  this.oincome1 += response.body[i].price
+                  this.oincome[1] += response.body[i].price
                   break;
                   case "부수입" :
-                  this.oincome2 += response.body[i].price
+                  this.oincome[2] += response.body[i].price
                   break;
                   case "용돈" :
-                  this.oincome3 += response.body[i].price
+                  this.oincome[3] += response.body[i].price
                   break;
                   case "상여" :
-                  this.oincome4 += response.body[i].price
+                  this.oincome[4] += response.body[i].price
                   break;
                   case "금융소득" :
-                  this.oincome5 += response.body[i].price
+                  this.oincome[5] += response.body[i].price
                   break;
                   case "기타" :
-                  this.oincome6 += response.body[i].price
+                  this.oincome[6] += response.body[i].price
                   break;
                   default : 
                   alert("switch 3 error")
@@ -367,40 +301,40 @@
                 this.spendOthers += response.body[i].price
                 switch(response.body[i].category){
                   case "식비":
-                  this.ospend1 += response.body[i].price
+                  this.ospend[1] += response.body[i].price
                   break;
                   case "교통/차량":
-                  this.ospend2 += response.body[i].price
+                  this.ospend[2] += response.body[i].price
                   break;
                   case "문화생활":
-                  this.ospend3 += response.body[i].price
+                  this.ospend[3] += response.body[i].price
                   break;
                   case "마트/편의점":
-                  this.ospend4 += response.body[i].price
+                  this.ospend[4] += response.body[i].price
                   break;
                   case "패션/미용":
-                  this.ospend5 += response.body[i].price
+                  this.ospend[5] += response.body[i].price
                   break;
                   case "생활용품":
-                  this.ospend6 += response.body[i].price
+                  this.ospend[6] += response.body[i].price
                   break;
                   case "주거/통신":
-                  this.ospend7 += response.body[i].price
+                  this.ospend[7] += response.body[i].price
                   break;
                   case "건강":
-                  this.ospend8 += response.body[i].price
+                  this.ospend[8] += response.body[i].price
                   break;
                   case "교육":
-                  this.ospend9 += response.body[i].price
+                  this.ospend[9] += response.body[i].price
                   break;
                   case "경조사/회비":
-                  this.ospend10 += response.body[i].price
+                  this.ospend[10] += response.body[i].price
                   break;
                   case "가족":
-                  this.ospend11 += response.body[i].price
+                  this.ospend[11] += response.body[i].price
                   break;
                   case "기타":
-                  this.ospend12 += response.body[i].price
+                  this.ospend[12] += response.body[i].price
                   break;
                   default : 
                   alert("switch 4 error")
@@ -442,68 +376,20 @@
           //dataOthers3 채우기  
           // this.dataOthers3.push(this.spendOthers)
 
-
-          this.oincome1 = Math.floor(this.oincome1 / this.countOthers)
-          this.oincome2 = Math.floor(this.oincome2 / this.countOthers)
-          this.oincome3 = Math.floor(this.oincome3 / this.countOthers)
-          this.oincome4 = Math.floor(this.oincome4 / this.countOthers)
-          this.oincome5 = Math.floor(this.oincome5 / this.countOthers)
-          this.oincome6 = Math.floor(this.oincome6 / this.countOthers)
-
-          this.ospend1 = Math.floor(this.ospend1 / this.countOthers)
-          this.ospend2 = Math.floor(this.ospend2 / this.countOthers)
-          this.ospend3 = Math.floor(this.ospend3 / this.countOthers)
-          this.ospend4 = Math.floor(this.ospend4 / this.countOthers)
-          this.ospend5 = Math.floor(this.ospend5 / this.countOthers)
-          this.ospend6 = Math.floor(this.ospend6 / this.countOthers)
-          this.ospend7 = Math.floor(this.ospend7 / this.countOthers)
-          this.ospend8 = Math.floor(this.ospend8 / this.countOthers)
-          this.ospend9 = Math.floor(this.ospend9 / this.countOthers)
-          this.ospend10 = Math.floor(this.ospend10 / this.countOthers)
-          this.ospend11 = Math.floor(this.ospend11 / this.countOthers)
-          this.ospend12 = Math.floor(this.ospend12 / this.countOthers)
-
-          this.dataMe2.push(this.income1)
-          this.dataMe2.push(this.income2)
-          this.dataMe2.push(this.income3)
-          this.dataMe2.push(this.income4)
-          this.dataMe2.push(this.income5)
-          this.dataMe2.push(this.income6)
-
-          this.dataMe3.push(this.spend1)
-          this.dataMe3.push(this.spend2)
-          this.dataMe3.push(this.spend3)
-          this.dataMe3.push(this.spend4)
-          this.dataMe3.push(this.spend5)
-          this.dataMe3.push(this.spend6)
-          this.dataMe3.push(this.spend7)
-          this.dataMe3.push(this.spend8)
-          this.dataMe3.push(this.spend9)
-          this.dataMe3.push(this.spend10)
-          this.dataMe3.push(this.spend11)
-          this.dataMe3.push(this.spend12)
-      
-         
-          this.dataOthers2.push(this.oincome1)
-          this.dataOthers2.push(this.oincome2)
-          this.dataOthers2.push(this.oincome3)
-          this.dataOthers2.push(this.oincome4)
-          this.dataOthers2.push(this.oincome5)
-          this.dataOthers2.push(this.oincome6)
+          //12월 4일 수정 코드
+          for(var i = 1; i < 7 ; i++){
+            this.oincome[i] = Math.floor(this.oincome[i] / this.countOthers)
+            this.dataMe2.push(this.income[i])
+            this.dataOthers2.push(this.oincome[i])
+          }
+          for(var i = 1; i < 13 ; i++){
+            this.ospend[i] = Math.floor(this.ospend[i] / this.countOthers)
+            this.dataMe3.push(this.spend[i])
+            this.dataOthers3.push(this.ospend[i])
+          }
           
-          this.dataOthers3.push(this.ospend1)
-          this.dataOthers3.push(this.ospend2)
-          this.dataOthers3.push(this.ospend3)
-          this.dataOthers3.push(this.ospend4)
-          this.dataOthers3.push(this.ospend5)
-          this.dataOthers3.push(this.ospend6)
-          this.dataOthers3.push(this.ospend7)
-          this.dataOthers3.push(this.ospend8)
-          this.dataOthers3.push(this.ospend9)
-          this.dataOthers3.push(this.ospend10)
-          this.dataOthers3.push(this.ospend11)
-          this.dataOthers3.push(this.ospend12)
-          
+          alert("oincome : " + this.oincome)
+          alert("ospend : "+ this.ospend)
           // alert("dataMe : " + this.dataMe)
           // alert("dataOthers :" + this.dataOthers)
           // alert("dataMe2 : " + this.dataMe2)
