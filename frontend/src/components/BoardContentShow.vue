@@ -9,7 +9,7 @@
                     <!-- 파이차트추가-수입 -->
                     <v-flex xs6 pa-3>
                       <div v-for="i in in_items" :key="i.id">
-                          {{i.}}
+                          {{i.year}}{{i.month}}{{i.is}}{{i.price}}{{i.category}}
                       </div>
                     </v-flex>   
                     <!-- 파이차트추가-지출  -->
@@ -38,9 +38,9 @@
                  <v-layout row>
                   <v-flex xs8 >
                     <div v-for="i in c_items" :key="i.id">
-                        <v-card-text>{{i.author}}</v-card-text>
-                    </div>   
+                        댓글내용:{{i.body}}
                   </v-flex>
+                 </v-layout>
         </v-container>
     
     </div>

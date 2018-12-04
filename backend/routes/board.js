@@ -152,11 +152,12 @@ router.get('/post/:postNumber/comment',(req,res,next)=>{
 
     boardModel.find({
         postNumber:_postNumber
-    },{comment:1},function(err,result){
+    },function(err,result){
         if(err) console.log(err)
 
-        console.log('댓글정보'+result)
-        res.json(result)
+        console.log('댓글정보')
+        console.log(result[0].comment)
+        res.json(result[0].comment)
     })
 })
 
