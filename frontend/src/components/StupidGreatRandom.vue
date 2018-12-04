@@ -4,7 +4,7 @@
               <v-layout>
                 <v-flex xs5>
                   <v-img
-                    src="https://cdn.pixabay.com/photo/2017/03/27/14/53/macaroons-2179198_1280.jpg"
+                    :src="randomImagePath"
                     height="400px"
                     contain
                     id="random-img"
@@ -42,19 +42,26 @@ export default {
         .then((result) => {
             this.post = result.data;
         });
+
+        if(!this.post.image){
+            return this.randomImagePath = "http://localhost:3000/static/img/noimage.jpg";
+        }else {
+            return this.randomImagePaththis.imgpath = "http://localhost:3000/static/img/sg_images/"+this.sgpost.image;
+        }
     },
 
     name : 'StupidGreatRandom',
 
     data (){
         return{
-            post : {},           
+            post : {}, 
+            randomImagePath : '',          
         }
     },
 
     methods: {
         OnClickRandomStupid (){
-            this.$http.get(`/stupid_great/add/stupid/${this.post.PostNumber}`)
+            this.$http.post('/stupid_great/add/stupid', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
                 this.post = result.data;
                 console.log(this.post);
@@ -62,7 +69,7 @@ export default {
             alert('stupid를 선택하셨습니다!');
         },
         OnClickRandomGreat (){
-            this.$http.get(`/stupid_great/add/great/${this.post.PostNumber}`)
+            this.$http.post('/stupid_great/add/great', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
                 this.post = result.data;
                 console.log(this.post);

@@ -122,7 +122,7 @@ export default {
 
 #dropbox{
     background: #26C6DA;
-    width: 550px;
+    width: 620px;
     height: 150px;
     position: relative; 
     margin: 0 auto;
@@ -151,12 +151,12 @@ export default {
 }
 
 #sg-img-create-card{
-    width: 550px;
+    width: 620px;
     height: 650px;
 }
 
 #sg-form-create-card{
-    width: 950px;
+    width: 900px;
     height: 650px;
 }
 
@@ -165,7 +165,7 @@ export default {
 }
 
 #imgDiv{
-    width: 550px;
+    width: 620px;
     height: 500px;
 }
 
@@ -184,7 +184,7 @@ export default {
 .margin-bottom{
     margin-bottom:10px;
     display: block;
-    width: 550px;
+    width: 620px;
     height: 500px;
 }
 </style>
