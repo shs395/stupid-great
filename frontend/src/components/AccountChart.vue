@@ -145,8 +145,6 @@ import 'v-calendar/lib/v-calendar.min.css'
       },
       change:function(){
         this.is_show = false
-        // for(var i = 0;i<6;i++) gain[i]=0;
-        // for(var i = 0;i<12;i++) lose[i]=0;
       }
     },
     components:{
