@@ -7,7 +7,20 @@
         <v-flex>
           <v-card>
             <v-card-text>
-              나와 비슷한 사람 ({{selectedAge}},{{selectedSex}},{{selectedJob}} )의 {{selectedYear}}년 {{selectedMonth}}월 가계부 평균
+              <!-- <p v-show="isSimilar === true">
+                나와 비슷한 사람 ({{selectedAge}}세,{{selectedSex[0]}},{{selectedJob[0]}} )의 {{selectedYear}}년 {{selectedMonth}}월 가계부 평균
+              </p> -->
+              <h1  class="text-md-center">
+                {{viewStartAge}}~{{viewEndAge}}세 / 
+                <span v-for="item in viewSex" :key="item.id">
+                  {{item}}
+                </span>
+                /
+                <span v-for="item in viewJob" :key="item.id">
+                  {{item}}
+                </span>
+                  의 {{viewYear}}년 {{viewMonth}}월 가계부 평균
+              </h1>
               <v-tabs right> 
                 <v-tab>
                   수입/지출
@@ -115,7 +128,7 @@
         //chart 를 위한 loaded
         loaded : false,
         //select 안에 들어갈 변수
-        ageList:[],
+        ageList:[], //1~99세
         sexList:['남자','여자'],
         jobList:['백수','중학생','고등학생','대학생','직장인','전업주부'],
         years:[2018,2017,2016,2015,2014,2013,2012,2011,2010],
@@ -128,6 +141,14 @@
         selectedJob:[],
         selectedYear : '',
         selectedMonth : '',
+
+        viewStartAge: '',
+        viewEndAge: '',
+        viewSex: '',
+        viewJob: '',
+        viewYear: '',
+        viewMonth: '',
+        
         //tabList
         tabList:[
           {name:'수입 / 지출', num:1},
@@ -158,7 +179,9 @@
         //타입 수입
         oincome : [0,0,0,0,0,0,0] , 
         //타인 지출
-        ospend : [0,0,0,0,0,0,0,0,0,0,0,0,0]
+        ospend : [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        
+        isSimilar : true
       }
     },
     methods:{
@@ -174,18 +197,34 @@
         this.dataOthers2 = []
         this.dataMe3 = []
         this.dataOthers3 = []
+        
 
         //12월 4일 수정 코드
         this.income = [0,0,0,0,0,0,0] , 
         this.spend = [0,0,0,0,0,0,0,0,0,0,0,0,0] , 
         this.oincome = [0,0,0,0,0,0,0] , 
         this.ospend = [0,0,0,0,0,0,0,0,0,0,0,0,0]
+        this.viewStartAge= '',
+        this.viewEndAge= '',
+        this.viewSex= '',
+        this.viewJob= '',
+        this.viewYear= '',
+        this.viewMonth= ''
       },
       searchProcess: function(){ 
         //변수들 초기화 해주기  
         this.resetValue()
+
+        //12월 4일 추가 코드
+        this.viewStartAge= this.selectedStartAge,
+        this.viewEndAge= this.selectedEndAge,
+        this.viewSex= this.selectedSex,
+        this.viewJob= this.selectedJob,
+        this.viewYear= this.selectedYear,
+        this.viewMonth= this.selectedMonth
+
         //검색 조건 맞나 확인
-        alert(this.selectedAge + " " + this.selectedJob + " " + this.selectedSex + " " + this.selectedYear + " " + this.selectedMonth + " 으로 검색하기") 
+        // alert(this.selectedAge + " " + this.selectedJob + " " + this.selectedSex + " " + this.selectedYear + " " + this.selectedMonth + " 으로 검색하기") 
         //조건 검색하러 요청
         this.$http.post('/stats/conditional-search',
         {
@@ -343,40 +382,28 @@
                 alert("spendOthers / incomdeOthers 분류 error")
               }
             }
-            i++
+            i++ // while문 끝
           }
-          //-1 해주는 이유 => 나 자신 빼주려고 
-          //다른 사람 수 구하기
+
+          //다른 사람 수 구하기 (-1 해주는 이유 => 나 자신 빼주려고 )
           this.countOthers = response.body[response.body.length-1].length - 1
           //다른 사람 수입 평균 구하기
           this.incomeOthers = Math.floor(this.incomeOthers / this.countOthers)
           //다른 사람 지출 평균 구하기
           this.spendOthers = Math.floor(this.spendOthers / this.countOthers)
 
-         
-
-          //0번 인덱스 => 나
+          //0번 인덱스 => 수입 , 1번 인덱스 => 지출
           //dataMe 채우기
           this.dataMe.push(this.incomeMe)
           this.dataMe.push(this.spendMe)
-          //dataMe2 채우기
-          // this.dataMe2.push(this.incomeMe)
-          //dataMe3 채우기
-          // this.dataMe3.push(this.spendMe)
 
-          
-
-
-          //1번 인덱스 => 타인
+          //0번 인덱스 => 수입 , 1번 인덱스 => 지출
           //dataOthers 채우기  
           this.dataOthers.push(this.incomeOthers)
           this.dataOthers.push(this.spendOthers)
-          //dataOthers2 채우기  
-          // this.dataOthers2.push(this.incomeOthers)
-          //dataOthers3 채우기  
-          // this.dataOthers3.push(this.spendOthers)
-
+          
           //12월 4일 수정 코드
+          //수입,지출 카테고리 별로 나와 타인 데이터에 넣어줌
           for(var i = 1; i < 7 ; i++){
             this.oincome[i] = Math.floor(this.oincome[i] / this.countOthers)
             this.dataMe2.push(this.income[i])
@@ -387,30 +414,16 @@
             this.dataMe3.push(this.spend[i])
             this.dataOthers3.push(this.ospend[i])
           }
-          
-          alert("oincome : " + this.oincome)
-          alert("ospend : "+ this.ospend)
-          // alert("dataMe : " + this.dataMe)
-          // alert("dataOthers :" + this.dataOthers)
-          // alert("dataMe2 : " + this.dataMe2)
-          // alert("dataOthers2 :" + this.dataOthers2)
-          // alert("dataMe3 : " + this.dataMe3)
-          // alert("dataOthers3 :" + this.dataOthers3)
-          // alert(this.income1+this.income2+this.income3+this.income4+this.income5+this.income6)
-          // alert(this.spend1+this.spend2+this.spend3+this.spend4+this.spend5+this.spend6+this.spend7+this.spend8+this.spend9+this.spend10+this.spend11+this.spend12)
-          // alert(this.oincome1+this.oincome2+this.oincome3+this.oincome4+this.oincome5+this.oincome6)
-          // alert(this.ospend1+this.ospend2+this.ospend3+this.ospend4+this.ospend5+this.ospend6+this.ospend7+this.ospend8+this.ospend9+this.ospend10+this.ospend11+this.ospend12)
-          this.loaded = true
-
-          alert("내 수입 : " + this.incomeMe + " 내 지출 : " + this.spendMe + "\n다른 사람 수입 : " + this.incomeOthers + "다른 사람 지출 : " + this.spendOthers + "다른 사람 수 : " +  this.countOthers) 
+  
+          //밑에 코드 실행되는 순간 차트 렌더링
+          this.loaded = true  
+          // alert("내 수입 : " + this.incomeMe + " 내 지출 : " + this.spendMe + "\n다른 사람 수입 : " + this.incomeOthers + "다른 사람 지출 : " + this.spendOthers + "다른 사람 수 : " +  this.countOthers) 
         })
       }
     },
     mounted:function(){
-      this.loaded = false
       //ageList 에 일일히 쓰기 귀찮아서 , 나이목록 생성
-      var i = 0
-      for(i ; i<100 ; i++){
+      for(var i = 1 ; i<100 ; i++){
         this.ageList.push(i)
       }
       var findId = this.$session.get('id')
@@ -433,7 +446,8 @@
         this.selectedAge = response.data.age
         this.selectedJob.push(response.data.job)
         //검색
-        this.searchProcess()      
+        this.searchProcess()
+         
         })
     }
   }
