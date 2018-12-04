@@ -2,17 +2,17 @@
     <v-layout row @click="doChange">
       <v-flex xs3>
         <v-card flat tile>
-          {{data.category}}
+          {{category}}
         </v-card>
       </v-flex>
       <v-flex xs3>
         <v-card flat tile>
-          {{data.name}}
+          {{name}}
         </v-card>
       </v-flex>
       <v-flex xs3 >
         <v-card flat tile>
-          {{data.price}}
+          {{price}}
         </v-card>
       </v-flex>
       <v-flex xs6>
@@ -37,10 +37,10 @@
                     분류: {{data.is}}
                   </v-flex>
                   <v-flex xs12>
-                    <v-text-field label="금액" type="number" required v-model="changePrice" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
+                    <v-text-field label="금액" type="number" required v-model="price" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
                   </v-flex>
                   <v-flex xs12>
-                    <v-text-field label="이름" type="string" required v-model="changeName" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
+                    <v-text-field label="이름" type="string" required v-model="name" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
                   </v-flex> 
                   <v-flex xs12>
                     <span v-if="data.is=='수입'">
@@ -48,7 +48,7 @@
                       :items="['월급', '부수입', '용돈', '상여', '금융소득', '기타']"
                       label="항목"
                       required
-                      v-model="changeCategory"
+                      v-model="category"
                       :rules="[v => !!v || '항목을 선택해 주세요']"
                     ></v-select>
                     </span>
@@ -57,13 +57,13 @@
                       :items="['식비', '교통/차량', '문화생활', '마트/편의점', '패션/미용', '생활용품', '주거/통신', '건강', '교육', '경조사/회비', '가족', '기타']"
                       label="카테고리"
                       required
-                      v-model="changeCategory"
+                      v-model="category"
                       :rules="[v => !!v || '항목을 선택해 주세요']"
                       ></v-select>
                     </span>
                   </v-flex>
                   <v-flex xs12>
-                    <v-rating v-model="changeRate" :rules="[v => !!v || '평가를 해주세요']"></v-rating>
+                    <v-rating v-model="rate" :rules="[v => !!v || '평가를 해주세요']"></v-rating>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -109,7 +109,7 @@ export default {
           this.dialog=true;
       },
       doneChange:function(){
-        alert(this.changePrice+ this.changeName+this.changeCategory+this.changeRate);
+        alert(this.price+ this.name+this.category+this.rate);
         if(this.$refs.form.validate()){
           this.$http.post('/account/change', {
             // year: this.data.y,
@@ -117,35 +117,57 @@ export default {
             // day: this.data.d,
             // id: this.$session.get('id'),
             // is: this.data.is,
-            price: this.changePrice,
-            name:this.changeName,
-            category: this.changeCategory,
-            rate: this.changeRate,
-            accountId: this.data.accountId,
-            })
-            .then((result)=>{
-              if(result.data=='change'){
-                this.dialog=false
-                alert('변경되었습니다')
-              }
-            })
-            .catch((err)=>{
-              console.log(err)
-            })
+            accountId:this.accountId,
+            price: this.price,
+            name:this.name,
+            category: this.category,
+            rate: this.rate
+          })
+          .then((result)=>{
+            if(result.data=='change'){
+              this.dialog=false
+              alert('변경되었습니다')
+              // this.price= this.changePrice
+              // this.name=this.changeName
+              // this.category= this.changeCategory
+              // this.rate= this.changeRate
+              // this.accountId= this.data.accountId
+            }
+          })
+          .catch((err)=>{
+            console.log(err)
+          })
+
         }
 
       }
   },
   data:function(){
       return{
-          rate:this.data.rate,
+          price: this.data.price,
+          name: this.data.name,
+          category: this.data.category,
+          rate: this.data.rate,
+          accountId: this.data.accountId,
+          
+          // changePrice: this.data.price,
+          // changeName: this.data.name,
+          // changeCategory:this.data.category,
+          // changeRate:this.data.rate,
+
           dialog:false,
-          changePrice: this.data.price,
-          changeName: this.data.name,
-          changeCategory:this.data.category,
-          changeRate:this.data.rate,
           deleteDialog:false
+
       }
+  },
+  watch:{
+    data:function(){
+      this.price= this.data.price
+      this.name= this.data.name
+      this.category= this.data.category
+      this.rate= this.data.rate
+      this.accountId= this.data.accountId
+    }
   }
 }
 

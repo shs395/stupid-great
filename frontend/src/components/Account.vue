@@ -14,12 +14,12 @@
             {{selectedDate}}
         </v-flex>
         <v-flex xs6 >
-            <AccountShow v-if="selectedDate==null" v-bind:data="{is:'수입',accounts: g_accounts, selectedDate:currentDate }"/>
-            <AccountShow v-else v-bind:data="{is:'수입',accounts: g_accounts, selectedDate:selectedDate }"/>
+            <AccountShow v-if="selectedDate==null" v-bind:data="{is:'수입', selectedDate:currentDate, y:parseInt(currentDate.slice(0,4)), m:parseInt(currentDate.slice(5,7)), d:parseInt(currentDate.slice(8,10)) }"/>
+            <AccountShow v-else v-bind:data="{is:'수입', selectedDate:selectedDate,y:parseInt(selectedDate.slice(0,4)), m:parseInt(selectedDate.slice(5,7)), d:parseInt(selectedDate.slice(8,10))  }"/>
         </v-flex>
         <v-flex xs6>
-            <AccountShow v-if="selectedDate==null" v-bind:data="{is:'지출',accounts: g_accounts, selectedDate:currentDate }"/>
-            <AccountShow v-else v-bind:data="{is:'수입',accounts: g_accounts, selectedDate:selectedDate }"/>
+            <AccountShow v-if="selectedDate==null" v-bind:data="{is:'지출', selectedDate:currentDate, y:parseInt(currentDate.slice(0,4)), m:parseInt(currentDate.slice(5,7)), d:parseInt(currentDate.slice(8,10)) }"/>
+            <AccountShow v-else v-bind:data="{is:'지출', selectedDate:selectedDate, y:parseInt(selectedDate.slice(0,4)), m:parseInt(selectedDate.slice(5,7)), d:parseInt(selectedDate.slice(8,10)) }"/>
         </v-flex>
     </v-layout>
 </template>
