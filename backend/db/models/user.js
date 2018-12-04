@@ -27,8 +27,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    selectSG:{
-        type : Array
+    selectSG: {
+        type: Array,
+        default: ''
     }
 })
 

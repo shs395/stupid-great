@@ -38,19 +38,27 @@ export default {
 
     created (){
         if(!this.sgpost.image){
-            return this.imgpath = "http://localhost:3000/static/img/noimage.jpg";
+            this.imgpath = "http://localhost:3000/static/img/noimage.jpg";
         }else {
-            return this.imgpath = "http://localhost:3000/static/img/sg_images/"+this.sgpost.image;
+            this.imgpath = "http://localhost:3000/static/img/sg_images/"+this.sgpost.image;
+        }
+        for(var i = 1; i<= this.postLength; i++){
+            if(sgpost.PostNumber == sgshow[i]){
+                return this.showbtn = false;
+            }
         }
     },
 
     name: 'StupidGreatContent',
     props: {
-        sgpost: {}
+        sgpost: {},
+        sgshow: {},
+        postLength : {}
     },
     data (){
         return{
-            imgpath: ''
+            imgpath: '',
+            showbtn: true;
         }
     },
     methods: {
@@ -61,7 +69,7 @@ export default {
                 this.post = result.data;
                 console.log(this.post);
             });
-            alert('stupid를 선택하셨습니다!');
+            alert('stupid를 선택하셨습니다!');    
         },
         OnClickGreat (){
             this.$http.get(`/stupid_great/add/great/${this.sgpost.PostNumber}`)

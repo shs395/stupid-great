@@ -61,7 +61,7 @@ export default {
 
     methods: {
         OnClickRandomStupid (){
-            this.$http.get(`/stupid_great/add/stupid/${this.post.PostNumber}`)
+            this.$http.post('/stupid_great/add/stupid', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
                 this.post = result.data;
                 console.log(this.post);
@@ -69,7 +69,7 @@ export default {
             alert('stupid를 선택하셨습니다!');
         },
         OnClickRandomGreat (){
-            this.$http.get(`/stupid_great/add/great/${this.post.PostNumber}`)
+            this.$http.post('/stupid_great/add/great', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
                 this.post = result.data;
                 console.log(this.post);

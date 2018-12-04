@@ -7,10 +7,13 @@ const multer = require('multer');
 
 //for문으로 이미 투표한 게시글이라면 투표를 못하게함
 
-router.get('/', function(req, res){
+router.get('/:id', function(req, res){
     StupidGreatModel.find({}, function(err, posts){
         if(err) return console.log(err);
-        res.send(posts);
+        userModel.findOne({id: req.params.id}, function(err, user){
+            if(err) return console.log(err);
+            res.json({"data" : posts, "read" : user.sgSelect});
+        });
     });
 });
 
@@ -26,28 +29,33 @@ router.get('/random', function(req, res){
     });
 });
 
-// 유저의 세션에 저장되어있는 id 에 postnum 저장
-
-router.get('/add/stupid/:postnum', function(req, res){
-    StupidGreatModel.findOne({PostNumber: req.params.postnum}, function(err, sgpost){
+router.post('/add/stupid', function(req, res){
+    StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, sgpost){
         if(err) console.log(err);
         var s_count = sgpost.stupid;
         s_count++;
         StupidGreatModel.findOneAndUpdate({PostNumber: req.params.postnum},{stupid: s_count},function(err, post){
             if(err) console.log(err);
-            res.send(post);
         });
-    })
+        userModel.findOneAndUpdate({id: req.body.userid},{"$push" : {"sgSelect" : sgpost.PostNumber}}, function(err, user){
+            if(err) console.log(err);
+            res.send("stupid")
+        });
+    });
+
 });
 
-router.get('/add/great/:postnum', function(req, res){
-    StupidGreatModel.findOne({PostNumber: req.params.postnum}, function(err, sgpost){
+router.post('/add/great', function(req, res){
+    StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, sgpost){
         if(err) console.log(err);
         var g_count = sgpost.great;
         g_count++;
-        StupidGreatModel.findOneAndUpdate({PostNumber: req.params.postnum},{great: g_count},function(err, post){
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum},{great: g_count},function(err, post){
             if(err) console.log(err);
-            res.send(post);
+        });
+        userModel.findOneAndUpdate({id: req.body.userid},{"$push" : {"sgSelect" : sgpost.PostNumber}}, function(err, user){
+            if(err) console.log(err);
+            res.send("stupid")
         });
     })
 });
