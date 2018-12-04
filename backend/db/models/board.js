@@ -1,6 +1,7 @@
 // const { mongoose} = require('../mongo')
 const { mongoose, autoIncrement} = require('../mongo')
 
+
 const boardSchema = new mongoose.Schema({
     postNumber:{
         type:Number,
@@ -19,28 +20,28 @@ const boardSchema = new mongoose.Schema({
         type: Date,    
         default: Date.now
     },
-    date_year:{
-        type:Number
-    },
-    date_month:{
-        type:Number
+    views:{
+        type:Number,
+        default:0
     },
     comment:[
         {
-            name:String,
-            body:String
+            author:{type:String},
+            body:{type:String},
+            createdAt:{  type: Date,    
+                default: Date.now}
         }
     ],
-    accountinfo:[
-        {
-            id:String,
-            year:Number,
-            month:Number,
-            day:Number,
-            is:String,
-            price:Number
-        }
-    ]
+    c_author:{
+        type:String
+    },
+    c_body:{
+        type:String
+    },
+    c_createdAt:{
+        type:Date, default:Date.now
+    },
+    account_info:[]
 })
 
 boardSchema.plugin(autoIncrement, {

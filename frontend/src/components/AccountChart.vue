@@ -20,7 +20,7 @@
                   prepend-icon="event"
                   readonly
                 ></v-text-field>
-                <v-date-picker v-model="startDate" @input="menu1 = false" :max = "todayDate" @change="change"></v-date-picker>
+                <v-date-picker v-model="startDate" @input="menu1 = false" @change="change"></v-date-picker>
               </v-menu>
             </v-flex>
             <v-spacer></v-spacer>
@@ -42,19 +42,17 @@
                   prepend-icon="event"
                   readonly
                 ></v-text-field>
-                <v-date-picker v-model="endDate" @input="menu2 = false" :min = "startDate" :max = "todayDate" @change="change"></v-date-picker>    
+                <v-date-picker v-model="endDate" @input="menu2 = false" :min = "startDate" @change="change"></v-date-picker>    
               </v-menu>
             </v-flex>
             <v-spacer></v-spacer>
             <v-btn slot="activator" color="orange" dark v-on:click="show" id="show">통계 보기</v-btn>
-            <!-- <v-date-picker v-model="selectedMonth" type="month"></v-date-picker> -->
             <v-spacer></v-spacer>
           </v-layout>
     </v-card>
     <v-layout row>
       <v-flex xs10>
           <v-card>
-            <!-- v-if="startDate!=null && endDate!=null -->
               <v-card-text v-if="is_show==true">
                 {{startDate}} ~ {{endDate}}에 대한 수입 통계 
               <chartjs-doughnut v-if="is_show==true" :labels="g_labels" :datasets="[{data:g_data, backgroundColor: g_backgroundColor}]" :option="g_options"></chartjs-doughnut>
@@ -84,8 +82,8 @@ import 'v-calendar/lib/v-calendar.min.css'
     props:["data"],
     data () {
       return {
-        gain:[10,0,0,90,0,0],
-        lose:[0,0,50,0,50,0,0,0,0,0,0,0],
+        gain:[0,0,0,0,0,0],
+        lose:[0,0,0,0,0,0,0,0,0,0,0,0],
         g_data:[0,0,0,0,0,0],
         g_backgroundColor:[
           "#FF6384","#36A2EB","#FFCE56","#F56314","#32A21B","#F1C15F"

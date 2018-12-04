@@ -70,7 +70,18 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
-              <v-btn color="blue darken-1" flat  v-on:click="doneChange">Save</v-btn>
+              <v-btn color="blue darken-1" flat @click="doneChange">Change</v-btn>
+              <v-btn color="blue darken-1" flat @click="deleteDialog=true">Delete</v-btn>
+              <v-dialog v-model="deleteDialog" persistent max-width="290" v-if="deleteDialog==true">
+                <v-card>
+                  <v-card-title class="headline">정말 삭제하시겠습니까?</v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" flat @click="deleteDialog = false">No</v-btn>
+                    <v-btn color="green darken-1" flat @click="deleteAccount">Yes</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-card-actions>
           </v-form>
         </v-card>
@@ -84,8 +95,17 @@ export default {
   name: "AccountComp",
   props:["data"],
   methods:{
+      deleteAccount:function(){
+        this.deleteDialog=false
+        this.$http.post('/account/delete', {accountId: this.data.accountId})
+        .then((result)=>{
+          if(result.data=='delete'){
+            this.dialog=false
+            alert('삭제되었습니다')
+          }
+        })
+      },
       doChange:function(){
-          // alert(this.changePrice+ this.changeName+this.changeCategory+this.changeRate);
           this.dialog=true;
       },
       doneChange:function(){
@@ -101,7 +121,7 @@ export default {
             name:this.changeName,
             category: this.changeCategory,
             rate: this.changeRate,
-            accountId: this.data.accountId
+            accountId: this.data.accountId,
             })
             .then((result)=>{
               if(result.data=='change'){
@@ -123,7 +143,8 @@ export default {
           changePrice: this.data.price,
           changeName: this.data.name,
           changeCategory:this.data.category,
-          changeRate:this.data.rate
+          changeRate:this.data.rate,
+          deleteDialog:false
       }
   }
 }

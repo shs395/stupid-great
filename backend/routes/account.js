@@ -62,6 +62,21 @@ router.post('/change', async function(req,res){
   })
 })
 
+//가계부 삭제
+router.post('/delete', async function(req,res){
+  accountModel.deleteOne(
+  {accountId: req.body.accountId},
+  function(err){
+    if(err) {
+      console.log(err)
+      res.send('delete fail')
+    }
+    else{
+      res.send('delete')
+    }
+  })
+})
+
 
 //특정 날짜 리스트 가져오기
 router.get('/list/:id/:date/:is',(req,res)=>{
@@ -125,7 +140,6 @@ router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
         if(categories[i]==accounts[j].category) price[i]+=accounts[j].price
       }
     } 
-    
     console.log(price);
     res.send(price);
   })

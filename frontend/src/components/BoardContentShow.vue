@@ -1,9 +1,38 @@
 <template>
     <div>
-        <v-container fluid>
+    <!-- 뒤로가기버튼 추가 -->
+        <v-container fluid justify-center>
              <v-card>
-                 <p>{{test1}}</p>
+                  <v-card-title>title : {{post_items.title}}</v-card-title>
+
+                 <v-layout row>
+                    <!-- 파이차트추가-수입 -->
+                    <v-flex xs6 pa-3>
+                         {{in_items}}
+                    </v-flex>   
+                    <!-- 파이차트추가-지출  -->
+                    <v-flex xs6 pa-3>
+                        {{out_items}}
+                    </v-flex>
+                 </v-layout>>
+                 <v-flex xs6>
+                     <v-card-title>content: {{post_items.content}}</v-card-title>
+                </v-flex>
+                <v-flex xs6>
+                     <v-card-title>auothor: {{post_items.writer}}</v-card-title>
+                </v-flex>
+                <v-flex xs6>
+                     <v-card-title>views: {{post_items.views}}</v-card-title>
+                </v-flex>
+                <v-flex xs6>
+                     <v-card-title>createdAt: {{post_items.createdAt}}</v-card-title>
+                </v-flex>
+                 <v-layout>                      
+                     <v-text-field background-color="white" name="comment" box label="Comment" v-model="comment"></v-text-field> 
+                     <v-btn flat color="orange" @click="saveComment">POST</v-btn>
+                 </v-layout>
              </v-card>
+            {{c_items}}
         </v-container>
     
     </div>
@@ -14,38 +43,50 @@
         name:'board-content-show',
         data: function(){
             return{
-                b_items:'',
-                a_items:'',
-               // postNumber:''
-               test1:''
+                post_items:'',
+                in_items:'',
+                out_items:'',
+                comment:'',
+                c_items:'',
             }
         },
         methods:{
-            // get_boardinfo(){
-            // var id=this.$session.get('id')
-            // this.$http.get(`/board/read/board/${id}`).then(response=>{
-            //    this.b_items=response.data
-            //    console.log(response.data)}).catch((err)=>console.log(err))
-            // },
-            // get_accountinfo(){
-            // var id=this.$session.get('id')
-            // this.$http.get(`/board/read/account/${id}`).then(response=>{
-            //    this.a_items=response.data
-            //    console.log(response.data)}).catch((err)=>console.log(err))
-            // },
-            test(){
-                console.log(this.$route.params.postNumber)
+            get(){
+              console.log(this.$route.params.postNumber)
                 this.$http.get(`/board/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
-                    console.log(this.$route.params.postNumber+'1')
-                    this.test1=response.data
-                    console.log(response.data)}).catch((err)=>console.log(err))
-            }
+                    this.post_items=response.data
+                    console.log(this.post_items)}).catch((err)=>console.log(err))
+            },
+            get_in_account(){
+                this.$http.get(`/board/in/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
+                    this.in_items=response.data
+                    console.log(this.in_items)}).catch((err)=>console.log(err))
+            },
+            get_out_account(){
+                this.$http.get(`/board/out/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
+                    this.out_items=response.data
+                    console.log(this.out_items)}).catch((err)=>console.log(err))
+            },
+            saveComment(){
+                var comments={id:this.$session.get('id'),body:this.comment}
+                this.comment=""
+                this.$http.post(`/board/post/${this.$route.params.postNumber}/comment`,comments).then(res=>{
+                     alert("댓글이 저장되었습니다!")
+                     console.log(res.data)
+                }).catch((err)=>{console.log(err)})
+             },
+             getComment(){
+                 this.$http.get(`/board/post/${this.$route.params.postNumber}/comment`).then(response=>{
+                     this.c_items=response.data
+                     console.log(this.c_items)
+                 }).catch((err)=>{console.log(err)})
+             }
         },
         created(){
-            // this.get_boardinfo(),
-            // this.get_accountinfo(),
-            console.log(this.$route.params.postNumber)
-            this.test()
+            this.get()
+            this.get_in_account(),
+            this.get_out_account()
+            this.getComment()
            },
     }
 </script>
