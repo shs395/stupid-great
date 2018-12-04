@@ -40,6 +40,26 @@
 export default {
     created (){
 
+        this.$http.get('/stupid_great')
+        .then((result) => {
+            this.posts = result.data;
+            var flag = false;
+            while(!flag){
+            var lastPostNumber = this.posts[this.posts.length -1].PostNumber;
+            var random = Math.floor(Math.random() * lastPostNumber) + 1;
+            console.log(random);
+
+                for(var i = 0; i< this.posts.length; i++){
+                    if(this.posts[i].PostNumber == random){
+                        this.post = this.posts[i];
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+
+        });
+/*
         console.log(this.sgposts);
     
         var lastPostNumber = this.sgposts[this.sgposts.length -1].PostNumber;
@@ -52,7 +72,7 @@ export default {
                 break;
             }
         }
-        
+*/        
         
         if(!this.post.image){
             this.randomImagePath = "http://localhost:3000/static/img/noimage.jpg";
@@ -78,7 +98,7 @@ export default {
         showbtn (){
 
             for(var i = 1; i<= this.sgshow.length; i++){
-                if(this.sgpost.PostNumber == this.sgshow[i]){
+                if(this.sgposts.PostNumber == this.sgshow[i]){
                     return this.showbtn = false;
                 }
             }

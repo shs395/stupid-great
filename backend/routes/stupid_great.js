@@ -6,6 +6,13 @@ const userModel = require('../db/models/user')
 const multer = require('multer');
 
 
+router.get('/', function(req, res){
+    StupidGreatModel.find({}, function(err, posts){
+        if(err) return console.log(err);
+        res.send(posts);
+    });
+});
+
 router.get('/:id', function(req, res){
     StupidGreatModel.find({}, function(err, posts){
         if(err) return console.log(err);
