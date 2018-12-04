@@ -2,7 +2,9 @@
   <v-card height="100%">
     <v-card-title>
       <!-- 수입 or 지출 인지 받아옴 -->
+      <!-- <h2>{{data.selectedDate}}</h2> -->
       <h2>{{data.y}}년 {{data.m}}월 {{data.d}}일 {{data.is}}</h2>
+      <!-- <h2 v-else>{{parseInt(data.selectedDate.slice(0,4))}}년 {{parseInt(data.selectedDate.slice(5,7))}}월 {{parseInt(data.selectedDate.slice(8,10))}}일 {{data.is}}</h2> -->
     </v-card-title>
     <!-- 날짜 받아온걸로 해당 날짜의 수입 or 지출 내용을 v-for로 넣기 -->
     <v-card-text> 
@@ -12,7 +14,7 @@
       class="scroll-y"
       >
       <AccountComp  id='ac' v-bind:data="{selectedDate: data.selectedDate, category:'항목', name:'이름', price:'가격', rate:'평가'}"></AccountComp>
-      <span v-for="account in this.data.accounts">
+      <span v-for="account in accounts">
         <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate, accountId: account.accountId, y:data.y, m:data.m, d:data.d, is:data.is}"></AccountComp>
       </span>
       </v-container>
@@ -38,7 +40,7 @@
                         분류: {{data.is}}
                       </v-flex>
                       <v-flex xs12>
-                        <v-text-field label="금액" type="number" required v-model="addPrice" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
+                        <v-text-field label="금액" type="number" min=0 required v-model="addPrice" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
                       </v-flex>
                       <v-flex xs12>
                         <v-text-field label="이름" type="string" required v-model="addName" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
@@ -102,38 +104,60 @@ import AccountComp from "../components/AccountComp";
             name:this.addName,
             category: this.addCategory,
             rate: this.addRate
-            })
-            .then((result)=>{
-              if(result.data=='create'){
-                this.dialog=false
-                this.$refs.form.reset()
-                alert('추가되었습니다')
-              }
-            })
-            .catch((err)=>{
-              console.log(err)
-            })
+          })
+          .then((result)=>{
+            if(result.data=='create'){
+              this.dialog=false
+              this.$refs.form.reset()
+              this.addRate=0
+              alert('추가되었습니다')
+            }
+            this.get_accounts();
+          })
+          .catch((err)=>{
+            console.log(err)
+          })
         }
       },
       reset(){
         return this.$refs.form.reset()
+        this.addRate=0
       },
       addbtn:function(){
-        if(this.data.y=='xxxx'){
+        if(this.year=='xxxx'){
           alert('날짜를 선택해 주세요');
           this.dialog=false;
         }
         else this.dialog=true;
       },
+      get_accounts:function(){
+        console.log('http://localhost:3000/account/list/'+this.$session.get('id')+'/'+this.data.selectedDate+'/'+this.data.is)
+          this.$http.get( 'http://localhost:3000/account/list/'+this.$session.get('id')+'/'+this.data.selectedDate+'/'+this.data.is)
+          .then((result)=>{
+            // alert('here')
+            this.accounts = result.data
+            console.log(this.accounts)
+          })
+          .catch((err)=>{
+              console.log(err)
+          })
+      },
     },
     data: function(){
       return{
+        // year:parseInt(this.data.selectedDate.slice(0,4)),
+        // month:parseInt(this.data.selectedDate.slice(5,7)),
+        // day:parseInt(this.data.selectedDate.slice(8,10)),
+        // year:this.data.y,
+        // month:this.data.m,
+        // day:this.data.d,
+        
         addRate:null,
         addName:null,
         addCategory:null,
         addPrice:null,
         dialog: false,
-        accounts:this.data.accounts,
+        accounts:[]
         // year: parseInt(this.data.date.slice(0,4)),
         // month: parseInt(this.data.date.slice(5,7)),
         // day: parseInt(this.data.date.slice(8,10))
@@ -141,7 +165,25 @@ import AccountComp from "../components/AccountComp";
     },
     components:{
       AccountComp
-    }
+    },
+    beforeMount(){
+      this.get_accounts()
+    },
+    watch:{
+      data : function(){this.get_accounts()}
+    },
+    // mounted:function(){
+    //   if(this.data.selectedDate==null){
+    //     var currentTime = new Date()
+    //     this.month = currentTime.getMonth() + 1
+    //     this.year = currentTime.getFullYear()
+    //     this.day = currentTime.getDate()
+    //   }else{
+    //     this.month = this.data.selectedDate.slice(0,4)
+    //     this.year = this.data.selectedDate.slice(5,7)
+    //     this.day = this.data.selectedDate.slice(8,10)
+    //   }
+    // }
   }
 </script>
 
