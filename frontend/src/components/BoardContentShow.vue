@@ -3,7 +3,7 @@
     <!-- 뒤로가기버튼 추가 -->
         <v-container fluid justify-center>
              <v-card>
-                  <v-card-title>title{{post_items.title}}</v-card-title>
+                  <v-card-title>title : {{post_items.title}}</v-card-title>
 
                  <v-layout row>
                     <!-- 파이차트추가-수입 -->
@@ -27,7 +27,12 @@
                 <v-flex xs6>
                      <v-card-title>createdAt: {{post_items.createdAt}}</v-card-title>
                 </v-flex>
+                 <v-layout>                      
+                     <v-text-field background-color="white" name="comment" box label="Comment" v-model="comment"></v-text-field> 
+                     <v-btn flat color="orange" @click="saveComment">POST</v-btn>
+                 </v-layout>
              </v-card>
+            {{c_items}}
         </v-container>
     
     </div>
@@ -41,8 +46,8 @@
                 post_items:'',
                 in_items:'',
                 out_items:'',
-               // postNumber:''
-               items:'',
+                comment:'',
+                c_items:'',
             }
         },
         methods:{
@@ -61,12 +66,27 @@
                 this.$http.get(`/board/out/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
                     this.out_items=response.data
                     console.log(this.out_items)}).catch((err)=>console.log(err))
-            }
+            },
+            saveComment(){
+                var comments={id:this.$session.get('id'),body:this.comment}
+                this.comment=""
+                this.$http.post(`/board/post/${this.$route.params.postNumber}/comment`,comments).then(res=>{
+                     alert("댓글이 저장되었습니다!")
+                     console.log(res.data)
+                }).catch((err)=>{console.log(err)})
+             },
+             getComment(){
+                 this.$http.get(`/board/post/${this.$route.params.postNumber}/comment`).then(response=>{
+                     this.c_items=response.data
+                     console.log(this.c_items)
+                 }).catch((err)=>{console.log(err)})
+             }
         },
         created(){
             this.get()
             this.get_in_account(),
             this.get_out_account()
+            this.getComment()
            },
     }
 </script>
