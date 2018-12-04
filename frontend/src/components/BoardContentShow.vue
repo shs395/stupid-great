@@ -8,13 +8,15 @@
                  <v-layout row>
                     <!-- 파이차트추가-수입 -->
                     <v-flex xs6 pa-3>
-                         {{in_items}}
+                      <div v-for="i in in_items" :key="i.id">
+                          {{i.}}
+                      </div>
                     </v-flex>   
                     <!-- 파이차트추가-지출  -->
                     <v-flex xs6 pa-3>
-                        {{out_items}}
+                        {{out_items[0]}}
                     </v-flex>
-                 </v-layout>>
+                 </v-layout>
                  <v-flex xs6>
                      <v-card-title>content: {{post_items.content}}</v-card-title>
                 </v-flex>
@@ -27,12 +29,18 @@
                 <v-flex xs6>
                      <v-card-title>createdAt: {{post_items.createdAt}}</v-card-title>
                 </v-flex>
-                 <v-layout>                      
-                     <v-text-field background-color="white" name="comment" box label="Comment" v-model="comment"></v-text-field> 
-                     <v-btn flat color="orange" @click="saveComment">POST</v-btn>
+                 <v-layout>     
+                     <v-flex pa-3>                 
+                         <v-text-field background-color="white" box label="Comment" v-model="comment" ></v-text-field> 
+                         <v-btn flat color="orange" @click="saveComment">POST</v-btn>
+                     </v-flex>
                  </v-layout>
-             </v-card>
-            {{c_items}}
+                 <v-layout row>
+                  <v-flex xs8 >
+                    <div v-for="i in c_items" :key="i.id">
+                        <v-card-text>{{i.author}}</v-card-text>
+                    </div>   
+                  </v-flex>
         </v-container>
     
     </div>
@@ -48,6 +56,7 @@
                 out_items:'',
                 comment:'',
                 c_items:'',
+                date: new Date().toISOString().substr(0, 7),
             }
         },
         methods:{
@@ -68,7 +77,7 @@
                     console.log(this.out_items)}).catch((err)=>console.log(err))
             },
             saveComment(){
-                var comments={id:this.$session.get('id'),body:this.comment}
+                var comments={author:this.$session.get('id'),body:this.comment, createdAt:this.date}
                 this.comment=""
                 this.$http.post(`/board/post/${this.$route.params.postNumber}/comment`,comments).then(res=>{
                      alert("댓글이 저장되었습니다!")
@@ -82,7 +91,7 @@
                  }).catch((err)=>{console.log(err)})
              }
         },
-        created(){
+        mounted(){
             this.get()
             this.get_in_account(),
             this.get_out_account()

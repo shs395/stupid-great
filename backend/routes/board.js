@@ -26,7 +26,7 @@ router.post('/post',async(req,res,next)=>{
                 month:_month,
                 is:"수입",
             },function(err,result2){
-                result1.account_info.push(result2)
+                result1.in_account_info.push(result2)
 
                 accountModel.find({
                 id:req.body.id,
@@ -36,11 +36,12 @@ router.post('/post',async(req,res,next)=>{
             },function(err,result3){
                 if(err) console.log(err)
 
-                result1.account_info.push(result3)
+                result1.out_account_info.push(result3)
+                console.log(result1)
                 result1.save(function(err,data){
                     if(!err) 
-                    console.log(data.account_info[0])
-                    res.send(data)})
+                    console.log('1'+data.in_account_info[0])
+                    res.send(data[0])})
                 })
             })
         })
@@ -75,21 +76,19 @@ router.get('/:postNumber/:writer',async(req,res,next)=>{
 router.get('/in/:postNumber/:writer',(req,res,next)=>{
     const _postNumber=req.params.postNumber;
     const _writer=req.params.writer;
-    
-    boardModel.find(
-        {  postNumber:_postNumber,
-            writer:_writer 
-        },
-        {
-            postNumber:0,
-            writer:0,
-            account_info:{$elemMatch:{$elemMatch:{is:'수입'}}}
-        }  
-      ,function(err,result){
-            if(err) console.log(err)
 
-           
-            res.send(result)})
+    boardModel.find({
+        postNumber:_postNumber,
+        writer:_writer
+    },function(err,result){
+        if(err) console.log(err)
+
+        console.log('수입데이터')
+        console.log(result[0].in_account_info[0])
+        res.json(result[0].in_account_info[0])
+
+    })
+
 })
     
 //가계부 지출 데이터 가져오기
@@ -97,36 +96,56 @@ router.get('/out/:postNumber/:writer',(req,res,next)=>{
     const _postNumber=req.params.postNumber;
     const _writer=req.params.writer;
     
-    boardModel.find(
-        {  postNumber:_postNumber,
-            writer:_writer 
-        },
-        {
-            postNumber:0,
-            writer:0,
-            account_info:{$elemMatch:{$elemMatch:{is:'지출'}}}
-        }  
-      ,function(err,result){
-            if(err) console.log(err)
+    // boardModel.find(
+    //     {  postNumber:_postNumber,
+    //         writer:_writer ,
+    //         account_info:{$elemMatch:{$elemMatch:{is:'지출'}}}
+    //     },
+    //     {
+    //         postNumber:0,
+    //         writer:0,
+    //     }  
+    //   ,function(err,result){
+    //         if(err) console.log(err)
 
           
-            res.send(result)})
+    //         res.send(result)})
+
+    boardModel.find({
+        postNumber:_postNumber,
+        writer:_writer
+    },function(err,result){
+        if(err) console.log(err)
+
+        console.log('지출데이터')
+        console.log(result[0].out_account_info[0])
+        res.json(result[0].out_account_info[0])
+
+    })
 })
     
 //댓글 저장
 router.post('/post/:postNumber/comment',async(req,res,next)=>{
     const _postNumber=req.params.postNumber
-    const _comment=req.body.comments
-    
-    const f= await boardModel.updateOne({postNumber:_postNumber},{$push:{comment:{author:req.body.id,body:req.body.body,createdAt:req.body.createdAt}}})
-   // console.log(f)
-    res.send(f)})
-    //     function(err,result){
-    //     if(err) console.log(err)
+    const _author=req.body.author
+    const _body=req.body.body
+    const _createdAt=req.body.createdAt
 
-    //     res.send(result)}})
-    // })
+    var _comment=[{author:_author,body:_body}]
 
+    console.log(_comment)
+
+    boardModel.updateOne({postNumber:_postNumber},{$push:{comment:_comment}},function(err,result){
+        if(err) console.log(err)
+
+        console.log('댓글저장!')
+        console.log(result)
+        res.json(result)
+
+    })
+
+})
+  
 //댓글 읽기
 router.get('/post/:postNumber/comment',(req,res,next)=>{
     const _postNumber=req.params.postNumber
@@ -136,8 +155,8 @@ router.get('/post/:postNumber/comment',(req,res,next)=>{
     },{comment:1},function(err,result){
         if(err) console.log(err)
 
-        console.log('f'+result)
-        res.send(result)
+        console.log('댓글정보'+result)
+        res.json(result)
     })
 })
 

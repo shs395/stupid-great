@@ -18,7 +18,7 @@ const boardSchema = new mongoose.Schema({
     },
     createdAt: {   
         type: Date,    
-        default: Date.now
+        default: Date.now()
     },
     views:{
         type:Number,
@@ -26,22 +26,17 @@ const boardSchema = new mongoose.Schema({
     },
     comment:[
         {
-            author:{type:String},
-            body:{type:String},
-            createdAt:{  type: Date,    
-                default: Date.now}
+            author:String,
+            body:String,
+            createdAt: {   
+                type: Date,    
+                default: Date.now()
+            }
+
         }
-    ],
-    c_author:{
-        type:String
-    },
-    c_body:{
-        type:String
-    },
-    c_createdAt:{
-        type:Date, default:Date.now
-    },
-    account_info:[]
+    ],  
+    in_account_info:[],
+    out_account_info:[]
 })
 
 boardSchema.plugin(autoIncrement, {
