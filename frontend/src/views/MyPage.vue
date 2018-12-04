@@ -1,6 +1,27 @@
 <template>
     <v-app id="mypage">
-         <toolbar />
+        <toolbar />
+        <v-tabs fixed-tabs>
+        <v-tab>
+            나의 정보 보기
+        </v-tab>
+        <v-tab>
+            나의 가계부 글 보기
+        </v-tab>
+        <v-tab>
+            나의 stupid-great 보기 
+        </v-tab>
+        <v-tab-item>
+            내 정보
+        </v-tab-item>
+        <v-tab-item>
+            가계부 글
+        </v-tab-item>
+        <v-tab-item>
+            stupid-great
+        </v-tab-item>
+
+    </v-tabs>
     </v-app>
 
 </template>
