@@ -23,27 +23,6 @@ router.get('/:id', function(req, res){
     });
 });
 
-/*router.get('/content/random', function(req, res){
-
-    StupidGreatModel.find({}, function(err, posts){
-        if(err) return console.log(err);
-        
-        var lastPostNumber = posts[posts.length -1].PostNumber;
-
-        var result = Math.floor(Math.random() * lastPostNumber) + 1;
-        console.log(result);
-
-        StupidGreatModel.findOne({PostNumber : result}, function(err, post){
-            if(err) console.log(err);
-            console.log(post);
-            if(post){
-                res.send(post);
-            }
-             next();
-        });      
-    });
-});
-*/
 router.post('/add/stupid', function(req, res){
 
     StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, sgpost){

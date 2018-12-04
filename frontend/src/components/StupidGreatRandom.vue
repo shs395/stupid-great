@@ -58,21 +58,7 @@ export default {
                 }
             }
 
-        });
-/*
-        console.log(this.sgposts);
-    
-        var lastPostNumber = this.sgposts[this.sgposts.length -1].PostNumber;
-        var random = Math.floor(Math.random() * lastPostNumber) + 1;
-        console.log(random);
-
-        for(var i = 0; i< this.sgposts.length; i++){
-            if(this.sgposts[i] == random){
-                this.post = this.sgposts[i];
-                break;
-            }
-        }
-*/        
+        });        
         
         if(!this.post.image){
             this.randomImagePath = "http://localhost:3000/static/img/noimage.jpg";
@@ -82,27 +68,24 @@ export default {
     },
 
     name : 'StupidGreatRandom',
-    props : {
-        sgposts: [],
-        sgshow: []
-    },
 
     data (){
         return{
             posts: [],
             post : {},
+            readpost: [],
             randomImagePath : '',          
         }
     },
     computed: {
         showbtn (){
 
-            for(var i = 1; i<= this.sgshow.length; i++){
-                if(this.sgposts.PostNumber == this.sgshow[i]){
-                    return this.showbtn = false;
+            for(var i = 1; i<= this.readpost.length; i++){
+                if(this.posts.PostNumber == this.readpost[i]){
+                    return false;
                 }
             }
-            return this.showbtn = true;
+            return true;
         }
     },
 
@@ -110,8 +93,9 @@ export default {
         OnClickRandomStupid (){
             this.$http.post('/stupid_great/add/stupid', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
-                this.post = result.data;
-                console.log(this.post);
+                this.readpost = result.data.selectSG;
+                console.log(this.readpost);
+
             });
             alert('stupid를 선택하셨습니다!');
             return location.href="/stupid-great-community" 
@@ -119,8 +103,8 @@ export default {
         OnClickRandomGreat (){
             this.$http.post('/stupid_great/add/great', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
-                this.post = result.data;
-                console.log(this.post);
+                this.readpost = result.data.selectSG;
+                console.log(this.readpost);
             });
             alert('great를 선택하셨습니다!');
             return location.href="/stupid-great-community" 

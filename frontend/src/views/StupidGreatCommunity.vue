@@ -12,7 +12,7 @@
 
         <v-tab-item>
             <v-card id="random-component">
-                    <StupidGreatRandom :sgposts="posts" :sgshow="readpost"></StupidGreatRandom>
+                    <StupidGreatRandom />
             </v-card>
             <v-btn
               color="indigo lighten-2"
