@@ -58,7 +58,7 @@ export default {
     data (){
         return{
             imgpath: '',
-            showbtn: true;
+            showbtn: true,
         }
     },
     methods: {
