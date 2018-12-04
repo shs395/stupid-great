@@ -24,8 +24,9 @@
             <v-divider light></v-divider>
             
             <v-card-actions id="sg-btns-group">
-                <v-btn color="red" @click="OnClickStupid" class="sg-btns" id="stupid-btn">스튜핏!</v-btn>
-                <v-btn color="blue" @click="OnClickGreat" class="sg-btns" id="great-btn">그레잇!</v-btn>
+                <v-btn v-show="showbtn" color="red" @click="OnClickStupid" class="sg-btns" id="stupid-btn">스튜핏!</v-btn>
+                <v-btn v-show="showbtn" color="blue" @click="OnClickGreat" class="sg-btns" id="great-btn">그레잇!</v-btn>
+                <h3 v-show="!showbtn">이미 투표를 완료 하셨습니다!</h3>
             </v-card-actions>
             
         </v-card>

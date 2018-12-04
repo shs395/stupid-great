@@ -12,7 +12,8 @@ router.get('/:id', function(req, res){
         if(err) return console.log(err);
         userModel.findOne({id: req.params.id}, function(err, user){
             if(err) return console.log(err);
-            res.json({"data" : posts, "read" : user.sgSelect});
+            res.send(posts);
+            //res.json({"data" : posts, "read" : user.sgSelect});
         });
     });
 });
