@@ -66,8 +66,7 @@ router.get('/:postNumber/:writer',async(req,res,next)=>{
         postNumber:_postNumber,
         writer:_writer
     })
-    console.log(f[0].title)
-    console.log(f[0])
+   
     res.send(f[0])
  
 })
@@ -114,6 +113,33 @@ router.get('/out/:postNumber/:writer',(req,res,next)=>{
             res.send(result)})
 })
     
+//댓글 저장
+router.post('/post/:postNumber/comment',async(req,res,next)=>{
+    const _postNumber=req.params.postNumber
+    const _comment=req.body.comments
+    
+    const f= await boardModel.updateOne({postNumber:_postNumber},{$push:{comment:{author:req.body.id,body:req.body.body,createdAt:req.body.createdAt}}})
+   // console.log(f)
+    res.send(f)})
+    //     function(err,result){
+    //     if(err) console.log(err)
+
+    //     res.send(result)}})
+    // })
+
+//댓글 읽기
+router.get('/post/:postNumber/comment',(req,res,next)=>{
+    const _postNumber=req.params.postNumber
+
+    boardModel.find({
+        postNumber:_postNumber
+    },{comment:1},function(err,result){
+        if(err) console.log(err)
+
+        console.log('f'+result)
+        res.send(result)
+    })
+})
 
 router.all('*',(req,res,next)=>{
 

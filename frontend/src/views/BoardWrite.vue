@@ -64,7 +64,7 @@ export default {
     },
     methods:{
         savepost(){
-            var infoPost={id:this.$session.get('id'),title:this.title,body:this.body,date:this.date,is:this.in}
+            var infoPost={id:this.$session.get('id'),title:this.title,body:this.body,date:this.date}
             this.title=""
             this.body=""
             this.axios.post('/board/post',infoPost).then(res=>{
