@@ -140,7 +140,6 @@ router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
         if(categories[i]==accounts[j].category) price[i]+=accounts[j].price
       }
     } 
-    
     console.log(price);
     res.send(price);
   })

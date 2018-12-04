@@ -108,13 +108,13 @@
       return {
         items: [
           {
-            src: 'https://cdn.pixabay.com/photo/2018/07/27/10/22/don-3565700_1280.jpg'
+            src: 'http://localhost:3000/static/img/money1.jpg'
           },
           {
-            src: 'https://cdn.pixabay.com/photo/2017/10/17/16/36/don-2861168_1280.jpg'
+            src: 'http://localhost:3000/static/img/money2.jpg'
           },
           {
-            src: 'https://cdn.pixabay.com/photo/2016/03/18/12/26/don-1264856_1280.jpg'
+            src: 'http://localhost:3000/static/img/money3.jpg'
           }
         ]
       }
