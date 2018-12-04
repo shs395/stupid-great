@@ -5,6 +5,8 @@ const userModel = require('../db/models/user')
 
 const multer = require('multer');
 
+//for문으로 이미 투표한 게시글이라면 투표를 못하게함
+
 router.get('/', function(req, res){
     StupidGreatModel.find({}, function(err, posts){
         if(err) return console.log(err);
@@ -23,6 +25,8 @@ router.get('/random', function(req, res){
         });
     });
 });
+
+// 유저의 세션에 저장되어있는 id 에 postnum 저장
 
 router.get('/add/stupid/:postnum', function(req, res){
     StupidGreatModel.findOne({PostNumber: req.params.postnum}, function(err, sgpost){
@@ -55,6 +59,7 @@ router.post('/create', function(req, res){
         title : req.body.post.sgTitle, 
         content: req.body.post.sgContent,
         price: parseInt(req.body.post.sgPrice),
+        image : req.body.post.sgImg,
         stupid: 0,
         great: 0
     });
@@ -76,7 +81,7 @@ var imgname;
 const upload = multer({
     storage: multer.diskStorage({
       destination: function (req, file, cb) {
-        cb(null, 'sg_upload_images/');
+        cb(null, 'public/static/img/sg_images');
       },
       filename: function (req, file, cb) {
         imgname = new Date().valueOf() + file.originalname;

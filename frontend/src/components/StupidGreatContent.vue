@@ -4,7 +4,7 @@
             <v-layout>
                 <v-flex xs5>
                     <v-img
-                        src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+                        :src="imgpath"
                         height="170px"
                         contain
                     ></v-img>
@@ -13,9 +13,9 @@
                 <v-flex xs7>
                     <v-card-title primary-title>
                         <div>
-                        <div class="headline"><span>{{title}}</span></div>
-                        <div>{{content}}</div>
-                        <div>{{price}}</div>
+                        <div class="headline">제목 : <span>{{sgpost.title}}</span></div>
+                        <div>내용 : {{sgpost.content}}</div>
+                        <div>가격 : {{sgpost.price}}</div>
                         </div>
                     </v-card-title>
                     </v-flex>
@@ -35,20 +35,28 @@
 
 <script>
 export default {
+
+    created (){
+        if(!this.sgpost.image){
+            return this.imgpath = "http://localhost:3000/static/img/noimage.jpg";
+        }else {
+            return this.imgpath = "http://localhost:3000/static/img/sg_images/"+this.sgpost.image;
+        }
+    },
+
     name: 'StupidGreatContent',
     props: {
-        title : {},
-        content: {},
-        price: {},
-        postnum: {}
+        sgpost: {}
     },
     data (){
         return{
+            imgpath: ''
         }
     },
     methods: {
+            
         OnClickStupid (){
-            this.$http.get(`/stupid_great/add/stupid/${this.postnum}`)
+            this.$http.get(`/stupid_great/add/stupid/${this.sgpost.PostNumber}`)
             .then((result) => {
                 this.post = result.data;
                 console.log(this.post);
@@ -56,7 +64,7 @@ export default {
             alert('stupid를 선택하셨습니다!');
         },
         OnClickGreat (){
-            this.$http.get(`/stupid_great/add/great/${this.postnum}`)
+            this.$http.get(`/stupid_great/add/great/${this.sgpost.PostNumber}`)
             .then((result) => {
                 this.post = result.data;
                 console.log(this.post);
@@ -65,7 +73,6 @@ export default {
    
         }
     }
-    
 }
 </script>
 

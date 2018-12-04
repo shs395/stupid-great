@@ -47,7 +47,7 @@
             <v-layout row wrap>
                 <v-flex v-for="post in posts.slice().reverse()" :key="post.PostNumber">
                     <v-card id="sg-content-cards" color="transparent">
-                        <stupid-great-content :title="post.title" :content="post.content" :price="post.price" :postnum="post.PostNumber"></stupid-great-content>
+                        <stupid-great-content :sgpost="post"></stupid-great-content>
                     </v-card>
                 </v-flex>
             </v-layout>
