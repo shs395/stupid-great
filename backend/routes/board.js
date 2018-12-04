@@ -58,19 +58,18 @@ router.get('/list',async(req,res,next)=>{
 
 
 //게시글 내용보기
-router.get('/:postNumber/:writer',(req,res,next)=>{
+router.get('/:postNumber/:writer',async(req,res,next)=>{
     const _postNumber=req.params.postNumber;
     const _writer=req.params.writer;
 
-    boardModel.find({
+    const f=await boardModel.find({
         postNumber:_postNumber,
-        writer:_writer   
-    },function(err,result){
-        if(err) console.log(err)
-
-       //console.log(result.views)
-        res.json(result)
-    })  
+        writer:_writer
+    })
+    console.log(f[0].title)
+    console.log(f[0])
+    res.send(f[0])
+ 
 })
 
 //가계부 수입 데이터 가져오기
@@ -118,7 +117,7 @@ router.get('/out/:postNumber/:writer',(req,res,next)=>{
 
 router.all('*',(req,res,next)=>{
 
-    res.send('Cannot Found API')
+    res.send('API X')
 
 })
 

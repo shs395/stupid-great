@@ -1,19 +1,31 @@
 <template>
     <div>
     <!-- 뒤로가기버튼 추가 -->
-        <v-container fluid>
+        <v-container fluid justify-center>
              <v-card>
-                 <v-card-title>{{post_items.title}}</v-card-title>
+                  <v-card-title>title{{post_items.title}}</v-card-title>
+
                  <v-layout row>
+                    <!-- 파이차트추가-수입 -->
                     <v-flex xs6 pa-3>
                          {{in_items}}
-                    </v-flex>    
+                    </v-flex>   
+                    <!-- 파이차트추가-지출  -->
                     <v-flex xs6 pa-3>
                         {{out_items}}
                     </v-flex>
-                 </v-layout>
-                 <v-flex>
-                     {{post_items.content}}
+                 </v-layout>>
+                 <v-flex xs6>
+                     <v-card-title>content: {{post_items.content}}</v-card-title>
+                </v-flex>
+                <v-flex xs6>
+                     <v-card-title>auothor: {{post_items.writer}}</v-card-title>
+                </v-flex>
+                <v-flex xs6>
+                     <v-card-title>views: {{post_items.views}}</v-card-title>
+                </v-flex>
+                <v-flex xs6>
+                     <v-card-title>createdAt: {{post_items.createdAt}}</v-card-title>
                 </v-flex>
              </v-card>
         </v-container>
@@ -38,8 +50,7 @@
               console.log(this.$route.params.postNumber)
                 this.$http.get(`/board/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
                     this.post_items=response.data
-                //console.log(response.data)
-                }).catch((err)=>console.log(err))
+                    console.log(this.post_items)}).catch((err)=>console.log(err))
             },
             get_in_account(){
                 this.$http.get(`/board/in/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{

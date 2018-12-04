@@ -34,7 +34,7 @@ const boardSchema = new mongoose.Schema({
         {
             author: {type:mongoose.Schema.Types.ObjectId, ref:'User', required:true},
             creatdAt:{type:Date, default:Date.now},
-            body:String
+            body:{type:String}
         }
     ],
     account_info:[]
