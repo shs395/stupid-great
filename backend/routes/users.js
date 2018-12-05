@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 const userModel = require('../db/models/user')
+const StupidGreatModel = require('../db/models/stupid_great')
+const accountModel = require('../db/models/account')
+const boardModel = require('../db/models/board')
 const jwt = require('jsonwebtoken');
 
 router.post('/signup', function(req, res, next) {
@@ -73,6 +76,17 @@ router.post('/verify',(req,res)=>{
     console.log(decoded)    //id와 email 반환
     res.send(decoded)
   });
+})
+
+router.post('/withdrawal',async (req,res)=>{
+  var u_id =  req.body.id
+  console.log("u_id")
+  console.log(u_id)
+  await userModel.remove({id:u_id})
+  await StupidGreatModel.remove({id:u_id})
+  await accountModel.remove({id:u_id})
+  await boardModel.remove({id:u_id})
+  res.send("good")
 })
 
 
