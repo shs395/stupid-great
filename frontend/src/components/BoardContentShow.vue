@@ -19,18 +19,29 @@
                       </div>
                     </v-flex>   
                  </v-layout>
-                <v-layout row>
+                <!-- <v-layout row>
                      <v-flex  pa-3 d-flex>                 
-                         <v-text-field background-color="white" box label="Comment" v-model="comment" ></v-text-field> 
+                         <v-text-field background-color="white" box label="Add comment here" v-model="comment" ></v-text-field> 
                      </v-flex>
                      <v-card-actions>
                       <v-btn flat color="orange" @click="saveComment">POST</v-btn>
                      </v-card-actions>
-                </v-layout>
+                </v-layout> -->
                 <v-card-text>
-                 <v-card-subtitle>Comment</v-card-subtitle>
+                     <v-card-subtitle>Comments</v-card-subtitle>
+                <v-card>
+                
+                  <v-layout row>
+                            <v-flex  pa-3 d-flex>                 
+                         <v-text-field background-color="white" box label="Add comment here" v-model="comment" ></v-text-field> 
+                             </v-flex>
+                          <v-card-actions>
+                             <v-btn flat color="orange" @click="saveComment">POST</v-btn>
+                          </v-card-actions>
+                    
+                    </v-layout>
 
-                <v-data-table 
+                <!-- <v-data-table 
                     :items="c_items"
                     class="elevation-1"
                     hide-actions
@@ -41,7 +52,29 @@
                         <td class="text-xs-right">{{props.item.createdAt}}</td>
                     </template>
                 </v-data-table>
-                </v-card-text>
+                </v-card-text> -->
+
+
+             <v-data-table 
+                    :items="c_items"
+                    class="elevation-1"
+                    hide-actions
+                    hide-headers >
+                    
+                    <template slot="items" slot-scope="props">
+                
+                        <td>
+                            <p><strong>{{props.item.author}}</strong><span color="gray"> |  {{props.item.createdAt}}</span><p>
+                            <p>{{props.item.body}}</p>
+                        </td>
+                  
+                       
+                </template>
+                </v-data-table>
+
+                </v-card>
+                </v-card-text>               
+              
              </v-card>
         </v-container>
     
@@ -50,15 +83,14 @@
 
 <script>
     export default{
-        name:'board-content-show',
         data: function(){
             return{
                 post_items:'',
                 in_items:'',
                 out_items:'',
                 comment:'',
-                c_items:'',
-                date: new Date().toISOString().substr(0, 7),    
+                c_items:[{divider:true, inset:true}],
+                date: new Date().toISOString().substr(0, 7),   
             }
         },
         methods:{
