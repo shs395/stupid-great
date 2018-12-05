@@ -11,30 +11,29 @@ router.get('/', function(req, res){
         if(err) return console.log(err);
         res.send(posts);
     });
+    
 });
 
 router.get('/:id', function(req, res){
-    StupidGreatModel.find({}, function(err, posts){
+
+    userModel.findOne({id: req.params.id}, function(err, user){
         if(err) return console.log(err);
-        userModel.findOne({id: req.params.id}, function(err, user){
-            if(err) return console.log(err);
-            res.json({"data" : posts, "read" : user});
-        });
+        res.send(user.selectSG);
     });
+    
 });
 
 router.post('/add/stupid', function(req, res){
 
-    StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, sgpost){
+    StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, post){
         if(err) console.log(err);
-        var s_count = sgpost.stupid;
-        s_count++;
-        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {stupid: s_count},function(err, post){
+
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {stupid: post.stupid++},function(err){
             if(err) console.log(err);
         });
-        userModel.findOneAndUpdate({id: req.body.userid},{$push : {sgSelect : sgpost.PostNumber}}, function(err, user){
+        userModel.findOneAndUpdate({id: req.body.userid},{ "$push" : {"selectSG" : post.PostNumber}}, function(err, user){
             if(err) console.log(err);
-            res.send(user);
+            res.send(user.selectSG);
         });
     });
 

@@ -40,26 +40,8 @@
 export default {
     created (){
 
-        this.$http.get('/stupid_great')
-        .then((result) => {
-            this.posts = result.data;
-            var flag = false;
-            while(!flag){
-            var lastPostNumber = this.posts[this.posts.length -1].PostNumber;
-            var random = Math.floor(Math.random() * lastPostNumber) + 1;
-            console.log(random);
-
-                for(var i = 0; i< this.posts.length; i++){
-                    if(this.posts[i].PostNumber == random){
-                        this.post = this.posts[i];
-                        flag = true;
-                        break;
-                    }
-                }
-            }
-
-        });        
-        
+        this.OnClickRandomSkip();
+       
         if(!this.post.image){
             this.randomImagePath = "http://localhost:3000/static/img/noimage.jpg";
         }else {
@@ -110,10 +92,26 @@ export default {
             return location.href="/stupid-great-community" 
         },
         OnClickRandomSkip (){
-            this.$http.get('/stupid_great/content/random')
+
+            this.$http.get('/stupid_great')
             .then((result) => {
-                this.post = result.data;
-            });
+                this.posts = result.data;
+                var flag = false;
+                while(!flag){
+                var lastPostNumber = this.posts[this.posts.length -1].PostNumber;
+                var random = Math.floor(Math.random() * lastPostNumber) + 1;
+                console.log(random);
+
+                    for(var i = 0; i< this.posts.length; i++){
+                        if(this.posts[i].PostNumber == random){
+                            this.post = this.posts[i];
+                            flag = true;
+                            break;
+                        }
+                    }
+                }
+
+            });   
         }
     }
 }

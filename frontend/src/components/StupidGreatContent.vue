@@ -13,9 +13,9 @@
                 <v-flex xs7>
                     <v-card-title primary-title>
                         <div>
-                        <div class="headline">제목 : <span>{{sgpost.title}}</span></div>
-                        <div>내용 : {{sgpost.content}}</div>
-                        <div>가격 : {{sgpost.price}}</div>
+                        <div class="headline">제목 : <span>{{post.title}}</span></div>
+                        <div>내용 : {{post.content}}</div>
+                        <div>가격 : {{post.price}}</div>
                         </div>
                     </v-card-title>
                     </v-flex>
@@ -39,49 +39,77 @@ export default {
 
     created (){
 
-        if(!this.sgpost.image){
+            this.$http.get(`/stupid_great/${this.$session.get('id')}`)
+            .then((result) => {
+                this.readpost = result.data;
+                console.log(result.data);
+                for(var i = 1; i<= this.readpost.length; i++){
+                    if(this.post.PostNumber == this.readpost[i]){
+                        return this.showbtn = false;
+                    }
+                }
+                return this.showbtn = true;
+            });
+
+        if(!this.post.image){
             this.imgpath = "http://localhost:3000/static/img/noimage.jpg";
         }else {
-            this.imgpath = "http://localhost:3000/static/img/sg_images/"+this.sgpost.image;
+            this.imgpath = "http://localhost:3000/static/img/sg_images/"+this.post.image;
         }
+
     },
 
     name: 'StupidGreatContent',
     props: {
-        sgpost: {},
-        sgshow: {},
+        post: {},
     },
     data (){
         return{
             imgpath: '',
+            readpost: [],
+            showbtn : ''
         }
     },
+    
     computed : {
         showbtn (){
-            for(var i = 1; i<= this.sgshow.length; i++){
-                if(this.sgpost.PostNumber == this.sgshow[i]){
-                    return false;
+            this.$http.get(`/stupid_great/${this.$session.get('id')}`)
+            .then((result) => {
+                this.readpost = result.data;
+                console.log(result.data);
+                for(var i = 1; i<= this.readpost.length; i++){
+                    if(this.post.PostNumber == this.readpost[i]){
+                        return false;
+                    }
                 }
-            }
-            return true;
+                return true;
+            });
         }
     },
 
     methods: {
             
         OnClickStupid (){
-            this.$http.post('/stupid_great/add/stupid', {postnum: this.sgpost.PostNumber, userid: this.$session.get('id')})
+            this.$http.post('/stupid_great/add/stupid', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
-                console.log(result);
-                this.post = result.data;
-                console.log(this.post);
+                console.log(result.data);
             });
-            alert('stupid를 선택하셨습니다!');
 
             this.$http.get(`/stupid_great/${this.$session.get('id')}`)
             .then((result) => {
-                console.log(result);
+                console.log(result.data);
+                this.readpost = result.data;
             });
+
+            alert('stupid를 선택하셨습니다!');
+
+            for(var i = 1; i<= this.readpost.length; i++){
+                if(this.post.PostNumber == this.readpost[i]){
+                    return this.showbtn = false;
+                }
+            }
+            return this.showbtn = true;
+
         },
         OnClickGreat (){
             this.$http.post('/stupid_great/add/great', {postnum: this.sgpost.PostNumber, userid: this.$session.get('id')})
