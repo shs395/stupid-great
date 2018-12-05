@@ -12,7 +12,7 @@
             나의 stupid-great 보기 
         </v-tab>
         <v-tab-item>
-            내 정보
+          <MyPageInfo></MyPageInfo>
         </v-tab-item>
         <v-tab-item>
             가계부 글
@@ -28,10 +28,12 @@
 
 <script>
 import toolbar from '../components/toolbar'
+import MyPageInfo from '../components/MyPageInfo'
   export default {
     name : 'mypage',
     components: {
-        toolbar
+        toolbar,
+        MyPageInfo
     },
     data () {
       return { }

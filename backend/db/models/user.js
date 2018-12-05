@@ -28,9 +28,14 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     selectSG: {
-        type: Array,
-        default: ''
+        type: [Number],
+        default: [0,]
     }
 })
+
+/*userSchema.methods.addSelectSG = function (postnum) {
+    this.selectSG.push(postnum);
+    return this.save();
+};*/
 
 module.exports = mongoose.model('User', userSchema)

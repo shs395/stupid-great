@@ -27,12 +27,10 @@ const StupidGreatSchema = new mongoose.Schema({
     stupid:{
         type: Number,
         required: true,
-        default : 0
     },
     great:{
         type: Number,
         required: true,
-        default: 0
     }
 })
 
@@ -41,6 +39,5 @@ StupidGreatSchema.plugin(autoIncrement, {
      field: 'PostNumber',
      startAt: 1
  });
-
 
 module.exports = mongoose.model('StupidGreat', StupidGreatSchema)
