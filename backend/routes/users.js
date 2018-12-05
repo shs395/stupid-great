@@ -78,15 +78,26 @@ router.post('/verify',(req,res)=>{
   });
 })
 
+router.post('/modify',async (req,res)=>{
+  await userModel.update({id : req.body.id}, {$set:
+    { 
+      pw:req.body.pw,
+      sex : req.body.sex,
+      age : req.body.age,
+      job : req.body.job,
+      email : req.body.email
+    }
+  })
+  res.send("modify complete")
+})
+
 router.post('/withdrawal',async (req,res)=>{
   var u_id =  req.body.id
-  console.log("u_id")
-  console.log(u_id)
-  await userModel.remove({id:u_id})
-  await StupidGreatModel.remove({id:u_id})
-  await accountModel.remove({id:u_id})
-  await boardModel.remove({id:u_id})
-  res.send("good")
+  await userModel.remove({id:u_id}) //usedata 삭제
+  await StupidGreatModel.remove({id:u_id})  //쓴 stupidgreat 삭제
+  await accountModel.remove({id:u_id})  //쓴 가계부 삭제
+  await boardModel.remove({id:u_id})  //쓴 글 삭제
+  res.send("withdrawal complete")
 })
 
 
