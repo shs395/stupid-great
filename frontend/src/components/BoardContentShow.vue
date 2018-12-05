@@ -3,44 +3,46 @@
     <!-- 뒤로가기버튼 추가 -->
         <v-container fluid justify-center>
              <v-card>
-                  <v-card-title>title : {{post_items.title}}</v-card-title>
+                  <v-card-title class="text-xs-center">Title : {{post_items.title}}</v-card-title>
 
                  <v-layout row>
                     <!-- 파이차트추가-수입 -->
                     <v-flex xs6 pa-3>
                       <div v-for="i in in_items" :key="i.id">
-                          {{i.year}}{{i.month}}{{i.is}}{{i.price}}{{i.category}}
+                         <v-card-text>{{i.is}}{{i.year}}{{i.month}}{{i.price}}{{i.name}}{{i.category}}</v-card-text>
                       </div>
                     </v-flex>   
                     <!-- 파이차트추가-지출  -->
-                    <v-flex xs6 pa-3>
-                        {{out_items[0]}}
-                    </v-flex>
+                     <v-flex xs6 pa-3>
+                      <div v-for="i in out_items" :key="i.id">
+                         <v-card-text>{{i.is}}{{i.year}}{{i.month}}{{i.price}}{{i.name}}{{i.category}}</v-card-text>
+                      </div>
+                    </v-flex>   
                  </v-layout>
-                 <v-flex xs6>
-                     <v-card-title>content: {{post_items.content}}</v-card-title>
-                </v-flex>
-                <v-flex xs6>
-                     <v-card-title>auothor: {{post_items.writer}}</v-card-title>
-                </v-flex>
-                <v-flex xs6>
-                     <v-card-title>views: {{post_items.views}}</v-card-title>
-                </v-flex>
-                <v-flex xs6>
-                     <v-card-title>createdAt: {{post_items.createdAt}}</v-card-title>
-                </v-flex>
-                 <v-layout>     
-                     <v-flex pa-3>                 
+                <v-layout row>
+                     <v-flex  pa-3 d-flex>                 
                          <v-text-field background-color="white" box label="Comment" v-model="comment" ></v-text-field> 
-                         <v-btn flat color="orange" @click="saveComment">POST</v-btn>
                      </v-flex>
-                 </v-layout>
-                 <v-layout row>
-                  <v-flex xs8 >
-                    <div v-for="i in c_items" :key="i.id">
-                        댓글내용:{{i.body}}
-                  </v-flex>
-                 </v-layout>
+                     <v-card-actions>
+                      <v-btn flat color="orange" @click="saveComment">POST</v-btn>
+                     </v-card-actions>
+                </v-layout>
+                <v-card-text>
+                 <v-card-subtitle>Comment</v-card-subtitle>
+
+                <v-data-table 
+                    :items="c_items"
+                    class="elevation-1"
+                    hide-actions
+                    hide-headers >
+                    <template slot="items" slot-scope="props">
+                        <td class="text-xs-center">{{props.item.body}}</td>
+                        <td class="text-xs-right">{{props.item.author}}</td>
+                        <td class="text-xs-right">{{props.item.createdAt}}</td>
+                    </template>
+                </v-data-table>
+                </v-card-text>
+             </v-card>
         </v-container>
     
     </div>
@@ -56,7 +58,7 @@
                 out_items:'',
                 comment:'',
                 c_items:'',
-                date: new Date().toISOString().substr(0, 7),
+                date: new Date().toISOString().substr(0, 7),    
             }
         },
         methods:{
@@ -82,6 +84,7 @@
                 this.$http.post(`/board/post/${this.$route.params.postNumber}/comment`,comments).then(res=>{
                      alert("댓글이 저장되었습니다!")
                      console.log(res.data)
+                        this.getComment()
                 }).catch((err)=>{console.log(err)})
              },
              getComment(){
