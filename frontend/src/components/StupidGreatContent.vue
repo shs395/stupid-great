@@ -70,22 +70,6 @@ export default {
             showbtn : ''
         }
     },
-    
-    computed : {
-        showbtn (){
-            this.$http.get(`/stupid_great/${this.$session.get('id')}`)
-            .then((result) => {
-                this.readpost = result.data;
-                console.log(result.data);
-                for(var i = 1; i<= this.readpost.length; i++){
-                    if(this.post.PostNumber == this.readpost[i]){
-                        return false;
-                    }
-                }
-                return true;
-            });
-        }
-    },
 
     methods: {
             
@@ -102,23 +86,24 @@ export default {
             });
 
             alert('stupid를 선택하셨습니다!');
-
-            for(var i = 1; i<= this.readpost.length; i++){
-                if(this.post.PostNumber == this.readpost[i]){
-                    return this.showbtn = false;
-                }
-            }
-            return this.showbtn = true;
+            this.showbtn = false;
 
         },
+
         OnClickGreat (){
-            this.$http.post('/stupid_great/add/great', {postnum: this.sgpost.PostNumber, userid: this.$session.get('id')})
+            this.$http.post('/stupid_great/add/great', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
-                console.log(result);
-                this.post = result.data;
-                console.log(this.post);
+                console.log(result.data);
             });
+
+            this.$http.get(`/stupid_great/${this.$session.get('id')}`)
+            .then((result) => {
+                console.log(result.data);
+                this.readpost = result.data;
+            });
+
             alert('great를 선택하셨습니다!');
+            this.showbtn = false;
         }
     }
 }
