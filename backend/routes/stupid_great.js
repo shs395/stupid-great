@@ -40,18 +40,17 @@ router.post('/add/stupid', function(req, res){
 });
 
 router.post('/add/great', function(req, res){
-    StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, sgpost){
+    StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, post){
         if(err) console.log(err);
-        var g_count = sgpost.great;
-        g_count++;
-        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {great: g_count},function(err, post){
+
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {stupid: post.great++},function(err){
             if(err) console.log(err);
         });
-        userModel.findOneAndUpdate({id: req.body.userid},{$push : {sgSelect : sgpost.PostNumber}}, function(err, user){
+        userModel.findOneAndUpdate({id: req.body.userid},{ "$push" : {"selectSG" : post.PostNumber}}, function(err, user){
             if(err) console.log(err);
-            res.send(user)
+            res.send(user.selectSG);
         });
-    })
+    });
 });
 
 router.post('/create', function(req, res){
