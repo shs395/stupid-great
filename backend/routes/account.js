@@ -42,6 +42,35 @@ router.post('/create', async function(req,res){
   })
 })
 
+//반복 가계부 작성
+// router.post('/create/repeat', async function(req,res){
+//   const user = await userModel.findOne({id:req.body.id})
+//   accountModel.create(
+//   {
+//     id: req.body.id, 
+//     year: req.body.year, 
+//     month: req.body.month,
+//     day: req.body.day,
+//     is:req.body.is, 
+//     price: req.body.price, 
+//     name: req.body.name, 
+//     rate: req.body.rate,
+//     category: req.body.category,
+
+//     sex : user.sex,
+//     age: user.age,
+//     job : user.job
+//   }, function(err, account){
+//     if(err) {
+//       console.log(err)
+//       res.send('create fail')
+//     }
+//     else{
+//       res.send('create')
+//     }
+//   })
+// })
+
 //가계부 수정
 router.post('/change', async function(req,res){
   accountModel.findOneAndUpdate(
