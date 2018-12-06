@@ -181,7 +181,8 @@
         //타인 지출
         ospend : [0,0,0,0,0,0,0,0,0,0,0,0,0],
         
-        isSimilar : true
+        isSimilar : true,
+        isMe : 0
       }
     },
     methods:{
@@ -210,6 +211,8 @@
         this.viewJob= '',
         this.viewYear= '',
         this.viewMonth= ''
+
+        this.isMe = 0
       },
       searchProcess: function(){ 
         //변수들 초기화 해주기  
@@ -242,6 +245,7 @@
           //12월 4일 수정 코드
            while(i < response.body.length - 1){
             if(response.body[i].id === this.$session.get('id')){
+              this.isMe += 1
               if(response.body[i].is==="수입"){
                 this.incomeMe += response.body[i].price
                 switch (response.body[i].category){
@@ -384,9 +388,14 @@
             }
             i++ // while문 끝
           }
-
+          if(this.isMe === 0){
+            //내가 아예 없는  경우
+            this.countOthers = response.body[response.body.length-1].length
+          }else{
+            //내가 있는 경우
+            this.countOthers = response.body[response.body.length-1].length - 1
+          }
           //다른 사람 수 구하기 (-1 해주는 이유 => 나 자신 빼주려고 )
-          this.countOthers = response.body[response.body.length-1].length - 1
           //다른 사람 수입 평균 구하기
           this.incomeOthers = Math.floor(this.incomeOthers / this.countOthers)
           //다른 사람 지출 평균 구하기
@@ -435,10 +444,9 @@
         var currentTime = new Date()
         var month = currentTime.getMonth() + 1
         var year = currentTime.getFullYear()
-        // this.selectedMonth = month
-
+        
         //현재 년,월과 나와 같은 정보를 가진 사람의 데이터 값으로 초기화 해줌
-        this.selectedMonth = 11
+        this.selectedMonth = month
         this.selectedYear = year
         this.selectedSex.push(response.data.sex)
         this.selectedStartAge = response.data.age
