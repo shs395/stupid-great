@@ -40,7 +40,7 @@
                         분류: {{data.is}}
                       </v-flex>
                       <v-flex xs12>
-                        <v-text-field label="금액" type="number" min=0 required v-model="addPrice" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
+                        <v-text-field label="금액" type="number" min="0" required v-model="addPrice" :rules="[v => v>0 || '가격을 작성해 주세요']"></v-text-field>
                       </v-flex>
                       <v-flex xs12>
                         <v-text-field label="이름" type="string" required v-model="addName" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
@@ -66,13 +66,132 @@
                         </span>
                       </v-flex>
                       <v-flex xs12>
-                        <v-rating v-model="addRate" :rules="[v => !!v || '평가를 해주세요']"></v-rating>
+                      <v-checkbox
+                        :label="`반복 주기 `+isChecked"
+                        v-model="checkbox"
+                      ></v-checkbox>
+                      </v-flex>
+                      <v-flex xs6 v-if="checkbox==true">
+                        <v-select
+                          :items="s_states"
+                          v-model="s_t"
+                          :menu-props="{ maxHeight: '400' }"
+                          label="주기"
+                          hint="주기를 선택하세요"
+                          persistent-hint
+                          :rules="[v => !!v || '주기를 지정해 주세요']" 
+                        ></v-select>
+                      </v-flex>
+                      <v-flex xs6 v-if="s_t=='매주'">
+                        <v-select
+                          :items="w_states"
+                          v-model="s_d"
+                          :menu-props="{ maxHeight: '400' }"
+                          label="요일"
+                          multiple
+                          hint="요일을 선택하세요"
+                          persistent-hint
+                          :rules="[w_s => !!w_s.length>=1 || '하나 이상의 요일을 지정해 주세요']" 
+                        ></v-select>
+                      </v-flex>
+                      <v-flex xs6 v-if="s_t=='매월'">
+                        <v-text-field 
+                          label="날짜" 
+                          type="number" 
+                          min="1"
+                          max="31" 
+                          required 
+                          v-model="s_d" 
+                          :rules="[v => v>=1 && v<=31 || '날짜를 1~31 사이로 선택해 주세요']"   
+                      ></v-text-field>
+                      </v-flex>
+                      <v-flex xs6 v-if="s_t=='매년'">
+                        <v-menu
+                          :close-on-content-click="ture"
+                          v-model="menu1"
+                          :nudge-right="40"
+                          lazy
+                          transition="scale-transition"
+                          offset-y
+                          full-width
+                          min-width="100px"
+                        >
+                          <v-text-field
+                            slot="activator"
+                            v-model="s_d"
+                            label="start day"
+                            prepend-icon="event"
+                            readonly
+                            :rules="[v => !!v || '날짜를 지정해 주세요']"  
+                          ></v-text-field>
+                          <v-date-picker v-model="y_s" @input="menu1 = false" @change="change"></v-date-picker>
+                      </v-flex>
+                      <v-flex xs6 v-if="s_t=='직접지정'">
+                        <v-text-field 
+                          label="일 간격" 
+                          type="number" 
+                          min="1"
+                          required 
+                          v-model="s_d" 
+                          :rules="[v => s_s>0 || '일 간격을 1이상으로 지정해 주세요']"    
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex xs6 v-if="s_t!='매주'&&s_t!='매월'&&s_t!='매년'&&s_t!='직접 지정'">
+                      </v-flex>
+                        <v-flex xs6 v-if="checkbox==true">
+                          <v-menu
+                            :close-on-content-click="ture"
+                            v-model="menu1"
+                            :nudge-right="40"
+                            lazy
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            min-width="100px"
+                          >
+                            <v-text-field
+                              slot="activator"
+                              v-model="s_select"
+                              label="start day"
+                              prepend-icon="event"
+                              readonly
+                              :rules="[v => !!v || '시작 날짜를 지정해 주세요']"  
+                            ></v-text-field>
+                            <v-date-picker v-model="s_select" @input="menu1 = false" @change="change"></v-date-picker>
+                          </v-menu>
+                        </v-flex>
+                        
+                        <v-flex xs6 v-if="checkbox==true">
+                          <v-menu
+                            :close-on-content-click="ture"
+                            v-model="menu2"
+                            :nudge-right="40"
+                            lazy
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            min-width="100px"
+                          >
+                            <v-text-field
+                              slot="activator"
+                              v-model="e_select"
+                              label="end day"
+                              prepend-icon="event"
+                              readonly
+                              :rules="[v => !!v || '끝 날짜를 지정해 주세요']"  
+                            ></v-text-field>
+                            <v-date-picker v-model="e_select" @input="menu2 = false" :min = "s_select" @change="change"></v-date-picker>    
+                          </v-menu>
+                        </v-flex>
+                      <!-- </v-container> -->
+                      <v-flex xs12>
+                        <v-rating v-model="addRate"></v-rating>
                       </v-flex>
                     </v-layout>
                   </v-container>
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
+                  <v-btn color="blue darken-1" flat @click="dialog = false, reset">Close</v-btn>
                   <v-btn color="blue darken-1" flat  v-on:click="add">Save</v-btn>
                 </v-card-actions>
               </v-form>
@@ -94,29 +213,65 @@ import AccountComp from "../components/AccountComp";
     methods:{
       add:async function(){
         if(this.$refs.form.validate()){
-          this.$http.post('/account/create', {
-            year: this.data.y,
-            month: this.data.m,
-            day: this.data.d,
-            id: this.$session.get('id'),
-            is: this.data.is,
-            price: this.addPrice,
-            name:this.addName,
-            category: this.addCategory,
-            rate: this.addRate
-          })
-          .then((result)=>{
-            if(result.data=='create'){
-              this.dialog=false
-              this.$refs.form.reset()
-              this.addRate=0
-              alert('추가되었습니다')
+          if(this.checkbox==false){
+            this.$http.post('/account/create', {
+              year: this.data.y,
+              month: this.data.m,
+              day: this.data.d,
+              id: this.$session.get('id'),
+              is: this.data.is,
+              price: this.addPrice,
+              name:this.addName,
+              category: this.addCategory,
+              rate: this.addRate
+            })
+            .then((result)=>{
+              if(result.data=='create'){
+                this.dialog=false
+                this.$refs.form.reset()
+                this.addRate=0
+                alert('추가되었습니다')
+              }
+              this.get_accounts();
+            })
+            .catch((err)=>{
+              console.log(err)
+            })
+          }
+          else{
+            if(this.e_select<this.s_select){
+              alert('기간을 다시 설정해 주세요');
+              return;
             }
-            this.get_accounts();
-          })
-          .catch((err)=>{
-            console.log(err)
-          })
+            alert(this.s_d)
+            // this.$http.post('/account/create/repeat/', {
+            //   year: this.data.y,
+            //   month: this.data.m,
+            //   day: this.data.d,
+            //   id: this.$session.get('id'),
+            //   is: this.data.is,
+            //   price: this.addPrice,
+            //   name:this.addName,
+            //   category: this.addCategory,
+            //   rate: this.addRate,
+            //   r_type:this.s_t,
+            //   r_data:this.s_d,
+            //   r_start:this.s_select,
+            //   r_end:this.e_select
+            // })
+            // .then((result)=>{
+            //   if(result.data=='create'){
+            //     this.dialog=false
+            //     this.$refs.form.reset()
+            //     this.addRate=0
+            //     alert('추가되었습니다')
+            //   }
+            //   this.get_accounts();
+            // })
+            // .catch((err)=>{
+            //   console.log(err)
+            // })
+          }
         }
       },
       reset(){
@@ -124,15 +279,11 @@ import AccountComp from "../components/AccountComp";
         this.addRate=0
       },
       addbtn:function(){
-        if(this.year=='xxxx'){
-          alert('날짜를 선택해 주세요');
-          this.dialog=false;
-        }
-        else this.dialog=true;
+          this.dialog=true;
       },
       get_accounts:function(){
-        console.log('http://localhost:3000/account/list/'+this.$session.get('id')+'/'+this.data.selectedDate+'/'+this.data.is)
-          this.$http.get( 'http://localhost:3000/account/list/'+this.$session.get('id')+'/'+this.data.selectedDate+'/'+this.data.is)
+        console.log('/account/list/'+this.$session.get('id')+'/'+this.data.selectedDate+'/'+this.data.is)
+          this.$http.get( '/account/list/'+this.$session.get('id')+'/'+this.data.selectedDate+'/'+this.data.is)
           .then((result)=>{
             // alert('here')
             this.accounts = result.data
@@ -141,26 +292,36 @@ import AccountComp from "../components/AccountComp";
           .catch((err)=>{
               console.log(err)
           })
-      },
+      }
     },
     data: function(){
       return{
-        // year:parseInt(this.data.selectedDate.slice(0,4)),
-        // month:parseInt(this.data.selectedDate.slice(5,7)),
-        // day:parseInt(this.data.selectedDate.slice(8,10)),
-        // year:this.data.y,
-        // month:this.data.m,
-        // day:this.data.d,
+        s_t:null,
+        s_d:null,
+        w_s: [],
+        m_s:0,
+        y_s:null,
+        s_s:0,
+        s_select:null,
+        e_select:null,
+
+        s_states: [
+          '매일', '매주', '매월', '매년', '직접지정'
+        ],
+        w_states: [
+          '월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'
+        ],
+        checkbox: false,
+        isChecked:'안함',
+        startDate: null,
+        endDate: null,
         
         addRate:null,
         addName:null,
         addCategory:null,
         addPrice:null,
         dialog: false,
-        accounts:[]
-        // year: parseInt(this.data.date.slice(0,4)),
-        // month: parseInt(this.data.date.slice(5,7)),
-        // day: parseInt(this.data.date.slice(8,10))
+        accounts:[],
       }
     },
     components:{
@@ -170,7 +331,12 @@ import AccountComp from "../components/AccountComp";
       this.get_accounts()
     },
     watch:{
-      data : function(){this.get_accounts()}
+      data : function(){this.get_accounts()},
+      checkbox : function(){
+        if(this.checkbox==true) 
+          this.isChecked='함'
+        else
+          this.isChecked='안함'}
     },
     // mounted:function(){
     //   if(this.data.selectedDate==null){

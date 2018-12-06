@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "chart.js": "^2.7.3",
+    "date-fns": "^1.29.0",
     "hchs-vue-charts": "^1.2.8",
     "v-calendar": "^0.9.7",
     "vue": "^2.5.2",
@@ -20,6 +21,7 @@
     "vue-router": "^3.0.1",
     "vue-session": "^1.0.0",
     "vuetify": "^1.0.0",
+    "vuetify-daterange-picker": "^2.6.1",
     "vuetify-upload-button": "^1.2.0"
   },
   "devDependencies": {

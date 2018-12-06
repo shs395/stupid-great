@@ -139,7 +139,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #random{
     background: url(../assets/question-bg.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
