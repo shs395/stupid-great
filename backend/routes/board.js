@@ -8,6 +8,9 @@ const boardModel = require('../db/models/board')
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json())
 
+const category_in=['월급', '부수입', '용돈', '상여', '금융소득', '기타']
+const category_out=['식비', '교통/차량', '문화생활', '마트/편의점', '패션/미용', '생활용품', '주거/통신', '건강', '교육', '경조사/회비', '가족', '기타']
+
 //조회수기능 추가하기
 
 //게시글 작성
@@ -15,6 +18,7 @@ router.post('/post',async(req,res,next)=>{
     var _year=parseInt(req.body.date.slice(0,4))
     var _month=parseInt(req.body.date.slice(5,7))
 
+    //지출,수입 데이터를 나눠서 저장
     boardModel.create({
         writer:req.body.id,
         title:req.body.title,
@@ -40,7 +44,7 @@ router.post('/post',async(req,res,next)=>{
                 console.log(result1)
                 result1.save(function(err,data){
                     if(!err) 
-                    console.log('1'+data.in_account_info[0])
+                    
                     res.send(data[0])})
                 })
             })
@@ -76,6 +80,11 @@ router.get('/:postNumber/:writer',async(req,res,next)=>{
 router.get('/in/:postNumber/:writer',(req,res,next)=>{
     const _postNumber=req.params.postNumber;
     const _writer=req.params.writer;
+    var price_in=[]
+
+    for(var i=0; i<category_in.length; i++){
+        price_in.push(0)
+    }
 
     boardModel.find({
         postNumber:_postNumber,
@@ -83,10 +92,19 @@ router.get('/in/:postNumber/:writer',(req,res,next)=>{
     },function(err,result){
         if(err) console.log(err)
 
-        console.log('수입데이터')
-        console.log(result[0].in_account_info[0])
-        res.json(result[0].in_account_info[0])
 
+    var r_in=result[0].in_account_info[0]
+
+    for(var i=0; i<category_in.length; i++){
+        for(var j=0; j<r_in.length; j++){
+            if(category_in[i]==r_in[j].category)
+                price_in[i]+=r_in[j].price
+                console.log(price_in)
+         }
+    }
+    
+    console.log("수입 가격"+price_in)
+    res.json(price_in)    
     })
 
 })
@@ -95,31 +113,32 @@ router.get('/in/:postNumber/:writer',(req,res,next)=>{
 router.get('/out/:postNumber/:writer',(req,res,next)=>{
     const _postNumber=req.params.postNumber;
     const _writer=req.params.writer;
+    var price_out=[]
+
+    //지출 price를 받을 배열 초기화
+    for(var i=0; i<category_out.length; i++){
+        price_out.push(0)
+    }
     
-    // boardModel.find(
-    //     {  postNumber:_postNumber,
-    //         writer:_writer ,
-    //         account_info:{$elemMatch:{$elemMatch:{is:'지출'}}}
-    //     },
-    //     {
-    //         postNumber:0,
-    //         writer:0,
-    //     }  
-    //   ,function(err,result){
-    //         if(err) console.log(err)
-
-          
-    //         res.send(result)})
-
     boardModel.find({
         postNumber:_postNumber,
         writer:_writer
     },function(err,result){
         if(err) console.log(err)
 
-        console.log('지출데이터')
-        console.log(result[0].out_account_info[0])
-        res.json(result[0].out_account_info[0])
+        var r_out=result[0].out_account_info[0];
+
+        //카테고리로 비교하여 price_out에 각각 값 저장
+        for(var i=0; i<category_out.length; i++){
+            for(var j=0; j<r_out.length; j++){
+                if(category_out[i]==r_out[j].category)
+                    price_out[i]+=r_out[j].price
+                    console.log(price_out)
+             }
+        }
+        
+        console.log("지출 가격"+price_out)
+        res.json(price_out)
 
     })
 })

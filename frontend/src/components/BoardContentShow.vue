@@ -8,15 +8,16 @@
                  <v-layout row>
                     <!-- 파이차트추가-수입 -->
                     <v-flex xs6 pa-3>
-                      <div v-for="i in in_items" :key="i.id">
+                      <!-- <div v-for="i in in_items" :key="i.id">
                          <v-card-text>{{i.is}}{{i.year}}{{i.month}}{{i.price}}{{i.name}}{{i.category}}</v-card-text>
                       </div>
-                    </v-flex>   
+                    </v-flex>    -->
                     <!-- 파이차트추가-지출  -->
-                     <v-flex xs6 pa-3>
+                     <!-- <v-flex xs6 pa-3>
                       <div v-for="i in out_items" :key="i.id">
                          <v-card-text>{{i.is}}{{i.year}}{{i.month}}{{i.price}}{{i.name}}{{i.category}}</v-card-text>
-                      </div>
+                      </div> -->
+                      <board-chart></board-chart>
                     </v-flex>   
                  </v-layout>
                 <!-- <v-layout row>
@@ -64,7 +65,7 @@
                     <template slot="items" slot-scope="props">
                 
                         <td>
-                            <p><strong>{{props.item.author}}</strong><span color="gray"> |  {{props.item.createdAt}}</span><p>
+                            <p><strong>{{props.item.author}}</strong><v-spacer/><span color="gray">   |   {{props.item.createdAt}}</span><p>
                             <p>{{props.item.body}}</p>
                         </td>
                   
@@ -82,7 +83,11 @@
 </template>
 
 <script>
+import BoardChart from "../components/BoardChart.vue"
     export default{
+        components:{
+            BoardChart
+        },
         data: function(){
             return{
                 post_items:'',
