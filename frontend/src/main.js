@@ -9,6 +9,7 @@ import axios from 'axios'
 import "chart.js"
 import "hchs-vue-charts"
 
+
 Vue.prototype.$http = Vue.prototype.axios = axios
 
 Vue.use(Vuetify)
