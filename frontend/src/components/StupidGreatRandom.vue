@@ -24,12 +24,17 @@
               </v-layout>
               <v-divider light></v-divider>
               <v-card-actions class="pa-3">
-                    <h2 v-show="!showbtn">이미 투표를 완료하셨습니다!</h2>
-                    <center v-show="showbtn" id="center">
+                    <div v-show="!showbtn" id="voteEnd">
+                        <h2>이미 투표를 완료하셨습니다! 
+                            <span><v-btn @click="OnClickRandomSkip" color="light-blue lighten-4" id="nextbtn">다음으로 넘어가기</v-btn>
+                            </span>
+                        </h2>
+                    </div>
+                    <div v-show="showbtn" id="voteStart">
                         <v-btn @click="OnClickRandomStupid" class="sg-random-btns" id="random-stupid-btn" color="red">스튜핏!</v-btn>
                         <v-btn @click="OnClickRandomSkip" class="sg-random-btns" id="skip-btn" color="grey darken-4">SKIP</v-btn>
                         <v-btn @click="OnClickRandomGreat" class="sg-random-btns" id="random-great-btn" color="blue">그레잇!</v-btn>
-                    </center>
+                    </div>
               </v-card-actions>
             </v-card>
 
@@ -56,18 +61,8 @@ export default {
             posts: [],
             post : {},
             readpost: [],
-            randomImagePath : '',          
-        }
-    },
-    computed: {
-        showbtn (){
-
-            for(var i = 1; i<= this.readpost.length; i++){
-                if(this.posts.PostNumber == this.readpost[i]){
-                    return false;
-                }
-            }
-            return true;
+            randomImagePath : '',
+            showbtn: ''          
         }
     },
 
@@ -75,22 +70,37 @@ export default {
         OnClickRandomStupid (){
             this.$http.post('/stupid_great/add/stupid', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
-                this.readpost = result.data.selectSG;
-                console.log(this.readpost);
-
+                console.log(result.data);
             });
+
+            this.$http.get(`/stupid_great/${this.$session.get('id')}`)
+            .then((result) => {
+                console.log(result.data);
+                this.readpost = result.data;
+            });
+
             alert('stupid를 선택하셨습니다!');
-            return location.href="/stupid-great-community" 
+            this.OnClickRandomSkip();
+
         },
+
         OnClickRandomGreat (){
             this.$http.post('/stupid_great/add/great', {postnum: this.post.PostNumber, userid: this.$session.get('id')})
             .then((result) => {
-                this.readpost = result.data.selectSG;
-                console.log(this.readpost);
+                console.log(result.data);
             });
+
+            this.$http.get(`/stupid_great/${this.$session.get('id')}`)
+            .then((result) => {
+                console.log(result.data);
+                this.readpost = result.data;
+            });
+
             alert('great를 선택하셨습니다!');
-            return location.href="/stupid-great-community" 
+
+            this.OnClickRandomSkip();
         },
+        
         OnClickRandomSkip (){
 
             this.$http.get('/stupid_great')
@@ -111,13 +121,25 @@ export default {
                     }
                 }
 
+                this.$http.get(`/stupid_great/${this.$session.get('id')}`)
+                .then((result) => {
+                    this.readpost = result.data;
+                    console.log(result.data);
+                    for(var i = 1; i<= this.readpost.length; i++){
+                        if(this.post.PostNumber == this.readpost[i]){
+                            return this.showbtn = false;
+                        }
+                    }
+                    return this.showbtn = true;
+                });
+
             });   
         }
     }
 }
 </script>
 
-<style>
+<style scoped>
 #random{
     background: url(../assets/question-bg.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -149,8 +171,12 @@ export default {
     font-size:50px;
 }
 
-#center{
+#voteEnd{
     margin-left:157px;
+}
+
+#voteStart{
+    margin-left:400px;
 }
 
 .sg-random-btns{
@@ -179,11 +205,22 @@ export default {
     padding-right: 70px;   
 }
 
+#nextbtn{
+    size: 100px;
+}
+
 #random #addbtn{
     margin: 0 0 40px 40px;
 }
+
 #add-btn{
     margin-top:60px;
     margin-left: 120px;
+}
+
+h2{
+    text-align: center;
+    color: white;
+    size: 30px;
 }
 </style>
