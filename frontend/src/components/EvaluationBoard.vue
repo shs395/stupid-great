@@ -67,15 +67,6 @@ export default {
         }
     },
     methods:{
-        // readData(){
-        //     alert('게시글 페이지로 이동합니다!')
-        //      return location.href="/boardshow";        
-        //}
-    //     readData(a){
-    //          if (event.target.classList.contains('btn__content')) return;
-    //          alert(a.title+'게시글로 이동합니다');
-    //          this.$router.push('/boardshow')
-    // }
     },
       created(){
            this.$http.get('/board/list').then(response=>{

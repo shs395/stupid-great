@@ -72,7 +72,11 @@ router.get('/:postNumber/:writer',async(req,res,next)=>{
         writer:_writer
     })
    
+    console.log('게시글 내용'+f[0])
+
     res.send(f[0])
+
+  
  
 })
 
@@ -99,12 +103,12 @@ router.get('/in/:postNumber/:writer',(req,res,next)=>{
         for(var j=0; j<r_in.length; j++){
             if(category_in[i]==r_in[j].category)
                 price_in[i]+=r_in[j].price
-                console.log(price_in)
+               
          }
     }
     
     console.log("수입 가격"+price_in)
-    res.json(price_in)    
+    res.send(price_in)    
     })
 
 })
@@ -133,12 +137,12 @@ router.get('/out/:postNumber/:writer',(req,res,next)=>{
             for(var j=0; j<r_out.length; j++){
                 if(category_out[i]==r_out[j].category)
                     price_out[i]+=r_out[j].price
-                    console.log(price_out)
+                   
              }
         }
         
         console.log("지출 가격"+price_out)
-        res.json(price_out)
+        res.send(price_out)
 
     })
 })

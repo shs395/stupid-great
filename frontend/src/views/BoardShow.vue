@@ -1,12 +1,14 @@
 <template>
     <div>
         <toolbar></toolbar>
+        <v-container fluid>
         <v-card>
-            <v-card-title>게시글 보기</v-card-title>
             <board-content-show></board-content-show>
-            <!-- <router-view></router-view> -->
+
+            <board-content-comment></board-content-comment>
             <v-btn @click="viewlist" flat color="orange">목록 보기</v-btn>
         </v-card>
+        </v-container>
        <!-- 목록보기 필요 -->
     </div>
 </template>
@@ -15,23 +17,20 @@
 
 import toolbar from '../components/toolbar'
 import BoardContentShow from '../components/BoardContentShow'
+import BoardContentComment from '../components/BoardContentComment'
 
 export default{
     name: 'Evaluation',
     components:{
         toolbar,
-        BoardContentShow
+        BoardContentShow,
+        BoardContentComment
     },
-    data(){
-        return {
-        
-        }
-    },
-    methods:{
+    methods: {
         viewlist(){
             this.$router.push('/evaluation')
-        }
-    }
+        },
+    },
 }
 </script>
 

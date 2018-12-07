@@ -22,9 +22,12 @@
                             </v-flex>
                             <v-spacer/>
                             <v-flex px-3>
-                                <v-card-actions>
+                                <!-- <v-card-actions>
                                     <v-btn  @click="saveAccount" flat color="orange"> <v-icon>edit</v-icon>저장된 가계부 불러오기</v-btn> 
-                                </v-card-actions>
+                                </v-card-actions> -->
+                                  <v-card-actions>
+                            <v-btn flat color="orange" v-on:click="savepost">POST</v-btn>
+                        </v-card-actions>
                             </v-flex>
                         </v-layout>
                         <v-flex pa-3 d-flex>
@@ -32,9 +35,7 @@
                     
                             <v-textarea name="body" background-color="white" box label="Comment" v-model="body"></v-textarea>
                         </v-flex>
-                        <v-card-actions>
-                            <v-btn flat color="orange" v-on:click="savepost">POST</v-btn>
-                        </v-card-actions>
+                      
                 </v-card>   
             </v-container>
             <p>{{date}}</p>
@@ -78,6 +79,7 @@ export default {
         }
     },
     mounted() {
+        alert("년/월을 선택하면 해당 가계부 데이터를 불러옵니다!")
          this.$http.get('/board/list').then(response=>
          console.log(response.data))
     }
