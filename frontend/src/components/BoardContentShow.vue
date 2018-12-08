@@ -3,10 +3,15 @@
         <v-container fluid justify-center>
                 <h2 class="text-xs-center">Title : {{post_items.title}}</h2>
                      <v-divider/>
-                    <h3 class="text-xs-center">{{post_items.content}}</h3>
+                    <h3 class="text-xs-center"><br>Content : {{post_items.content}}</h3>
+                    <v-flex xs3>
+                        <p>Author : {{post_items.writer}}</p>
+                        <p>CreatedAt : {{created_time1}} {{created_time2}}</p>
+                    </v-flex>
                 <v-layout row>
                     <v-flex xs6>
-                    <v-card-text><h3>수입</h3></v-card-text>
+                    <v-card>
+                    <v-card-text><h4>{{year}}년 {{month}}월의 수입</h4></v-card-text>
                     <v-divider></v-divider>
                         <v-expansion-panel popout>
                             <v-expansion-panel-content>
@@ -59,10 +64,12 @@
                             </v-expansion-panel-content>
                              
                         </v-expansion-panel>
+                    </v-card>
                     </v-flex>
 
                        <v-flex xs6>
-                    <v-card-text><h3>지출</h3></v-card-text>
+                        <v-card>
+                    <v-card-text><h4>{{year}}년 {{month}}월의 지출</h4></v-card-text>
                     <v-divider></v-divider>
                         <v-expansion-panel popout>
                             <v-expansion-panel-content>
@@ -162,6 +169,7 @@
                                 </v-card>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
+                        </v-card>
                     </v-flex>
                 </v-layout>
         </v-container>
@@ -197,6 +205,10 @@
                 out_data10:[],
                 out_data11:[],
                 out_data12:[],
+                year:'',
+                month:'',
+                created_time1:'',
+                created_time2:'',
                 
                 date: new Date().toISOString().substr(0, 7),   
                 labels_in:['월급', '부수입', '용돈', '상여', '금융소득', '기타'],
@@ -207,10 +219,13 @@
         methods:{
             get(){
                 this.$http.get(`/board/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
-                    this.post_items=response.data
+                    this.post_items=response.data,
                     this.in_info_items=this.post_items.in_account_info[0]
                     this.out_info_items=this.post_items.out_account_info[0]
-                  console.log(this.out_info_items.length)
+                    this.year=this.out_info_items[0].year
+                    this.month=this.out_info_items[0].month
+                    this.created_time1=this.post_items.createdAt.slice(0,10)
+                    this.created_time2=this.post_items.createdAt.slice(11,19)
 
                        for(var j=0; j<this.in_info_items.length; j++){
                         if(this.in_info_items[j].category=="월급"){
