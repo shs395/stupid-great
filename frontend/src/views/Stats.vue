@@ -182,7 +182,6 @@
         ospend : [0,0,0,0,0,0,0,0,0,0,0,0,0],
         
         isSimilar : true,
-        isMe : 0
       }
     },
     methods:{
@@ -214,39 +213,27 @@
 
         this.isMe = 0
       },
-      searchProcess: function(){ 
-        //변수들 초기화 해주기  
-        this.resetValue()
-
-        //12월 4일 추가 코드
+      setViewValue : function(){
         this.viewStartAge= this.selectedStartAge,
         this.viewEndAge= this.selectedEndAge,
         this.viewSex= this.selectedSex,
         this.viewJob= this.selectedJob,
         this.viewYear= this.selectedYear,
         this.viewMonth= this.selectedMonth
-
-        //검색 조건 맞나 확인
-        // alert(this.selectedAge + " " + this.selectedJob + " " + this.selectedSex + " " + this.selectedYear + " " + this.selectedMonth + " 으로 검색하기") 
-        //조건 검색하러 요청
-        this.$http.post('/stats/conditional-search',
+      },
+      searchProcessMe : function(){
+        var findId = this.$session.get('id')
+        this.$http.post('/stats/me-search',
         {
-          startAge : this.selectedStartAge,
-          endAge : this.selectedEndAge,
-          job : this.selectedJob,
-          sex : this.selectedSex,
+          id : findId,
           year : this.selectedYear,
           month : this.selectedMonth,
         }).then((response)=>{
+          //나에 대한 것들
           console.log(response.body)
-          var i = 0; 
-          //베열의 마지막에 찾은 사람의 개수를 넣어주었기 때문에 배열 개수 -1 해줌
-          //검색조건에 맞는 것 갖고와서 나랑 타인을 나눠주는 while 문
-          //12월 4일 수정 코드
-           while(i < response.body.length - 1){
-            if(response.body[i].id === this.$session.get('id')){
-              this.isMe += 1
-              if(response.body[i].is==="수입"){
+          var i = 0
+          while(i < response.body.length){
+            if(response.body[i].is==="수입"){
                 this.incomeMe += response.body[i].price
                 switch (response.body[i].category){
                   case "월급" :
@@ -313,10 +300,44 @@
                   alert("switch 2 error")
                 }
               }else{
-                alert("spendMe / incomdeMe 분류 error")
+                alert("spendMe / incomeMe 분류 error")
               }
-            }else{
-              if(response.body[i].is==="수입"){
+            i++
+          }
+          
+        })
+      },
+      searchProcessOthers : function(){
+        var findId = this.$session.get('id')
+        if(this.selectedStartAge > this.selectedEndAge){
+          alert("올바른 범위의 나이를 입력해주세요")
+        }else if(this.selectedSex.length === 0){
+          alert("성별을 선택해주세요")
+        }else if(this.selectedJob.length === 0){
+          alert("직업을 선택해주세요")
+        }else{
+          alert("나이 : " + this.selectedStartAge + "~" + this.selectedEndAge + " 세\n직업 : " + this.selectedJob + "\n성별 : " + this.selectedSex + "\n" + this.selectedYear + "년 " + this.selectedMonth + "월 으로 검색합니다") 
+        }
+        this.$http.post('/stats/others-search',
+        {
+          startAge : this.selectedStartAge,
+          endAge : this.selectedEndAge,
+          job : this.selectedJob,
+          sex : this.selectedSex,
+          year : this.selectedYear,
+          month : this.selectedMonth,
+          id : findId
+        }).then((response)=>{
+          console.log(response.body)
+          if(response.body.length === 1){
+            alert("조건에 맞는 다른 사람의 데이터가 없습니다.")
+          }
+          var i = 0; 
+          //베열의 마지막에 찾은 사람의 개수를 넣어주었기 때문에 배열 개수 -1 해줌
+          //검색조건에 맞는 것 갖고와서 나랑 타인을 나눠주는 while 문
+          //12월 4일 수정 코드
+          while(i < response.body.length - 1){
+            if(response.body[i].is==="수입"){
                 this.incomeOthers += response.body[i].price
                 switch (response.body[i].category){
                   case "월급" :
@@ -385,49 +406,53 @@
               }else{
                 alert("spendOthers / incomdeOthers 분류 error")
               }
-            }
-            i++ // while문 끝
+              i++ // while문 끝
           }
-          if(this.isMe === 0){
-            //내가 아예 없는  경우
-            this.countOthers = response.body[response.body.length-1].length
-          }else{
-            //내가 있는 경우
-            this.countOthers = response.body[response.body.length-1].length - 1
-          }
-          //다른 사람 수 구하기 (-1 해주는 이유 => 나 자신 빼주려고 )
+          this.countOthers = response.body[response.body.length-1].length
+
           //다른 사람 수입 평균 구하기
-          this.incomeOthers = Math.floor(this.incomeOthers / this.countOthers)
-          //다른 사람 지출 평균 구하기
-          this.spendOthers = Math.floor(this.spendOthers / this.countOthers)
+        this.incomeOthers = Math.floor(this.incomeOthers / this.countOthers)
+        //다른 사람 지출 평균 구하기
+        this.spendOthers = Math.floor(this.spendOthers / this.countOthers)
 
-          //0번 인덱스 => 수입 , 1번 인덱스 => 지출
-          //dataMe 채우기
-          this.dataMe.push(this.incomeMe)
-          this.dataMe.push(this.spendMe)
+        //0번 인덱스 => 수입 , 1번 인덱스 => 지출
+        //dataMe 채우기
+        this.dataMe.push(this.incomeMe)
+        this.dataMe.push(this.spendMe)
 
-          //0번 인덱스 => 수입 , 1번 인덱스 => 지출
-          //dataOthers 채우기  
-          this.dataOthers.push(this.incomeOthers)
-          this.dataOthers.push(this.spendOthers)
-          
-          //12월 4일 수정 코드
-          //수입,지출 카테고리 별로 나와 타인 데이터에 넣어줌
-          for(var i = 1; i < 7 ; i++){
-            this.oincome[i] = Math.floor(this.oincome[i] / this.countOthers)
-            this.dataMe2.push(this.income[i])
-            this.dataOthers2.push(this.oincome[i])
-          }
-          for(var i = 1; i < 13 ; i++){
-            this.ospend[i] = Math.floor(this.ospend[i] / this.countOthers)
-            this.dataMe3.push(this.spend[i])
-            this.dataOthers3.push(this.ospend[i])
-          }
-  
-          //밑에 코드 실행되는 순간 차트 렌더링
-          this.loaded = true  
-          // alert("내 수입 : " + this.incomeMe + " 내 지출 : " + this.spendMe + "\n다른 사람 수입 : " + this.incomeOthers + "다른 사람 지출 : " + this.spendOthers + "다른 사람 수 : " +  this.countOthers) 
+        //0번 인덱스 => 수입 , 1번 인덱스 => 지출
+        //dataOthers 채우기  
+        this.dataOthers.push(this.incomeOthers)
+        this.dataOthers.push(this.spendOthers)
+        
+        //12월 4일 수정 코드
+        //수입,지출 카테고리 별로 나와 타인 데이터에 넣어줌
+        for(var i = 1; i < 7 ; i++){
+          this.oincome[i] = Math.floor(this.oincome[i] / this.countOthers)
+          this.dataMe2.push(this.income[i])
+          this.dataOthers2.push(this.oincome[i])
+        }
+        for(var i = 1; i < 13 ; i++){
+          this.ospend[i] = Math.floor(this.ospend[i] / this.countOthers)
+          this.dataMe3.push(this.spend[i])
+          this.dataOthers3.push(this.ospend[i])
+        }
+
+        //밑에 코드 실행되는 순간 차트 렌더링
+        this.loaded = true  
+        // alert("내 수입 : " + this.incomeMe + " 내 지출 : " + this.spendMe + "\n다른 사람 수입 : " + this.incomeOthers + "다른 사람 지출 : " + this.spendOthers + "다른 사람 수 : " +  this.countOthers) 
         })
+      },
+
+      searchProcess: function(){ 
+        //변수들 초기화 해주기  
+        this.resetValue()
+        //헤더에 뜨게 하는 것
+        this.setViewValue()
+        //내 아이디 , 년 , 월로 검색 (항상 뜨게) 
+        this.searchProcessMe()
+        //나를 제외한 조건에 맞는 타인에 대한 검색
+        this.searchProcessOthers()
       }
     },
     mounted:function(){
@@ -453,9 +478,9 @@
         this.selectedEndAge = response.data.age
         this.selectedAge = response.data.age
         this.selectedJob.push(response.data.job)
+
         //검색
-        this.searchProcess()
-         
+        this.searchProcess()         
         })
     }
   }
