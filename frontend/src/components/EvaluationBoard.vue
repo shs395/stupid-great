@@ -16,20 +16,14 @@
                         :search="search"
                         :pagination.sync="pagination">
                      
-                         <!-- <template slot="items" slot-scope="props"> 
-                           <tr @click="readData(props.item)">
-                            <td class="text-xs-center">{{props.item.postNumber}}</td>
-                            <td class="text-xs-center">{{props.item.title}}</td>
-                            <td class="text-xs-center">{{props.item.writer}}</td>
-                            <td class="text-xs-center">{{props.item.createdAt}}</td>
-                           </tr>
-                        </template>  -->
                        <template slot="items" slot-scope="props">
                            <tr class="text-xs-center"> 
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.postNumber}}</router-link>
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.title}}</router-link>
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.writer}}</router-link>
-                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.createdAt}}</router-link>
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.createdAt.slice(0,10)}} {{props.item.createdAt.slice(11,19)}}</router-link>
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.views}}</router-link>
+                          
                            </tr>
                         </template> 
                         <v-alert slot="no-results" :value="true" color="error" icon="warning">
@@ -44,6 +38,7 @@
 </template>
 
 <script>
+
 export default {
     name:'EvaluationBoard',
 
@@ -52,7 +47,7 @@ export default {
             search: '',
             d_info:'',
             items:[],
-            selected:[],
+            selected:'',
             pagination:{
                  page:1,
                  total:5,
@@ -62,20 +57,12 @@ export default {
                 {text:"게시글번호", value:"postNumber", sortable:false, align:"center"},
                 {text:"제목", value:"title" ,sortable:false, align:"center"},
                 {text:"작성자", value:"writer", sortable:false, align:"center"},
-                {text:"작성일", value:"createdAt",sortable:false, align:"center"}
-            ],   
+                {text:"작성일", value:"createdAt",sortable:false, align:"center"},
+                {text:"조회수", value:"views", sortable:false, align:"center"}
+            ]
         }
     },
     methods:{
-        // readData(){
-        //     alert('게시글 페이지로 이동합니다!')
-        //      return location.href="/boardshow";        
-        //}
-    //     readData(a){
-    //          if (event.target.classList.contains('btn__content')) return;
-    //          alert(a.title+'게시글로 이동합니다');
-    //          this.$router.push('/boardshow')
-    // }
     },
       created(){
            this.$http.get('/board/list').then(response=>{

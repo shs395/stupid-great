@@ -15,7 +15,7 @@
           <MyPageInfo></MyPageInfo>
         </v-tab-item>
         <v-tab-item>
-            가계부 글
+          <my-post-info><my-post-info>
         </v-tab-item>
         <v-tab-item>
             stupid-great
@@ -29,11 +29,13 @@
 <script>
 import toolbar from '../components/toolbar'
 import MyPageInfo from '../components/MyPageInfo'
+import MyPostInfo from '../components/MyPostInfo'
   export default {
     name : 'mypage',
     components: {
         toolbar,
-        MyPageInfo
+        MyPageInfo,
+        MyPostInfo
     },
     data () {
       return { }
