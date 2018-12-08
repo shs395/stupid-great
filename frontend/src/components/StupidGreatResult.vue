@@ -1,5 +1,5 @@
 <template>
-    <div id="StupidGreatResult">
+    <div id="StupidGreatResult" v-show="flag">
         <v-card>
             <v-layout>
                 <v-flex xs5>
@@ -58,14 +58,16 @@ export default {
         var sum = this.result.stupid + this.result.great;
         if(sum == 0){
             this.showbar = false;
-            s_percent = '0%';
-            g_percent = '0%';
+            this.s_percent = '0%';
+            this.g_percent = '0%';
         }else{
             this.percent = (this.result.stupid/sum) * 100; 
             this.showbar = true;
             this.s_percent = (this.result.stupid/sum) * 100 + '%'
             this.g_percent = (this.result.great/sum) * 100 + '%'
         }
+        
+        this.flag = true;
     },
 
     name: 'StupidGreatResult',
@@ -74,15 +76,22 @@ export default {
     },
     data (){
         return{
+            flag : '',
             percent : Number,
             showbar : '',
             s_percent : '',
             g_percent : ''
         }
     },
-    method : {
+    methods : {
         OnClickDeleteSG (){
-
+            this.$http.post('/stupid_great/delete',{postnum : this.result.PostNumber, userid : this.$session.get('id')})
+            .then((result)=>{
+                if(result.data == 'delete'){
+                    this.flag = false;
+                    alert("등록한 Stupid Great 게시물을 삭제하셨습니다!")
+                }
+            });
         }
     }
 }
@@ -91,7 +100,6 @@ export default {
 <style <style scoped>
 #StupidGreatResult{
     width : 450px;
-    margin-left: 10px;
     margin-bottom: 10px;
 }
 </style>

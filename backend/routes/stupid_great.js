@@ -106,8 +106,14 @@ router.get('/result/:id', function(req, res){
     });
 });
 
-router.post('/delete/:id', function(req, res){
-
+router.post('/delete', function(req, res){
+    StupidGreatModel.findOneAndDelete({writer: req.body.userid, PostNumber: req.body.postnum},function(err){
+        if(err) console.log(err);
+        StupidGreatModel.find({}, function(err, posts){
+            console.log(posts);
+        })
+        res.send("delete");
+    })
 });
 
 module.exports = router;
