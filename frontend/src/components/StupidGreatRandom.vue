@@ -80,7 +80,9 @@ export default {
             });
 
             alert('stupid를 선택하셨습니다!');
-            this.OnClickRandomSkip();
+            // this.OnClickRandomSkip();
+
+            return location.href="/stupid-great-community";
 
         },
 
@@ -98,7 +100,8 @@ export default {
 
             alert('great를 선택하셨습니다!');
 
-            this.OnClickRandomSkip();
+          //  this.OnClickRandomSkip();
+          return location.href="/stupid-great-community";
         },
         
         OnClickRandomSkip (){
@@ -171,18 +174,18 @@ export default {
     font-size:50px;
 }
 
-#voteEnd{
+#voteStart{
     margin-left:157px;
 }
 
-#voteStart{
+#voteEnd{
     margin-left:400px;
 }
 
 .sg-random-btns{
-    width: 373px;
-    height:300px;
-    font-size: 70px;
+    width: 370px;
+    height:100px;
+    font-size: 60px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
