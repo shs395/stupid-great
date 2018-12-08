@@ -1,59 +1,57 @@
 <template>
-  <v-container>
-    <v-card>
-      <v-card-title>
-        <v-icon>search</v-icon>Search
-        <v-spacer></v-spacer>
-        <v-text-field v-model="search" label="Search by title and author" single-line hide-details></v-text-field>
-      </v-card-title>
-      <v-card-text>
-        <v-data-table
-          v-model="selected"
-          hide-actions
-          :headers="headers"
-          :items="items"
-          :search="search"
-          :pagination.sync="pagination"
-          rows-per-page-text
-          class="elevation-1"
-        >
-          <template slot="items" slot-scope="props">
-            <tr class="text-xs-center">
-              <router-link
-                :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
-                tag="td"
-              >{{props.item.postNumber}}</router-link>
-              <router-link
-                :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
-                tag="td"
-              >{{props.item.title}}</router-link>
-              <router-link
-                :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
-                tag="td"
-              >{{props.item.writer}}</router-link>
-              <router-link
-                :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
-                tag="td"
-              >{{props.item.createdAt.slice(0,10)}} {{props.item.createdAt.slice(11,19)}}</router-link>
-              <router-link
-                :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
-                tag="td"
-              >{{props.item.views}}</router-link>
-            </tr>
-          </template>
-          <v-alert
-            slot="no-results"
-            :value="true"
-            color="error"
-            icon="warning"
-          >"{{search}}" no result.</v-alert>
-        </v-data-table>
-        <v-card-text class="text-xs-center">
-          <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
-        </v-card-text>
+  <v-card>
+    <v-card-title>
+      <v-icon>search</v-icon>Search
+      <v-spacer></v-spacer>
+      <v-text-field v-model="search" label="Search by title and author" single-line hide-details></v-text-field>
+    </v-card-title>
+    <v-card-text>
+      <v-data-table
+        v-model="selected"
+        hide-actions
+        :headers="headers"
+        :items="items"
+        :search="search"
+        :pagination.sync="pagination"
+        rows-per-page-text
+        class="elevation-1"
+      >
+        <template slot="items" slot-scope="props">
+          <tr class="text-xs-center">
+            <router-link
+              :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
+              tag="td"
+            >{{props.item.postNumber}}</router-link>
+            <router-link
+              :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
+              tag="td"
+            >{{props.item.title}}</router-link>
+            <router-link
+              :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
+              tag="td"
+            >{{props.item.writer}}</router-link>
+            <router-link
+              :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
+              tag="td"
+            >{{props.item.createdAt.slice(0,10)}} {{props.item.createdAt.slice(11,19)}}</router-link>
+            <router-link
+              :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
+              tag="td"
+            >{{props.item.views}}</router-link>
+          </tr>
+        </template>
+        <v-alert
+          slot="no-results"
+          :value="true"
+          color="error"
+          icon="warning"
+        >"{{search}}" no result.</v-alert>
+      </v-data-table>
+      <v-card-text class="text-xs-center">
+        <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
       </v-card-text>
-    </v-card>
-  </v-container>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
