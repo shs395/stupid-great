@@ -9,7 +9,6 @@
             <v-btn @click="viewlist" flat color="orange">목록 보기</v-btn>
         </v-card>
         </v-container>
-       <!-- 목록보기 필요 -->
     </div>
 </template>
 
@@ -35,4 +34,5 @@ export default{
 </script>
 
 <style>
+
 </style>

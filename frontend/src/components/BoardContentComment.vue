@@ -16,7 +16,10 @@
             <p>
               <strong>{{props.item.author}}</strong>
               <br>
-              <span color="gray">| {{props.item.createdAt.slice(0,10)}} {{props.item.createdAt.slice(11,19)}}</span><br>
+              <span
+                style="color:gray"
+              >| {{props.item.createdAt.slice(0,10)}} {{props.item.createdAt.slice(11,19)}}</span>
+              <br>
               <span>{{props.item.body}}</span>
             </p>
           </td>
@@ -31,7 +34,7 @@ export default {
   data: function() {
     return {
       comment: "",
-      c_items:''
+      c_items: ""
     };
   },
   methods: {
