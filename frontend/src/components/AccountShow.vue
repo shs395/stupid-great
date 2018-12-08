@@ -117,7 +117,7 @@
                       </v-flex>
                       <v-flex xs6 v-if="s_t=='매년'">
                         <v-menu
-                          :close-on-content-click="ture"
+                          :close-on-content-click="false"
                           v-model="menu1"
                           :nudge-right="40"
                           lazy
@@ -128,7 +128,7 @@
                         >
                           <v-text-field
                             slot="activator"
-                            v-model="s_d"
+                            v-model="sDate"
                             label="start day"
                             prepend-icon="event"
                             readonly
@@ -150,7 +150,7 @@
                       </v-flex>
                       <v-flex xs6 v-if="checkbox==true">
                         <v-menu
-                          :close-on-content-click="ture"
+                          :close-on-content-click="false"
                           v-model="menu1"
                           :nudge-right="40"
                           lazy
@@ -172,7 +172,7 @@
                       </v-flex>
                       <v-flex xs6 v-if="checkbox==true">
                         <v-menu
-                          :close-on-content-click="ture"
+                          :close-on-content-click="false"
                           v-model="menu2"
                           :nudge-right="40"
                           lazy
@@ -330,6 +330,12 @@ import AccountComp from "../components/AccountComp";
           this.isChecked='함'
         else
           this.isChecked='안함'
+      }
+    },
+    computed:{
+      sDate(){
+        if(this.s_d==null) return null
+        else return this.s_d.slice(5,10)
       }
     }
   }
