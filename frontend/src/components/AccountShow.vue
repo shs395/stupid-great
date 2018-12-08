@@ -2,10 +2,8 @@
   <v-card height="100%">
     <v-card-title class="account_title">
       <!-- 수입 or 지출 인지 받아옴 -->
-      <!-- <h2>{{data.selectedDate}}</h2> -->
       <h2 flex xs12>{{data.y}}년 {{data.m}}월 {{data.d}}일 {{data.is}}</h2>
-      <!-- <h2 v-else>{{parseInt(data.selectedDate.slice(0,4))}}년 {{parseInt(data.selectedDate.slice(5,7))}}월 {{parseInt(data.selectedDate.slice(8,10))}}일 {{data.is}}</h2> -->
-    
+
     </v-card-title>
     <!-- 날짜 받아온걸로 해당 날짜의 수입 or 지출 내용을 v-for로 넣기 -->
     <v-card-text class="account_text">
@@ -14,26 +12,21 @@
           항목
         </v-flex>
         <v-flex xs3>
-            이름
+          이름
         </v-flex>
         <v-flex xs3>
-            가격
+          가격
         </v-flex>
         <v-flex xs6>
-            평가
+          평가
         </v-flex>
       </v-layout> 
     </v-card-text>
     <v-card-text class="account_text">
-      <v-container
-      id="scroll-target"
-      style="height: 300px"
-      class="scroll-y"
-      >
-      <!-- <AccountComp  id='ac' v-bind:data="{selectedDate: data.selectedDate, category:'항목', name:'이름', price:'가격', rate:'평가'}"></AccountComp> -->
-      <span v-for="account in accounts">
-        <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate, accountId: account.accountId, y:data.y, m:data.m, d:data.d, is:data.is}"></AccountComp>
-      </span>
+      <v-container id="scroll-target" style="height: 300px" class="scroll-y">
+        <span v-for="account in accounts">
+          <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate, accountId: account.accountId, y:data.y, m:data.m, d:data.d, is:data.is}"></AccountComp>
+        </span>
       </v-container>
     </v-card-text>
     <v-card-actions>
@@ -83,10 +76,10 @@
                         </span>
                       </v-flex>
                       <v-flex xs12>
-                      <v-checkbox
-                        :label="`반복 주기 `+isChecked"
-                        v-model="checkbox"
-                      ></v-checkbox>
+                        <v-checkbox
+                          :label="`반복 주기 `+isChecked"
+                          v-model="checkbox"
+                        ></v-checkbox>
                       </v-flex>
                       <v-flex xs6 v-if="checkbox==true">
                         <v-select
@@ -155,17 +148,17 @@
                       </v-flex>
                       <v-flex xs6 v-if="s_t!='매주'&&s_t!='매월'&&s_t!='매년'&&s_t!='직접지정'">
                       </v-flex>
-                        <v-flex xs6 v-if="checkbox==true">
-                          <v-menu
-                            :close-on-content-click="ture"
-                            v-model="menu1"
-                            :nudge-right="40"
-                            lazy
-                            transition="scale-transition"
-                            offset-y
-                            full-width
-                            min-width="100px"
-                          >
+                      <v-flex xs6 v-if="checkbox==true">
+                            <v-menu
+                              :close-on-content-click="ture"
+                              v-model="menu1"
+                              :nudge-right="40"
+                              lazy
+                              transition="scale-transition"
+                              offset-y
+                              full-width
+                              min-width="100px"
+                            >
                             <v-text-field
                               slot="activator"
                               v-model="s_select"
@@ -177,30 +170,28 @@
                             <v-date-picker v-model="s_select" @input="menu1 = false" @change="change"></v-date-picker>
                           </v-menu>
                         </v-flex>
-                        
-                        <v-flex xs6 v-if="checkbox==true">
-                          <v-menu
-                            :close-on-content-click="ture"
-                            v-model="menu2"
-                            :nudge-right="40"
-                            lazy
-                            transition="scale-transition"
-                            offset-y
-                            full-width
-                            min-width="100px"
-                          >
-                            <v-text-field
-                              slot="activator"
-                              v-model="e_select"
-                              label="end day"
-                              prepend-icon="event"
-                              readonly
-                              :rules="[v => !!v || '끝 날짜를 지정해 주세요']"  
-                            ></v-text-field>
-                            <v-date-picker v-model="e_select" @input="menu2 = false" :min = "s_select" @change="change"></v-date-picker>    
-                          </v-menu>
-                        </v-flex>
-                      <!-- </v-container> -->
+                      <v-flex xs6 v-if="checkbox==true">
+                        <v-menu
+                          :close-on-content-click="ture"
+                          v-model="menu2"
+                          :nudge-right="40"
+                          lazy
+                          transition="scale-transition"
+                          offset-y
+                          full-width
+                          min-width="100px"
+                        >
+                          <v-text-field
+                            slot="activator"
+                            v-model="e_select"
+                            label="end day"
+                            prepend-icon="event"
+                            readonly
+                            :rules="[v => !!v || '끝 날짜를 지정해 주세요']"  
+                          ></v-text-field>
+                          <v-date-picker v-model="e_select" @input="menu2 = false" :min = "s_select" @change="change"></v-date-picker>    
+                        </v-menu>
+                      </v-flex>
                       <v-flex xs12>
                         <v-rating v-model="addRate"></v-rating>
                       </v-flex>
@@ -246,7 +237,9 @@ import AccountComp from "../components/AccountComp";
               if(result.data=='create'){
                 this.dialog=false
                 this.$refs.form.reset()
-                this.addRate=0
+                this.checkbox=false;
+                this.s_select=this.data.selectedDate
+                this.addRate=0;
                 alert('추가되었습니다')
               }
               this.get_accounts();
@@ -260,8 +253,6 @@ import AccountComp from "../components/AccountComp";
               alert('기간을 다시 설정해 주세요');
               return;
             }
-            // if(this.s_t=='매년') this.s_d=this.y_s
-            // alert(this.s_d)
             alert(this.s_d)
             this.$http.post('/account/create/repeat/', {
               id: this.$session.get('id'),
@@ -279,6 +270,8 @@ import AccountComp from "../components/AccountComp";
               if(result.data=='create'){
                 this.dialog=false
                 this.$refs.form.reset()
+                this.checkbox=false;
+                this.s_select=this.data.selectedDate
                 this.addRate=0
                 alert('추가되었습니다')
               }
@@ -292,6 +285,8 @@ import AccountComp from "../components/AccountComp";
       },
       reset(){
         return this.$refs.form.reset()
+        this.checkbox=false;
+        this.s_select=this.data.selectedDate
         this.addRate=0
       },
       addbtn:function(){
@@ -301,7 +296,6 @@ import AccountComp from "../components/AccountComp";
         console.log('/account/list/'+this.$session.get('id')+'/'+this.data.selectedDate+'/'+this.data.is)
           this.$http.get( '/account/list/'+this.$session.get('id')+'/'+this.data.selectedDate+'/'+this.data.is)
           .then((result)=>{
-            // alert('here')
             this.accounts = result.data
             console.log(this.accounts)
           })
@@ -316,7 +310,6 @@ import AccountComp from "../components/AccountComp";
         s_d:null,
         w_s: [],
         m_s:0,
-        // y_s:null,
         s_s:0,
         s_select:this.data.selectedDate,
         e_select:null,
@@ -329,8 +322,6 @@ import AccountComp from "../components/AccountComp";
         ],
         checkbox: false,
         isChecked:'안함',
-        // startDate: null,
-        // endDate: null,
         
         addRate:null,
         addName:null,
