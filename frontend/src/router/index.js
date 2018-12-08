@@ -78,9 +78,7 @@ export default new Router({
       path: '/boardshow/:postNumber/:writer',
       name: 'boardshow',
       component: () => import('../views/BoardShow.vue'),
-      // children: [
-      //   { path:':postNumber/:writer',  component: BoardContentShow }
-      // ]
+    
     }
   ]
 })
