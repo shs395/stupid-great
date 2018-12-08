@@ -6,7 +6,6 @@ const userModel = require('../db/models/user')
 const bodyparser = require('body-parser')
 const g_category=['월급', '부수입', '용돈', '상여', '금융소득', '기타']
 const l_category=['식비', '교통/차량', '문화생활', '마트/편의점', '패션/미용', '생활용품', '주거/통신', '건강', '교육', '경조사/회비', '가족', '기타']
-var async = require('async');
 
 /* GET users listing. */
 router.use((req, res, next)=>{
