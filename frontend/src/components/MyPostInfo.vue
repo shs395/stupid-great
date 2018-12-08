@@ -15,6 +15,11 @@
                   <v-icon>delete_sweep</v-icon>
                 </v-btn>
               </td>
+              <td @click="postview(props.item)">
+                <v-btn flat>
+                  <v-icon>visibility</v-icon>
+                </v-btn>
+              </td>
             </tr>
           </template>
         </v-data-table>
@@ -23,14 +28,13 @@
   </div>
 </template>
 <script>
-
 export default {
   name: "MyPostInfo",
   data: function() {
     return {
       list: "",
-      selected: "",
-      _selected: "",
+      postNumber:'',
+      writer:'',
       headers: [
         {
           text: "게시글번호",
@@ -47,27 +51,29 @@ export default {
           align: "center"
         },
         {
-          text:"조회수",
-          value:"views",
-          sortable:false,
-          algin:"center"
+          text: "조회수",
+          value: "views",
+          sortable: false,
+          algin: "center"
         },
-        { text: "삭제", sortable: false, align: "center" }
+        { text: "삭제", sortable: false, align: "center" },
+        { text: "VIEW", sortable: false, align: "center" }
       ]
     };
   },
   methods: {
-    depost(a) { //댓글지우기
+    depost(a) {
+      //댓글지우기
       if (event.target.classList.contains("btn__content")) return;
-     
+
       this.$http
         .post("/users/depost", {
           id: this.$session.get("id"),
           number: a.postNumber
         })
         .then(response => {
-            alert(a.postNumber + "번 게시글 삭제!");
-            this.getlist();
+          alert(a.postNumber + "번 게시글 삭제!");
+          this.getlist();
         })
         .catch(err => {
           console.log(err);
@@ -83,6 +89,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    postview(a){
+      if (event.target.classList.contains("btn__content")) return;
+      alert(a.postNumber)
+      
+      this.$router.push(`/boardshow/${a.postNumber}/${a.writer}`)
     }
   },
   mounted() {

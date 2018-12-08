@@ -32,7 +32,7 @@
     <v-card-actions>
       <v-layout row justify-center>
         <v-flex xs10>
-          <v-btn slot="activator" color="orange" dark v-on:click="addbtn" id="add_b">추가</v-btn>
+          <v-btn slot="activator" color="orange" dark @click="dialog=true" id="add_b">추가</v-btn>
           <v-dialog v-model="dialog"  persistent max-width="600px" v-if="dialog==true">
             <v-card>
               <v-form ref="form">
@@ -117,7 +117,7 @@
                       </v-flex>
                       <v-flex xs6 v-if="s_t=='매년'">
                         <v-menu
-                          :close-on-content-click="ture"
+                          :close-on-content-click="false"
                           v-model="menu1"
                           :nudge-right="40"
                           lazy
@@ -128,13 +128,13 @@
                         >
                           <v-text-field
                             slot="activator"
-                            v-model="s_d"
+                            v-model="sDate"
                             label="start day"
                             prepend-icon="event"
                             readonly
                             :rules="[v => !!v || '날짜를 지정해 주세요']"  
                           ></v-text-field>
-                          <v-date-picker v-model="s_d" @input="menu1 = false" @change="change"></v-date-picker>
+                          <v-date-picker v-model="s_d" @input="menu1 = false"></v-date-picker>
                       </v-flex>
                       <v-flex xs6 v-if="s_t=='직접지정'">
                         <v-text-field 
@@ -149,30 +149,30 @@
                       <v-flex xs6 v-if="s_t!='매주'&&s_t!='매월'&&s_t!='매년'&&s_t!='직접지정'">
                       </v-flex>
                       <v-flex xs6 v-if="checkbox==true">
-                            <v-menu
-                              :close-on-content-click="ture"
-                              v-model="menu1"
-                              :nudge-right="40"
-                              lazy
-                              transition="scale-transition"
-                              offset-y
-                              full-width
-                              min-width="100px"
-                            >
-                            <v-text-field
-                              slot="activator"
-                              v-model="s_select"
-                              label="start day"
-                              prepend-icon="event"
-                              readonly
-                              :rules="[v => !!v || '시작 날짜를 지정해 주세요']"  
-                            ></v-text-field>
-                            <v-date-picker v-model="s_select" @input="menu1 = false" @change="change"></v-date-picker>
-                          </v-menu>
-                        </v-flex>
+                        <v-menu
+                          :close-on-content-click="false"
+                          v-model="menu1"
+                          :nudge-right="40"
+                          lazy
+                          transition="scale-transition"
+                          offset-y
+                          full-width
+                          min-width="100px"
+                        >
+                          <v-text-field
+                            slot="activator"
+                            v-model="s_select"
+                            label="start day"
+                            prepend-icon="event"
+                            readonly
+                            :rules="[v => !!v || '시작 날짜를 지정해 주세요']"  
+                          ></v-text-field>
+                          <v-date-picker v-model="s_select" @input="menu1 = false" @change="change"></v-date-picker>
+                        </v-menu>
+                      </v-flex>
                       <v-flex xs6 v-if="checkbox==true">
                         <v-menu
-                          :close-on-content-click="ture"
+                          :close-on-content-click="false"
                           v-model="menu2"
                           :nudge-right="40"
                           lazy
@@ -189,7 +189,7 @@
                             readonly
                             :rules="[v => !!v || '끝 날짜를 지정해 주세요']"  
                           ></v-text-field>
-                          <v-date-picker v-model="e_select" @input="menu2 = false" :min = "s_select" @change="change"></v-date-picker>    
+                          <v-date-picker v-model="e_select" @input="menu2 = false" :min = "s_select"></v-date-picker>    
                         </v-menu>
                       </v-flex>
                       <v-flex xs12>
@@ -199,8 +199,8 @@
                   </v-container>
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn color="blue darken-1" flat @click="dialog = false, reset">Close</v-btn>
-                  <v-btn color="blue darken-1" flat  v-on:click="add">Save</v-btn>
+                  <v-btn color="blue darken-1" flat @click="reset">Close</v-btn>
+                  <v-btn color="blue darken-1" flat v-on:click="add">Save</v-btn>
                 </v-card-actions>
               </v-form>
             </v-card>
@@ -213,8 +213,6 @@
 
 <script>
 import AccountComp from "../components/AccountComp";
-
-
   export default{
     name : 'AccountShow',
     props:["data"],
@@ -235,11 +233,7 @@ import AccountComp from "../components/AccountComp";
             })
             .then((result)=>{
               if(result.data=='create'){
-                this.dialog=false
-                this.$refs.form.reset()
-                this.checkbox=false;
-                this.s_select=this.data.selectedDate
-                this.addRate=0;
+                this.reset()
                 alert('추가되었습니다')
               }
               this.get_accounts();
@@ -253,7 +247,6 @@ import AccountComp from "../components/AccountComp";
               alert('기간을 다시 설정해 주세요');
               return;
             }
-            alert(this.s_d)
             this.$http.post('/account/create/repeat/', {
               id: this.$session.get('id'),
               is: this.data.is,
@@ -268,11 +261,7 @@ import AccountComp from "../components/AccountComp";
             })
             .then((result)=>{
               if(result.data=='create'){
-                this.dialog=false
-                this.$refs.form.reset()
-                this.checkbox=false;
-                this.s_select=this.data.selectedDate
-                this.addRate=0
+                this.reset()
                 alert('추가되었습니다')
               }
               this.get_accounts();
@@ -284,13 +273,11 @@ import AccountComp from "../components/AccountComp";
         }
       },
       reset(){
-        return this.$refs.form.reset()
+        this.dialog=false
+        this.$refs.form.reset()
         this.checkbox=false;
         this.s_select=this.data.selectedDate
-        this.addRate=0
-      },
-      addbtn:function(){
-          this.dialog=true;
+        this.addRate=0;
       },
       get_accounts:function(){
         console.log('/account/list/'+this.$session.get('id')+'/'+this.data.selectedDate+'/'+this.data.is)
@@ -322,7 +309,6 @@ import AccountComp from "../components/AccountComp";
         ],
         checkbox: false,
         isChecked:'안함',
-        
         addRate:null,
         addName:null,
         addCategory:null,
@@ -343,20 +329,15 @@ import AccountComp from "../components/AccountComp";
         if(this.checkbox==true) 
           this.isChecked='함'
         else
-          this.isChecked='안함'}
+          this.isChecked='안함'
+      }
     },
-    // mounted:function(){
-    //   if(this.data.selectedDate==null){
-    //     var currentTime = new Date()
-    //     this.month = currentTime.getMonth() + 1
-    //     this.year = currentTime.getFullYear()
-    //     this.day = currentTime.getDate()
-    //   }else{
-    //     this.month = this.data.selectedDate.slice(0,4)
-    //     this.year = this.data.selectedDate.slice(5,7)
-    //     this.day = this.data.selectedDate.slice(8,10)
-    //   }
-    // }
+    computed:{
+      sDate(){
+        if(this.s_d==null) return null
+        else return this.s_d.slice(5,10)
+      }
+    }
   }
 </script>
 
@@ -366,9 +347,6 @@ import AccountComp from "../components/AccountComp";
 }
 #add_b{
   align-content: center
-}
-#ic{
-  color:darkgrey
 }
 #scroll-target{
   padding:0px;
