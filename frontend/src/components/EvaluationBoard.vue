@@ -22,6 +22,8 @@
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.title}}</router-link>
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.writer}}</router-link>
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.createdAt}}</router-link>
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.views}}</router-link>
+                          
                            </tr>
                         </template> 
                         <v-alert slot="no-results" :value="true" color="error" icon="warning">
@@ -55,7 +57,8 @@ export default {
                 {text:"게시글번호", value:"postNumber", sortable:false, align:"center"},
                 {text:"제목", value:"title" ,sortable:false, align:"center"},
                 {text:"작성자", value:"writer", sortable:false, align:"center"},
-                {text:"작성일", value:"createdAt",sortable:false, align:"center"}
+                {text:"작성일", value:"createdAt",sortable:false, align:"center"},
+                {text:"조회수", value:"views", sortable:false, align:"center"}
             ]
         }
     },

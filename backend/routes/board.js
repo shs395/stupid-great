@@ -71,7 +71,11 @@ router.get('/:postNumber/:writer',async(req,res,next)=>{
         postNumber:_postNumber,
         writer:_writer
     })
-   
+
+    //조회수 증가
+   f[0].views++
+   f[0].save()
+
     console.log('게시글 내용'+f[0])
 
     res.send(f[0])

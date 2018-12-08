@@ -9,6 +9,7 @@
               <td>{{props.item.title}}</td>
               <td>{{props.item.writer}}</td>
               <td>{{props.item.createdAt}}</td>
+              <td>{{props.item.views}}</td>
               <td @click="depost(props.item)">
                 <v-btn flat>
                   <v-icon>delete_sweep</v-icon>
@@ -45,12 +46,18 @@ export default {
           sortable: false,
           align: "center"
         },
+        {
+          text:"조회수",
+          value:"views",
+          sortable:false,
+          algin:"center"
+        },
         { text: "삭제", sortable: false, align: "center" }
       ]
     };
   },
   methods: {
-    depost(a) {
+    depost(a) { //댓글지우기
       if (event.target.classList.contains("btn__content")) return;
      
       this.$http
