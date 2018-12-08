@@ -14,7 +14,11 @@
                         :headers="headers"
                         :items="items"
                         :search="search"
-                        :pagination.sync="pagination">
+                        :pagination.sync="pagination"
+                       
+                        rows-per-page-text=""
+                        class="elevation-1"
+                        >
                      
                        <template slot="items" slot-scope="props">
                            <tr class="text-xs-center"> 
@@ -31,7 +35,7 @@
                         </v-alert>
                     </v-data-table> 
                        <v-card-text class="text-xs-center">
-                            <v-pagination v-model="pagination.page" :length="pagination.total" :total-visible="pagination.visible"></v-pagination>
+                            <v-pagination v-model="pagination.page" :length="pages" ></v-pagination>
                         </v-card-text>
             </v-card-text>
     </v-card>
@@ -47,11 +51,13 @@ export default {
             search: '',
             d_info:'',
             items:[],
+            _itmes:'',
             selected:'',
-            pagination:{
-                 page:1,
-                 total:5,
-                visible:7
+            pagination:
+            {
+                rowsPerPage:15,
+                totalItems:'',
+                page:1
             },
             headers: [
                 {text:"게시글번호", value:"postNumber", sortable:false, align:"center"},
@@ -62,13 +68,13 @@ export default {
             ]
         }
     },
-    methods:{
-    },
-      created(){
+  
+  mounted(){
            this.$http.get('/board/list').then(response=>{
                this.items=response.data
+               this.pagination.totalItems=this.items.length
                console.log(response.data)})
-           },
+    },
        computed: {
           pages () {
             if (this.pagination.rowsPerPage == null ||

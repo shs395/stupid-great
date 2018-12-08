@@ -18,7 +18,7 @@
           <my-post-info><my-post-info>
         </v-tab-item>
         <v-tab-item>
-            stupid-great
+            <my-stupid-great-info />
         </v-tab-item>
 
     </v-tabs>
@@ -30,12 +30,15 @@
 import toolbar from '../components/toolbar'
 import MyPageInfo from '../components/MyPageInfo'
 import MyPostInfo from '../components/MyPostInfo'
+import MyStupidGreatInfo from '../components/MyStupidGreatInfo'
+
   export default {
     name : 'mypage',
     components: {
         toolbar,
         MyPageInfo,
-        MyPostInfo
+        MyPostInfo,
+        MyStupidGreatInfo
     },
     data () {
       return { }
