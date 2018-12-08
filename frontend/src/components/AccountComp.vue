@@ -37,7 +37,7 @@
                     분류: {{data.is}}
                   </v-flex>
                   <v-flex xs12>
-                    <v-text-field label="금액" type="number" required v-model="mprice" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
+                    <v-text-field label="금액" type="number" required v-model="mprice" :rules="[v => v>0 || '가격을 작성해 주세요']"></v-text-field>
                   </v-flex>
                   <v-flex xs12>
                     <v-text-field label="이름" type="string" required v-model="mname" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
@@ -63,7 +63,7 @@
                     </span>
                   </v-flex>
                   <v-flex xs12>
-                    <v-rating v-model="mrate" :rules="[v => !!v || '평가를 해주세요']"></v-rating>
+                    <v-rating v-model="mrate"></v-rating>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -113,11 +113,6 @@ export default {
         alert(this.price+ this.name+this.category+this.rate);
         if(this.$refs.form.validate()){
           this.$http.post('/account/change', {
-            // year: this.data.y,
-            // month: this.data.m,
-            // day: this.data.d,
-            // id: this.$session.get('id'),
-            // is: this.data.is,
             accountId:this.accountId,
             price: this.mprice,
             name:this.mname,
@@ -132,12 +127,6 @@ export default {
               this.name = this.mname
               this.category=this.mcategory
               this.rate= this.mrate
-
-              // this.price= this.changePrice
-              // this.name=this.changeName
-              // this.category= this.changeCategory
-              // this.rate= this.changeRate
-              // this.accountId= this.data.accountId
             }
           })
           .catch((err)=>{
@@ -173,16 +162,8 @@ export default {
           mrate: this.data.rate,
           accountId: this.data.accountId,
           isShow:true,
-          
-          
-          // changePrice: this.data.price,
-          // changeName: this.data.name,
-          // changeCategory:this.data.category,
-          // changeRate:this.data.rate,
-
           dialog:false,
           deleteDialog:false
-
       }
   },
   watch:{
@@ -195,8 +176,6 @@ export default {
     }
   }
 }
-//변경 후, 삭제 후 db에서 id로  가져오기!!!!
-//없을시 표시x
 
 </script>
 
