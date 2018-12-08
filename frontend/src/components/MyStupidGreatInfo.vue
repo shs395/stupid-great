@@ -1,7 +1,7 @@
 <template>
     <div id="MyStupidGreatInfo">
         <v-layout row wrap>
-            <v-flex v-for="post in posts" :key="post.PostNumber">
+            <v-flex v-for="post in posts.slice().reverse()" :key="post.PostNumber">
                 <StupidGreatResult :result="post"/>
             </v-flex>
         </v-layout>
