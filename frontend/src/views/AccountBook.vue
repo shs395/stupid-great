@@ -15,51 +15,24 @@
           <AccountChart/>
         </v-tab-item>
     </v-tabs>
-    
   </v-app>
 </template>
 
 <script>
 import toolbar from '../components/toolbar'
-import linkComponent from '../components/link'
 import Account from '../components/Account.vue'
-
 import AccountChart from '../components/AccountChart.vue'
-
-
-import VCalendar from 'v-calendar'
-import 'v-calendar/lib/v-calendar.min.css'
 
 export default {
   name: 'account-book',
-  data () {
-    return {
-      selectedDate: null,
-      startDate: null,
-      endDate: null,
-      selectedMonth: null,
-      todayDate: new Date().toISOString().slice(0,10)
-    };
-  },
   components:{
     toolbar,
-    linkComponent,
-    VCalendar,
     Account,
     AccountChart
-  },
-  methods:{
   }
 }
 
 </script>
 
 <style>
-#td_1{
-  text-align: center;
-}
-#edit-btn{
-    position : fixed;
-    margin: 0 0 50px 50px;
-}
 </style>
