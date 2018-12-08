@@ -1,19 +1,36 @@
 <template>
   <v-card height="100%">
-    <v-card-title>
+    <v-card-title class="account_title">
       <!-- 수입 or 지출 인지 받아옴 -->
       <!-- <h2>{{data.selectedDate}}</h2> -->
-      <h2>{{data.y}}년 {{data.m}}월 {{data.d}}일 {{data.is}}</h2>
+      <h2 flex xs12>{{data.y}}년 {{data.m}}월 {{data.d}}일 {{data.is}}</h2>
       <!-- <h2 v-else>{{parseInt(data.selectedDate.slice(0,4))}}년 {{parseInt(data.selectedDate.slice(5,7))}}월 {{parseInt(data.selectedDate.slice(8,10))}}일 {{data.is}}</h2> -->
+    
     </v-card-title>
     <!-- 날짜 받아온걸로 해당 날짜의 수입 or 지출 내용을 v-for로 넣기 -->
-    <v-card-text> 
+    <v-card-text class="account_text">
+      <v-layout row>
+        <v-flex xs3>
+          항목
+        </v-flex>
+        <v-flex xs3>
+            이름
+        </v-flex>
+        <v-flex xs3>
+            가격
+        </v-flex>
+        <v-flex xs6>
+            평가
+        </v-flex>
+      </v-layout> 
+    </v-card-text>
+    <v-card-text class="account_text">
       <v-container
       id="scroll-target"
       style="height: 300px"
       class="scroll-y"
       >
-      <AccountComp  id='ac' v-bind:data="{selectedDate: data.selectedDate, category:'항목', name:'이름', price:'가격', rate:'평가'}"></AccountComp>
+      <!-- <AccountComp  id='ac' v-bind:data="{selectedDate: data.selectedDate, category:'항목', name:'이름', price:'가격', rate:'평가'}"></AccountComp> -->
       <span v-for="account in accounts">
         <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate, accountId: account.accountId, y:data.y, m:data.m, d:data.d, is:data.is}"></AccountComp>
       </span>
@@ -74,6 +91,7 @@
                       <v-flex xs6 v-if="checkbox==true">
                         <v-select
                           :items="s_states"
+                          @change="s_d=null"
                           v-model="s_t"
                           :menu-props="{ maxHeight: '400' }"
                           label="주기"
@@ -88,10 +106,9 @@
                           v-model="s_d"
                           :menu-props="{ maxHeight: '400' }"
                           label="요일"
-                          multiple
                           hint="요일을 선택하세요"
                           persistent-hint
-                          :rules="[w_s => !!w_s.length>=1 || '하나 이상의 요일을 지정해 주세요']" 
+                          :rules="[s_d => !!s_d || '요일을 지정해 주세요']" 
                         ></v-select>
                       </v-flex>
                       <v-flex xs6 v-if="s_t=='매월'">
@@ -99,10 +116,10 @@
                           label="날짜" 
                           type="number" 
                           min="1"
-                          max="31" 
+                          max="28" 
                           required 
                           v-model="s_d" 
-                          :rules="[v => v>=1 && v<=31 || '날짜를 1~31 사이로 선택해 주세요']"   
+                          :rules="[v => v>=1 && v<=28 || '날짜를 1~28 사이로 선택해 주세요']"   
                       ></v-text-field>
                       </v-flex>
                       <v-flex xs6 v-if="s_t=='매년'">
@@ -124,7 +141,7 @@
                             readonly
                             :rules="[v => !!v || '날짜를 지정해 주세요']"  
                           ></v-text-field>
-                          <v-date-picker v-model="y_s" @input="menu1 = false" @change="change"></v-date-picker>
+                          <v-date-picker v-model="s_d" @input="menu1 = false" @change="change"></v-date-picker>
                       </v-flex>
                       <v-flex xs6 v-if="s_t=='직접지정'">
                         <v-text-field 
@@ -136,7 +153,7 @@
                           :rules="[v => s_s>0 || '일 간격을 1이상으로 지정해 주세요']"    
                         ></v-text-field>
                       </v-flex>
-                      <v-flex xs6 v-if="s_t!='매주'&&s_t!='매월'&&s_t!='매년'&&s_t!='직접 지정'">
+                      <v-flex xs6 v-if="s_t!='매주'&&s_t!='매월'&&s_t!='매년'&&s_t!='직접지정'">
                       </v-flex>
                         <v-flex xs6 v-if="checkbox==true">
                           <v-menu
@@ -243,34 +260,33 @@ import AccountComp from "../components/AccountComp";
               alert('기간을 다시 설정해 주세요');
               return;
             }
+            // if(this.s_t=='매년') this.s_d=this.y_s
+            // alert(this.s_d)
             alert(this.s_d)
-            // this.$http.post('/account/create/repeat/', {
-            //   year: this.data.y,
-            //   month: this.data.m,
-            //   day: this.data.d,
-            //   id: this.$session.get('id'),
-            //   is: this.data.is,
-            //   price: this.addPrice,
-            //   name:this.addName,
-            //   category: this.addCategory,
-            //   rate: this.addRate,
-            //   r_type:this.s_t,
-            //   r_data:this.s_d,
-            //   r_start:this.s_select,
-            //   r_end:this.e_select
-            // })
-            // .then((result)=>{
-            //   if(result.data=='create'){
-            //     this.dialog=false
-            //     this.$refs.form.reset()
-            //     this.addRate=0
-            //     alert('추가되었습니다')
-            //   }
-            //   this.get_accounts();
-            // })
-            // .catch((err)=>{
-            //   console.log(err)
-            // })
+            this.$http.post('/account/create/repeat/', {
+              id: this.$session.get('id'),
+              is: this.data.is,
+              price: this.addPrice,
+              name:this.addName,
+              category: this.addCategory,
+              rate: this.addRate,
+              r_type:this.s_t,
+              r_data:this.s_d,
+              r_start:this.s_select,
+              r_end:this.e_select
+            })
+            .then((result)=>{
+              if(result.data=='create'){
+                this.dialog=false
+                this.$refs.form.reset()
+                this.addRate=0
+                alert('추가되었습니다')
+              }
+              this.get_accounts();
+            })
+            .catch((err)=>{
+              console.log(err)
+            })
           }
         }
       },
@@ -300,9 +316,9 @@ import AccountComp from "../components/AccountComp";
         s_d:null,
         w_s: [],
         m_s:0,
-        y_s:null,
+        // y_s:null,
         s_s:0,
-        s_select:null,
+        s_select:this.data.selectedDate,
         e_select:null,
 
         s_states: [
@@ -313,8 +329,8 @@ import AccountComp from "../components/AccountComp";
         ],
         checkbox: false,
         isChecked:'안함',
-        startDate: null,
-        endDate: null,
+        // startDate: null,
+        // endDate: null,
         
         addRate:null,
         addName:null,
@@ -353,7 +369,7 @@ import AccountComp from "../components/AccountComp";
   }
 </script>
 
-<style>
+<style scoped>
 .addData{
   font-size: 18px
 }
@@ -362,5 +378,18 @@ import AccountComp from "../components/AccountComp";
 }
 #ic{
   color:darkgrey
+}
+#scroll-target{
+  padding:0px;
+}
+.account_title{
+  padding-bottom: 0px;
+  /* align-content: center;
+  text-align: center; */
+}
+.account_text{
+  padding-bottom: 0px;
+  /* align-content: center;
+  text-align: center; */
 }
 </style>

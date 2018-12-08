@@ -1,104 +1,299 @@
 <template>
     <div>
-    <!-- 뒤로가기버튼 추가 -->
         <v-container fluid justify-center>
-             <v-card>
-                  <v-card-title class="text-xs-center">Title : {{post_items.title}}</v-card-title>
-
-                 <v-layout row>
-                    <!-- 파이차트추가-수입 -->
-                    <v-flex xs6 pa-3>
-                      <div v-for="i in in_items" :key="i.id">
-                         <v-card-text>{{i.is}}{{i.year}}{{i.month}}{{i.price}}{{i.name}}{{i.category}}</v-card-text>
-                      </div>
-                    </v-flex>   
-                    <!-- 파이차트추가-지출  -->
-                     <v-flex xs6 pa-3>
-                      <div v-for="i in out_items" :key="i.id">
-                         <v-card-text>{{i.is}}{{i.year}}{{i.month}}{{i.price}}{{i.name}}{{i.category}}</v-card-text>
-                      </div>
-                    </v-flex>   
-                 </v-layout>
+                <h2 class="text-xs-center">Title : {{post_items.title}}</h2>
+                     <v-divider/>
+                    <h3 class="text-xs-center">{{post_items.content}}</h3>
                 <v-layout row>
-                     <v-flex  pa-3 d-flex>                 
-                         <v-text-field background-color="white" box label="Comment" v-model="comment" ></v-text-field> 
-                     </v-flex>
-                     <v-card-actions>
-                      <v-btn flat color="orange" @click="saveComment">POST</v-btn>
-                     </v-card-actions>
-                </v-layout>
-                <v-card-text>
-                 <v-card-subtitle>Comment</v-card-subtitle>
+                    <v-flex xs6>
+                    <v-card-text><h3>수입</h3></v-card-text>
+                    <v-divider></v-divider>
+                        <v-expansion-panel popout>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_in[0]}} : {{in_price[0]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in in_data1" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_in[1]}} : {{in_price[1]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in in_data2" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_in[2]}}:{{in_price[2]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in in_data3" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_in[3]}} : {{in_price[3]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in in_data4" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_in[4]}} : {{in_price[4]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in in_data5" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                             <v-expansion-panel-content>
+                                <div slot="header">{{labels_in[5]}} : {{in_price[5]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in in_data6" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                             
+                        </v-expansion-panel>
+                    </v-flex>
 
-                <v-data-table 
-                    :items="c_items"
-                    class="elevation-1"
-                    hide-actions
-                    hide-headers >
-                    <template slot="items" slot-scope="props">
-                        <td class="text-xs-center">{{props.item.body}}</td>
-                        <td class="text-xs-right">{{props.item.author}}</td>
-                        <td class="text-xs-right">{{props.item.createdAt}}</td>
-                    </template>
-                </v-data-table>
-                </v-card-text>
-             </v-card>
+                       <v-flex xs6>
+                    <v-card-text><h3>지출</h3></v-card-text>
+                    <v-divider></v-divider>
+                        <v-expansion-panel popout>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[0]}} : {{out_price[0]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data1" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[1]}} : {{out_price[1]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data2" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[2]}} : {{out_price[2]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data3" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[3]}} : {{out_price[3]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data4" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[4]}} : {{out_price[4]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data5" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[5]}} : {{out_price[5]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data6" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[6]}} : {{out_price[6]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data7" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[7]}} : {{out_price[7]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data8" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[8]}} : {{out_price[8]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data9" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[9]}} : {{out_price[9]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data10" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[10]}} : {{out_price[10]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data11" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <div slot="header">{{labels_out[11]}} : {{out_price[11]}}원</div>
+                                <v-card>
+                                    <div  v-for="i in out_data12" :key="i.id">
+                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-flex>
+                </v-layout>
         </v-container>
     
     </div>
 </template>
 
 <script>
+
     export default{
-        name:'board-content-show',
         data: function(){
             return{
-                post_items:'',
-                in_items:'',
-                out_items:'',
-                comment:'',
-                c_items:'',
-                date: new Date().toISOString().substr(0, 7),    
+               post_items:'', //쓴 글 데이터정보
+                in_price:'',  //가계부 수입 카테고리별 총합
+                out_price:'',  //가계부 지출 카테고리별 총합
+               in_info_items:'', //수입의 account_info만
+               out_info_items:'', //지출의 account_info만
+                in_data1:[],
+                in_data2:[],
+                in_data3:[],
+                in_data4:[],
+                in_data5:[],
+                in_data6:[],
+                out_data1:[],
+                out_data2:[],
+                out_data3:[],
+                out_data4:[],
+                out_data5:[],
+                out_data6:[],
+                out_data7:[],
+                out_data8:[],
+                out_data9:[],
+                out_data10:[],
+                out_data11:[],
+                out_data12:[],
+                
+                date: new Date().toISOString().substr(0, 7),   
+                labels_in:['월급', '부수입', '용돈', '상여', '금융소득', '기타'],
+                labels_out:['식비', '교통/차량', '문화생활', '마트/편의점', '패션/미용', '생활용품', '주거/통신', '건강', '교육', '경조사/회비', '가족', '기타'],
+
             }
         },
         methods:{
             get(){
-              console.log(this.$route.params.postNumber)
                 this.$http.get(`/board/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
                     this.post_items=response.data
+                    this.in_info_items=this.post_items.in_account_info[0]
+                    this.out_info_items=this.post_items.out_account_info[0]
+                  console.log(this.out_info_items.length)
+
+                       for(var j=0; j<this.in_info_items.length; j++){
+                        if(this.in_info_items[j].category=="월급"){
+                           this.in_data1.push({name:this.in_info_items[j].name,price:this.in_info_items[j].price})}
+                        if(this.in_info_items[j].category=="부수입"){
+                           this.in_data2.push({name:this.in_info_items[j].name,price:this.in_info_items[j].price})   
+                       }
+                         if(this.in_info_items[j].category=="용돈"){
+                           this.in_data3.push({name:this.in_info_items[j].name,price:this.in_info_items[j].price})   
+                       }
+                         if(this.in_info_items[j].category=="상여"){
+                           this.in_data4.push({name:this.in_info_items[j].name,price:this.in_info_items[j].price})   
+                       }
+                         if(this.in_info_items[j].category=="금융소득"){
+                           this.in_data5.push({name:this.in_info_items[j].name,price:this.in_info_items[j].price})   
+                       }
+                         if(this.in_info_items[j].category=="기타"){
+                           this.in_data6.push({name:this.in_info_items[j].name,price:this.in_info_items[j].price})   
+                       }
+                   }
+
+                   for(var j=0; j<this.out_info_items.length; j++){
+                       if(this.out_info_items[j].category=="식비"){
+                           this.out_data1.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="교통/차량"){
+                           this.out_data2.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="문화생활"){
+                           this.out_data3.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="마트/편의점"){
+                           this.out_data4.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="패션/미용"){
+                           this.out_data5.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="생활용품"){
+                           this.out_data6.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="주거/통신"){
+                           this.out_data7.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="건강"){
+                           this.out_data8.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="교육"){
+                           this.out_data9.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="경조사/회비"){
+                           this.out_data10.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="가족"){
+                           this.out_data11.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                        if(this.out_info_items[j].category=="기타"){
+                           this.out_data12.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
+                       }
+                   }
+                
                     console.log(this.post_items)}).catch((err)=>console.log(err))
             },
             get_in_account(){
+                this.loaded=false
                 this.$http.get(`/board/in/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
-                    this.in_items=response.data
-                    console.log(this.in_items)}).catch((err)=>console.log(err))
+                    this.in_price=response.data
+                   }).catch((err)=>console.log(err))
             },
             get_out_account(){
                 this.$http.get(`/board/out/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
-                    this.out_items=response.data
-                    console.log(this.out_items)}).catch((err)=>console.log(err))
+                    this.out_price=response.data
+                    console.log(this.out_price)}).catch((err)=>console.log(err))
+            }
+        
+                            
+
             },
-            saveComment(){
-                var comments={author:this.$session.get('id'),body:this.comment, createdAt:this.date}
-                this.comment=""
-                this.$http.post(`/board/post/${this.$route.params.postNumber}/comment`,comments).then(res=>{
-                     alert("댓글이 저장되었습니다!")
-                     console.log(res.data)
-                        this.getComment()
-                }).catch((err)=>{console.log(err)})
-             },
-             getComment(){
-                 this.$http.get(`/board/post/${this.$route.params.postNumber}/comment`).then(response=>{
-                     this.c_items=response.data
-                     console.log(this.c_items)
-                 }).catch((err)=>{console.log(err)})
-             }
-        },
-        mounted(){
+        mounted:function(){
             this.get()
             this.get_in_account(),
             this.get_out_account()
-            this.getComment()
-           },
+           
+
+           }
     }
 </script>
