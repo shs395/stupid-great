@@ -110,7 +110,6 @@ export default {
           this.dialog=true;
       },
       doneChange:function(){
-        alert(this.price+ this.name+this.category+this.rate);
         if(this.$refs.form.validate()){
           this.$http.post('/account/change', {
             accountId:this.accountId,
