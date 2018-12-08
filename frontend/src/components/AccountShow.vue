@@ -222,7 +222,6 @@ import AccountComp from "../components/AccountComp";
       add:async function(){
         if(this.$refs.form.validate()){
           if(this.checkbox==false){
-            alert('hi')
             this.$http.post('/account/create', {
               year: this.data.y,
               month: this.data.m,
@@ -237,8 +236,6 @@ import AccountComp from "../components/AccountComp";
             .then((result)=>{
               if(result.data=='create'){
                 this.dialog=false
-                
-                alert(this.checkbox)
                 this.$refs.form.reset()
                 this.checkbox=false;
                 this.s_select=this.data.selectedDate
