@@ -87,6 +87,7 @@ export default {
 
             alert('stupid를 선택하셨습니다!');
             this.showbtn = false;
+            return location.href="/stupid-great-community";
 
         },
 
@@ -104,6 +105,7 @@ export default {
 
             alert('great를 선택하셨습니다!');
             this.showbtn = false;
+            return location.href="/stupid-great-community";
         }
     }
 }
