@@ -11,7 +11,6 @@
                     >
                 </v-date-picker>
             </v-card>
-            {{selectedDate}}
         </v-flex>
         <v-flex xs6 >
             <AccountShow v-if="selectedDate==null" v-bind:data="{is:'수입', selectedDate:currentDate, y:parseInt(currentDate.slice(0,4)), m:parseInt(currentDate.slice(5,7)), d:parseInt(currentDate.slice(8,10)) }"/>

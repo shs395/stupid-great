@@ -1,5 +1,5 @@
 <template>
-    <v-layout row @click="doChange">
+    <v-layout row @click="doChange" v-if="isShow==true">
       <v-flex xs3>
         <v-card flat tile>
           {{category}}
@@ -10,7 +10,7 @@
           {{name}}
         </v-card>
       </v-flex>
-      <v-flex xs3 >
+      <v-flex xs3>
         <v-card flat tile>
           {{price}}
         </v-card>
@@ -37,10 +37,10 @@
                     분류: {{data.is}}
                   </v-flex>
                   <v-flex xs12>
-                    <v-text-field label="금액" type="number" required v-model="price" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
+                    <v-text-field label="금액" type="number" required v-model="mprice" :rules="[v => !!v || '가격을 작성해 주세요']"></v-text-field>
                   </v-flex>
                   <v-flex xs12>
-                    <v-text-field label="이름" type="string" required v-model="name" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
+                    <v-text-field label="이름" type="string" required v-model="mname" :rules="[v => !!v || '이름을 작성해 주세요']"></v-text-field>
                   </v-flex> 
                   <v-flex xs12>
                     <span v-if="data.is=='수입'">
@@ -48,7 +48,7 @@
                       :items="['월급', '부수입', '용돈', '상여', '금융소득', '기타']"
                       label="항목"
                       required
-                      v-model="category"
+                      v-model="mcategory"
                       :rules="[v => !!v || '항목을 선택해 주세요']"
                     ></v-select>
                     </span>
@@ -57,19 +57,19 @@
                       :items="['식비', '교통/차량', '문화생활', '마트/편의점', '패션/미용', '생활용품', '주거/통신', '건강', '교육', '경조사/회비', '가족', '기타']"
                       label="카테고리"
                       required
-                      v-model="category"
+                      v-model="mcategory"
                       :rules="[v => !!v || '항목을 선택해 주세요']"
                       ></v-select>
                     </span>
                   </v-flex>
                   <v-flex xs12>
-                    <v-rating v-model="rate" :rules="[v => !!v || '평가를 해주세요']"></v-rating>
+                    <v-rating v-model="mrate" :rules="[v => !!v || '평가를 해주세요']"></v-rating>
                   </v-flex>
                 </v-layout>
               </v-container>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
+              <v-btn color="blue darken-1" flat @click="close">Close</v-btn>
               <v-btn color="blue darken-1" flat @click="doneChange">Change</v-btn>
               <v-btn color="blue darken-1" flat @click="deleteDialog=true">Delete</v-btn>
               <v-dialog v-model="deleteDialog" persistent max-width="290" v-if="deleteDialog==true">
@@ -102,6 +102,7 @@ export default {
           if(result.data=='delete'){
             this.dialog=false
             alert('삭제되었습니다')
+            this.isShow=false
           }
         })
       },
@@ -118,15 +119,20 @@ export default {
             // id: this.$session.get('id'),
             // is: this.data.is,
             accountId:this.accountId,
-            price: this.price,
-            name:this.name,
-            category: this.category,
-            rate: this.rate
+            price: this.mprice,
+            name:this.mname,
+            category: this.mcategory,
+            rate: this.mrate
           })
           .then((result)=>{
             if(result.data=='change'){
               this.dialog=false
               alert('변경되었습니다')
+              this.price=this.mprice
+              this.name = this.mname
+              this.category=this.mcategory
+              this.rate= this.mrate
+
               // this.price= this.changePrice
               // this.name=this.changeName
               // this.category= this.changeCategory
@@ -140,15 +146,34 @@ export default {
 
         }
 
+      },
+      close:function(){
+        this.mprice=this.price
+        this.mname = this.name
+        this.mcategory=this.category
+        this.mrate= this.rate
+        this.dialog=false
+      }
+      ,
+      getaccount:function(){
+        this.$http.get('/account/list',{
+
+        })
       }
   },
   data:function(){
       return{
           price: this.data.price,
+          mprice: this.data.price,
           name: this.data.name,
+          mname: this.data.name,
           category: this.data.category,
+          mcategory: this.data.category,
           rate: this.data.rate,
+          mrate: this.data.rate,
           accountId: this.data.accountId,
+          isShow:true,
+          
           
           // changePrice: this.data.price,
           // changeName: this.data.name,
@@ -170,6 +195,8 @@ export default {
     }
   }
 }
+//변경 후, 삭제 후 db에서 id로  가져오기!!!!
+//없을시 표시x
 
 </script>
 
