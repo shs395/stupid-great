@@ -48,7 +48,7 @@
         >"{{search}}" no result.</v-alert>
       </v-data-table>
       <v-card-text class="text-xs-center">
-        <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
+        <v-pagination color="cyan darken-1" v-model="pagination.page" :length="pages"></v-pagination>
       </v-card-text>
     </v-card-text>
   </v-card>
