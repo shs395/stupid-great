@@ -10,7 +10,7 @@
 
     <v-menu offset-y>
       <v-btn slot="activator" icon>
-        <v-icon>face</v-icon>
+        <v-icon>account_circle</v-icon>
       </v-btn>
       <v-list>
         <v-list-tile v-show="checksignin" v-on:click="OnClicksignin">
