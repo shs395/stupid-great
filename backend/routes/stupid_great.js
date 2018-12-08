@@ -5,6 +5,7 @@ const userModel = require('../db/models/user')
 
 const multer = require('multer');
 
+/*-------------------------------------Stupid great community----------------------------------------------*/
 
 router.get('/', function(req, res){
     StupidGreatModel.find({}, function(err, posts){
@@ -93,6 +94,19 @@ const upload = multer({
 
 router.post('/create/img',upload.single('img'),function(req, res){
     res.json({"state": "ok", "imgname":imgname});
+});
+
+/*-------------------------------------Stupid great result page----------------------------------------------*/
+
+router.get('/result/:id', function(req, res){
+    StupidGreatModel.find({writer: req.params.id}, function(err, posts){
+        if(err) console.log(err)
+        res.send(posts);
+    });
+});
+
+router.post('/delete/:id', function(req, res){
+
 });
 
 module.exports = router;
