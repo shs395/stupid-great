@@ -156,7 +156,7 @@ export default {
 }
 
 #sg-form-create-card{
-    width: 900px;
+    width: 870px;
     height: 650px;
 }
 
@@ -170,7 +170,7 @@ export default {
 }
 
 #sg-create-btns{
-    margin-left:650px;
+    margin-left:600px;
 }
 
 #contents-reset{
