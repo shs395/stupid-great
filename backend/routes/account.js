@@ -1,15 +1,12 @@
 const { Router } = require('express')
 const router = Router()
-// const userModel = require('../db/models/user')
 const accountModel = require('../db/models/account')
 const userModel = require('../db/models/user')
-const bodyparser = require('body-parser')
 const g_category=['월급', '부수입', '용돈', '상여', '금융소득', '기타']
 const l_category=['식비', '교통/차량', '문화생활', '마트/편의점', '패션/미용', '생활용품', '주거/통신', '건강', '교육', '경조사/회비', '가족', '기타']
 
 /* GET users listing. */
 router.use((req, res, next)=>{
-  // res.send('respond with a resource');
   next();
 });
 
@@ -46,118 +43,129 @@ router.post('/create/repeat', async function(req,res){
   const user = await userModel.findOne({id:req.body.id})
   var r_type = req.body.r_type;
   if(r_type=='매일' || r_type=='직접지정' || r_type =='매주'){
-    var p_day = 1;
-    var startDate = req.body.r_start;
-    var sDate = new Date(startDate);
-
+    var p_day = 1;//날짜 간격
+    var startDate = req.body.r_start;//기간 시작 날짜
+    var endDate = req.body.r_end;//기간 끝 날짜
+    
     if(r_type=='직접지정'){
-      p_day=req.body.r_data;
+      p_day=parseInt(req.body.r_data);//받아온 간격
     }
     else if(r_type == '매주'){
-      p_day=7;
+      p_day=7;//일주일 간격
       week = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
       var n_day=null;
-      console.log('?' + req.body.r_data)
-      for(var i = 0;i<7;i++) if(week[i]==req.body.r_data) {n_day=i;break;}
+      for(var i = 0;i<7;i++) if(week[i]==req.body.r_data) {n_day=i;break;}//현재 요일
 
-      // var s_day = new Date(req.body.r_start).getDay()
-      // console.log(s_day+''+n_day)
-      // console.log(sDate)
-      // if(n_day>=s_day){
-      //   // console.log(startDate.slice())s
-      //   sDate.setDate(parseInt(startDate.slice(8,10)) + (n_day-s_day));
-      //   console.log(parseInt(startDate.slice(8,10)) + (n_day-s_day))
-      //   console.log(sDate);
-      //   console.log(new Date(sDate).format('yyyy-dd-mm'))
-      // }
-      // else{
-      //   sDate.setDate(parseInt(startDate.slice(8,10)) + 7+(n_day-s_day));
-      //   console.log(parseInt(startDate.slice(8,10)) + 7+(n_day-s_day))
-      //   console.log(sDate);
-      //   console.log(new Date(sDate).format('yyyy-dd-mm'))
-      // }
-
+      var s_day = new Date(req.body.r_start).getDay()//기간 시작일의 요일
+      if(n_day>=s_day){//시작 요일 <= 반복 요일
+        //기간 시작일 조정
+        var sDate = new Date(startDate);
+        sDate.setDate(sDate.getDate()+ (n_day-s_day));
+        startDate=sDate.toISOString().slice(0,10);//기간 시작일 조정
+      }
+      else{//시작 요일 > 반복 요일
+        //기간 시작일 조정
+        var sDate = new Date(startDate);
+        sDate.setDate(sDate.getDate() + 7+(n_day-s_day));//다음주로 바꿔줌
+        startDate=sDate.toISOString().slice(0,10);
+      }
     }
-  
-    //while문 돌면서 startDate부터 p_day씩 추가하면서 create, endDate 이상 될 시 멈춤, 요일은 for문 2번 나머지는 젤 큰 for문 한번 
-    //시작 date 를 배열로 만들어서 for문
-    //pday 만큼 for문
-    
-    //요일 만큼 for문 + 
-    
-  }
-  else if(r_type == '매월'){
-    console.log('매월')
-    var n_day = parseInt(req.body.r_data);
-    var start_year = parseInt(req.body.r_start.slice(0,4));
-    var start_month = parseInt(req.body.r_start.slice(5,7));
-    var end_year = parseInt(req.body.r_end.slice(0,4));
-    var end_month = parseInt(req.body.r_end.slice(5,7));
-    if(parseInt(req.body.r_start.slice(8,10))>n_day){
-      start_month++;
-      if(start_month==13){
-        start_year++;
-        start_month-=12;
-      }
-    }//시작 날짜 조정
-    if(req.body.r_end.slice(8,10)<n_day){
-      end_month--;
-      if(end_month==0){
-        end_month+=12;
-        end_year--;
-      }
-    }//끝 날짜 조정
 
-    promises = [];
-
-    for(var i=start_year, j=start_month;;j++) {
-      if(j==13){
-        i++;
-        j-=12;
-      }
-
-      if(i+'-'+j>end_year+'-'+end_month) {
+    promises=[];
+    var i = startDate;
+    while(true) {
+      if(i>endDate) {//기간 끝 날짜 초과시 멈추기
         break;
       }
-
-      if(i+'-'+j<=end_year+'-'+end_month){
-        promises.push(
-          accountModel.create(
-          {
-            id: req.body.id, 
-            year: i, 
-            month: j,
-            day: n_day,
-            is:req.body.is, 
-            price: req.body.price, 
-            name: req.body.name, 
-            rate: req.body.rate,
-            category: req.body.category,
-            sex : user.sex,
-            age: user.age,
-            job : user.job
-          })
-        )
-      }
+      promises.push(//create
+        accountModel.create(
+        {
+          id: req.body.id, 
+          year: i.slice(0,4), 
+          month: i.slice(5,7),
+          day: i.slice(8,10),
+          is:req.body.is, 
+          price: req.body.price, 
+          name: req.body.name, 
+          rate: req.body.rate,
+          category: req.body.category,
+          sex : user.sex,
+          age: user.age,
+          job : user.job
+        })
+      )
+      var sDate = new Date(i);//현재 날짜에서 날짜 간격만큼 +하기
+      sDate.setDate(sDate.getDate()+p_day)
+      i=sDate.toISOString().slice(0,10);
     }
     Promise.all(promises).then((result)=> {
       console.log(result)
-      res.send('create')
+      res.send('create')//성공시
     }).catch((err)=>{
       console.log(err)
-      res.send('create fail')
+      res.send('create fail')//실패시
+    }) 
+  }
+  else if(r_type == '매월'){
+    var n_day = parseInt(req.body.r_data);
+    var startDate = req.body.r_start;
+    var endDate = req.body.r_end;
+    
+    //시작 날짜 조정
+    var sDate = new Date(startDate);
+    if(parseInt(startDate.slice(8,10))>n_day){
+      sDate.setMonth(sDate.getMonth()+1);
+    }
+    sDate.setDate(n_day);
+    startDate=sDate.toISOString().slice(0,10);
+
+    promises = [];
+    var i = startDate;
+    while(true){
+      if(i>endDate) {//기간 끝 날짜보다 초과시 멈춤
+        break;
+      }
+      promises.push(
+        accountModel.create(
+        {
+          id: req.body.id, 
+          year: i.slice(0,4), 
+          month: i.slice(5,7),
+          day: n_day,
+          is:req.body.is, 
+          price: req.body.price, 
+          name: req.body.name, 
+          rate: req.body.rate,
+          category: req.body.category,
+          sex : user.sex,
+          age: user.age,
+          job : user.job
+        })
+      )
+
+      //달+1 해주기
+      var sDate = new Date(i);
+      sDate.setMonth(sDate.getMonth()+1);
+      i = sDate.toISOString().slice(0,10)
+    }
+    Promise.all(promises).then((result)=> {
+      console.log(result)
+      res.send('create')//성공시
+    }).catch((err)=>{
+      console.log(err)
+      res.send('create fail')//실패시
     })      
   }
   else if(r_type == '매년'){
-    var n_month = req.body.r_data.slice(5,7);
-    var n_day = req.body.r_data.slice(8,10);
+    var n_month = req.body.r_data.slice(5,7);//지정 달
+    var n_day = req.body.r_data.slice(8,10);//지정 일
     var start_year = req.body.r_start.slice(0,4);
     var end_year = req.body.r_end.slice(0,4)
     if(req.body.r_start.slice(5,10)>req.body.r_data.slice(5,10)){
-      start_year++;
+      start_year++;//기간 시작 년도 조정
     }
     if(req.body.r_end.slice(5,10)<req.body.r_data.slice(5,10)){
-      end_year--;
+      end_year--;//기간 끝 년도 조정
     }
 
     promises = [];
@@ -296,17 +304,4 @@ router.get('/list/:id/:startDate/:endDate/:is', (req,res)=>{
     res.send(err)
   })
 })
-
-
-// //특정 아이디 가계부 가져오기
-// router.get('/accountId/:accountId',(req,res)=>{
-//   accountModel.findOne({
-//     accountId: req.params.accountId
-//     },function(err,accounts){
-//     if(err) console.log(err) 
-//     res.send(accounts)
-//     } 
-//   )
-// })
-
 module.exports = router;

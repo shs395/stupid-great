@@ -8,11 +8,9 @@
         <v-tab>
             통계 보기
         </v-tab>
-        <!-- 가계부 -->
         <v-tab-item>
             <Account/>
         </v-tab-item>
-        <!-- 통계 -->
         <v-tab-item>
           <AccountChart/>
         </v-tab-item>

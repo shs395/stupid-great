@@ -150,7 +150,7 @@
                           min="1"
                           required 
                           v-model="s_d" 
-                          :rules="[v => s_s>0 || '일 간격을 1이상으로 지정해 주세요']"    
+                          :rules="[v => s_d>0 || '일 간격을 1이상으로 지정해 주세요']"    
                         ></v-text-field>
                       </v-flex>
                       <v-flex xs6 v-if="s_t!='매주'&&s_t!='매월'&&s_t!='매년'&&s_t!='직접지정'">
