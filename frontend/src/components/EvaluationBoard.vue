@@ -16,14 +16,6 @@
                         :search="search"
                         :pagination.sync="pagination">
                      
-                         <!-- <template slot="items" slot-scope="props"> 
-                           <tr @click="readData(props.item)">
-                            <td class="text-xs-center">{{props.item.postNumber}}</td>
-                            <td class="text-xs-center">{{props.item.title}}</td>
-                            <td class="text-xs-center">{{props.item.writer}}</td>
-                            <td class="text-xs-center">{{props.item.createdAt}}</td>
-                           </tr>
-                        </template>  -->
                        <template slot="items" slot-scope="props">
                            <tr class="text-xs-center"> 
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.postNumber}}</router-link>
@@ -44,6 +36,7 @@
 </template>
 
 <script>
+
 export default {
     name:'EvaluationBoard',
 
@@ -52,7 +45,7 @@ export default {
             search: '',
             d_info:'',
             items:[],
-            selected:[],
+            selected:'',
             pagination:{
                  page:1,
                  total:5,
@@ -63,7 +56,7 @@ export default {
                 {text:"제목", value:"title" ,sortable:false, align:"center"},
                 {text:"작성자", value:"writer", sortable:false, align:"center"},
                 {text:"작성일", value:"createdAt",sortable:false, align:"center"}
-            ],   
+            ]
         }
     },
     methods:{

@@ -101,4 +101,25 @@ router.post('/withdrawal',async (req,res)=>{
 })
 
 
+//본인이 쓴 게시글 리스트 가져오기
+router.post('/postlist',(req,res,next)=>{
+  var _id=req.body.id
+
+  boardModel.find({writer:_id},function(err,result){
+      if(err) console.log(err)
+
+      res.send(result)
+  })
+})
+
+//본인이 쓴 글 중 선택한 해당게시물 삭제
+router.post('/depost',async(req,res,next)=>{
+  var _id=req.body.id
+  var _num=req.body.number
+  
+  await boardModel.remove({writer:_id,postNumber:_num})
+
+  res.send('remove')
+})
+
 module.exports = router;
