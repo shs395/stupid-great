@@ -5,6 +5,7 @@ const userModel = require('../db/models/user')
 
 const multer = require('multer');
 
+/*-------------------------------------Stupid great community----------------------------------------------*/
 
 router.get('/', function(req, res){
     StupidGreatModel.find({}, function(err, posts){
@@ -27,9 +28,10 @@ router.post('/add/stupid', function(req, res){
 
     StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, post){
         if(err) console.log(err);
-
-        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {stupid: post.stupid++},function(err){
+        var s_count = post.stupid + 1;
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {stupid: s_count},function(err,post){
             if(err) console.log(err);
+            console.log("stupid 수" + post.stupid)
         });
         userModel.findOneAndUpdate({id: req.body.userid},{ "$push" : {"selectSG" : post.PostNumber}}, function(err, user){
             if(err) console.log(err);
@@ -42,8 +44,8 @@ router.post('/add/stupid', function(req, res){
 router.post('/add/great', function(req, res){
     StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, post){
         if(err) console.log(err);
-
-        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {stupid: post.great++},function(err){
+        var g_count = post.great + 1;
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {great: g_count},function(err){
             if(err) console.log(err);
         });
         userModel.findOneAndUpdate({id: req.body.userid},{ "$push" : {"selectSG" : post.PostNumber}}, function(err, user){
@@ -93,6 +95,19 @@ const upload = multer({
 
 router.post('/create/img',upload.single('img'),function(req, res){
     res.json({"state": "ok", "imgname":imgname});
+});
+
+/*-------------------------------------Stupid great result page----------------------------------------------*/
+
+router.get('/result/:id', function(req, res){
+    StupidGreatModel.find({writer: req.params.id}, function(err, posts){
+        if(err) console.log(err)
+        res.send(posts);
+    });
+});
+
+router.post('/delete/:id', function(req, res){
+
 });
 
 module.exports = router;

@@ -5,7 +5,7 @@
         <v-layout row wrap>
         <v-flex xs4 sm6 md4>
           <v-menu
-            :close-on-content-click="ture"
+            :close-on-content-click="false"
             v-model="menu1"
             :nudge-right="40"
             lazy
@@ -27,7 +27,7 @@
         <v-spacer></v-spacer>
         <v-flex xs4 sm6 md4>
           <v-menu
-            :close-on-content-click="ture"
+            :close-on-content-click="false"
             v-model="menu2"
             :nudge-right="40"
             lazy
