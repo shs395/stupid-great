@@ -15,10 +15,10 @@
           <td>
             <p>
               <strong>{{props.item.author}}</strong>
-              <v-spacer/>
-              <span color="gray">| {{props.item.createdAt}}</span>
+              <br>
+              <span color="gray">| {{props.item.createdAt.slice(0,10)}} {{props.item.createdAt.slice(11,19)}}</span><br>
+              <span>{{props.item.body}}</span>
             </p>
-            <p>{{props.item.body}}</p>
           </td>
         </template>
       </v-data-table>
@@ -31,7 +31,7 @@ export default {
   data: function() {
     return {
       comment: "",
-      c_items: [{ divider: true, inset: true }]
+      c_items:''
     };
   },
   methods: {

@@ -8,7 +8,7 @@
               <td>{{props.item.postNumber}}</td>
               <td>{{props.item.title}}</td>
               <td>{{props.item.writer}}</td>
-              <td>{{props.item.createdAt}}</td>
+              <td>{{props.item.createdAt.slice(0,10)}} {{props.item.createdAt.slice(11,20)}}</td>
               <td>{{props.item.views}}</td>
               <td @click="depost(props.item)">
                 <v-btn flat>

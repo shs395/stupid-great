@@ -21,7 +21,7 @@
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.postNumber}}</router-link>
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.title}}</router-link>
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.writer}}</router-link>
-                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.createdAt}}</router-link>
+                            <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.createdAt.slice(0,10)}} {{props.item.createdAt.slice(11,19)}}</router-link>
                             <router-link :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}" tag="td">{{props.item.views}}</router-link>
                           
                            </tr>
