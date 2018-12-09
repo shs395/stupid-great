@@ -41,14 +41,15 @@ export default {
 
         var length = this.post.content.length;
         var postContent = '';
-
-        for(var i = 1; i <= length/20 ; i++){
+        var i;
+        for(i = 1; i <= length/20 ; i++){
             if(this.post.content.charAt(20*i+ (i-1)) == '\n'){
                 postContent += this.post.content.substring(20*(i-1) + (i-1) , 20*i + (i-1))
             }else{
                 postContent += this.post.content.substring(20*(i-1) + (i-1), 20*i + (i-2)) + "\n"
             }
         }
+        postContent += this.post.content.substring(20*(i-1)+ (i-1), length);
         console.log(postContent)
 
         this.post.content = postContent;
