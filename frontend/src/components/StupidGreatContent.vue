@@ -13,12 +13,12 @@
                 <v-flex xs7>
                     <v-card-title primary-title>
                         <div>
-                        <div class="headline">제목 : <span>{{post.title}}</span></div>
-                        <div>내용 : {{post.content}}</div>
-                        <div>가격 : {{post.price}}</div>
+                            <div class="headline">제목 : <span>{{post.title}}</span></div>
+                            <div>내용 : {{post.content}}</div>
+                            <div>가격 : <span>{{post.price}} 원</span></div>
                         </div>
                     </v-card-title>
-                    </v-flex>
+                </v-flex>
             </v-layout>
                 
             <v-divider light></v-divider>
@@ -39,17 +39,31 @@ export default {
 
     mounted (){
 
-            this.$http.get(`/stupid_great/${this.$session.get('id')}`)
-            .then((result) => {
-                this.readpost = result.data;
-                console.log(result.data);
-                for(var i = 1; i<= this.readpost.length; i++){
-                    if(this.post.PostNumber == this.readpost[i]){
-                        return this.showbtn = false;
-                    }
+        var length = this.post.content.length;
+        var postContent = '';
+
+        for(var i = 1; i <= length/20 ; i++){
+            if(this.post.content.charAt(20*i+ (i-1)) == '\n'){
+                postContent += this.post.content.substring(20*(i-1) + (i-1) , 20*i + (i-1))
+            }else{
+                postContent += this.post.content.substring(20*(i-1) + (i-1), 20*i + (i-2)) + "\n"
+            }
+        }
+        console.log(postContent)
+
+        this.post.content = postContent;
+
+        this.$http.get(`/stupid_great/${this.$session.get('id')}`)
+        .then((result) => {
+            this.readpost = result.data;
+            console.log(result.data);
+            for(var i = 1; i<= this.readpost.length; i++){
+                if(this.post.PostNumber == this.readpost[i]){
+                    return this.showbtn = false;
                 }
-                return this.showbtn = true;
-            });
+            }
+            return this.showbtn = true;
+        });
 
         if(!this.post.image){
             this.imgpath = "http://localhost:3000/static/img/noimage.jpg";
@@ -67,7 +81,8 @@ export default {
         return{
             imgpath: '',
             readpost: [],
-            showbtn : ''
+            showbtn : '',
+            postContent : ''
         }
     },
 
@@ -114,12 +129,13 @@ export default {
 <style>
 
 #sg-content{
-    width: 400px;
-    height: 250px; 
+    width: 480px;
+    height: auto;
+    margin-bottom : 40px;
 }
 
 #sg-btns-group{
-    width: 277px;
+    width: 280px;
     margin: 0 auto;
     margin-top:5px;
 }
@@ -128,7 +144,6 @@ export default {
     width: 130px;
     height: 50px;
     font-size:30px;
-    
 }
 
 #stupid-btn{

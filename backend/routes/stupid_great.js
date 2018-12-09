@@ -116,4 +116,10 @@ router.post('/delete', function(req, res){
     })
 });
 
+/*
+router.post('/update', function(req, res){
+    StupidGreatModel.findOneAndUpdate({PostNumber : req.body.PostNumber}, {})
+});
+*/
+
 module.exports = router;

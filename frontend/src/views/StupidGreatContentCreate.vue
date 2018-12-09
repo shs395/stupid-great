@@ -17,6 +17,9 @@
                 label="제목"
                 name="sgTitle"
                 v-model="sgForm.sgTitle"
+                :rules="[v => v <= 15 || '제목은 최대 15글자 입니다.']"
+                counter
+                maxlength="15"
                 box
             ></v-text-field>
             </v-flex>
@@ -26,6 +29,9 @@
                 label="내용"
                 v-model="sgForm.sgContent"
                 id="sg-content-edit"
+                :rules="[v => v <= 100 || '내용은 최대 100글자 입니다.']"
+                counter
+                maxlength="100"
                 ></v-textarea>
             </v-flex>
             <v-flex>

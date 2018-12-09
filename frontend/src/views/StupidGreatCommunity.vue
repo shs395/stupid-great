@@ -95,8 +95,8 @@ export default {
 
 #sg-content-cards{
     width: 400px;
-    height: 250px;
-    margin-left:50px;
+    height: auto;
+    margin-left:30px;
     margin-top: 30px;
 }
 
@@ -106,12 +106,11 @@ export default {
 }
 
 #sg-community-bg{
-  background: url(../assets/koreamoney.jpg) no-repeat center center fixed; 
+  background: url(../assets/koreamoney.jpg) center; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 
-  min-block-size: 753px;
 }
 </style>

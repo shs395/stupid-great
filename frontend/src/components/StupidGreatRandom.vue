@@ -109,35 +109,9 @@ export default {
             this.$http.get('/stupid_great')
             .then((result) => {
                 this.posts = result.data;
-                /*//
-                길이로 random 돌림 
-                1234->3
-                1245 -> 3 -> 4
-                i
-                this.post = this.posts[i-1]
-
-                for(i)
-                    this.posts[i]  == random
-                */
 
                 var random = Math.floor(Math.random() * this.posts.length) + 1;
                 this.post = this.posts[random -1];
-
-               
-                /*var flag = false;
-                while(!flag){
-                var lastPostNumber = this.posts[this.posts.length -1].PostNumber; // 가져온 배열의 길이로 랜덤
-                var random = Math.floor(Math.random() * lastPostNumber) + 1;
-                console.log(random);
-
-                    for(var i = 0; i< this.posts.length; i++){
-                        if(this.posts[i].PostNumber == random){
-                            this.post = this.posts[i];
-                            flag = true;
-                            break;
-                        }
-                    }
-                }*/
 
                 this.$http.get(`/stupid_great/${this.$session.get('id')}`)
                 .then((result) => {

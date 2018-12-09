@@ -52,7 +52,8 @@
                           label="나이" 
                           v-model="user.userage" 
                           type="number" 
-                          min="14"
+                          min="1"
+                          max="99"
                           :rules="[v => !!v || '나이를 입력해 주세요']" 
                           required></v-text-field>
                       </v-flex>
