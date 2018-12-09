@@ -10,7 +10,7 @@
             게시물 목록 보기
         </v-tab>
 
-        <v-tab-item>
+        <v-tab-item lazy="true">
             <v-card id="random-component">
                     <StupidGreatRandom />
             </v-card>
@@ -29,7 +29,7 @@
             </v-btn>
         </v-tab-item>
 
-        <v-tab-item >
+        <v-tab-item lazy="true">
             <v-layout row wrap>
             <v-btn
               color="indigo lighten-2"

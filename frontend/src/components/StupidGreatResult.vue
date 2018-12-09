@@ -28,7 +28,7 @@
                 
             <v-divider light></v-divider>
             
-            <div>stupid : {{result.stupid}} 표, {{s_percent}} , great : {{result.great}} 표, {{g_percent}}</div>
+            <div>stupid : {{s_percent}}({{result.stupid}} 표) | great : {{g_percent}}({{result.great}} 표)</div>
             
             <v-progress-linear
                 id="percentBar"

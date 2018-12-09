@@ -80,9 +80,9 @@ export default {
             });
 
             alert('stupid를 선택하셨습니다!');
-            // this.OnClickRandomSkip();
+            this.OnClickRandomSkip();
 
-            return location.href="/stupid-great-community";
+            // return location.href="/stupid-great-community";
 
         },
 
@@ -100,8 +100,8 @@ export default {
 
             alert('great를 선택하셨습니다!');
 
-          //  this.OnClickRandomSkip();
-          return location.href="/stupid-great-community";
+            this.OnClickRandomSkip();
+         // return location.href="/stupid-great-community";
         },
         
         OnClickRandomSkip (){
@@ -109,9 +109,24 @@ export default {
             this.$http.get('/stupid_great')
             .then((result) => {
                 this.posts = result.data;
-                var flag = false;
+                /*//
+                길이로 random 돌림 
+                1234->3
+                1245 -> 3 -> 4
+                i
+                this.post = this.posts[i-1]
+
+                for(i)
+                    this.posts[i]  == random
+                */
+
+                var random = Math.floor(Math.random() * this.posts.length) + 1;
+                this.post = this.posts[random -1];
+
+               
+                /*var flag = false;
                 while(!flag){
-                var lastPostNumber = this.posts[this.posts.length -1].PostNumber;
+                var lastPostNumber = this.posts[this.posts.length -1].PostNumber; // 가져온 배열의 길이로 랜덤
                 var random = Math.floor(Math.random() * lastPostNumber) + 1;
                 console.log(random);
 
@@ -122,7 +137,7 @@ export default {
                             break;
                         }
                     }
-                }
+                }*/
 
                 this.$http.get(`/stupid_great/${this.$session.get('id')}`)
                 .then((result) => {
