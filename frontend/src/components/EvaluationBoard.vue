@@ -18,7 +18,7 @@
       >
         <template slot="items" slot-scope="props">
           <tr class="text-xs-center">
-            <router-link
+            <router-link v-if="false"
               :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
               tag="td"
             >{{props.item.postNumber}}</router-link>
@@ -57,7 +57,6 @@
 <script>
 export default {
   name: "EvaluationBoard",
-
   data: function() {
     return {
       search: "",
@@ -71,12 +70,12 @@ export default {
         page: 1
       },
       headers: [
-        {
-          text: "게시글번호",
-          value: "postNumber",
-          sortable: false,
-          align: "center"
-        },
+        // {
+        //   text: "게시글번호",
+        //   value: "postNumber",
+        //   sortable: false,
+        //   align: "center"
+        // },
         { text: "제목", value: "title", sortable: false, align: "center" },
         { text: "작성자", value: "writer", sortable: false, align: "center" },
         {
@@ -89,7 +88,6 @@ export default {
       ]
     };
   },
-
   mounted() {
     this.$http.get("/board/list").then(response => {
       this.items = response.data;

@@ -173,7 +173,7 @@ export default {
       this.rate= this.data.rate
       this.accountId= this.data.accountId
       this.isShow = true
-      this.isShow = true
+
     }
   }
 }
