@@ -56,7 +56,6 @@
                                         <v-text-field xs12
                                             v-model="update_title" 
                                             label="제목" 
-                                            :rules="[v => v.length <= 15 || '제목은 최대 15글자 입니다.']"
                                             counter
                                             maxlength="15"
                                             required>
@@ -68,7 +67,6 @@
                                             label="내용"
                                             v-model="update_content"
                                             id="sg-content-edit"
-                                            :rules="[v => v.length <= 100 || '내용은 최대 100글자 입니다.']"
                                             counter
                                             maxlength="100"
                                         ></v-textarea>
@@ -78,6 +76,8 @@
                                         label="가격"
                                         v-model="update_price"
                                         type="number"
+                                        min="0"
+                                        :rules="[v => v>0 || '가격을 작성해주세요']"
                                         required
                                         ></v-text-field>
                                     </v-flex>

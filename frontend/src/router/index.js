@@ -1,9 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
+
+// import VueSession from 'vue-session'
+// Vue.use(VueSession)
+
 //import BoardContentShow from '../components/BoardContentShow.vue'
 
 Vue.use(Router)
+
+// const requireAuth = () => (to, from, next) => {
+//   var id = this.$session.exists()
+//   if ( this.$session.exists()) return next()
+//   next('/signin')
+// }
+
 
 export default new Router({
   mode: 'history',
@@ -12,9 +23,10 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+
     },
-    /*
+        /*
     {
       path: '/about',
       name: 'about',
@@ -28,11 +40,13 @@ export default new Router({
       path: '/signin',
       name: 'signin',
       component: () => import('../views/Signin.vue')
+      
     },
     {
       path: '/mypage',
       name: 'mypage',
       component: () => import('../views/MyPage.vue')
+      
     },
     {
       path: '/developers',

@@ -59,6 +59,12 @@ export default {
 
         }
     },
+    beforeCreate: function () {
+      if (!this.$session.exists()) {
+          alert('로그인을 먼저해주세요');
+          this.$router.push('/signin')
+      }
+    },
     methods:{
         savepost(){
             var infoPost={id:this.$session.get('id'),title:this.title,body:this.body,date:this.date}

@@ -23,7 +23,6 @@
                 label="제목"
                 name="sgTitle"
                 v-model="sgForm.sgTitle"
-                :rules="[v => v <= 15 || '제목은 최대 15글자 입니다.']"
                 counter
                 maxlength="15"
                 box
@@ -36,7 +35,6 @@
                 label="내용"
                 v-model="sgForm.sgContent"
                 id="sg-content-edit"
-                :rules="[v => v <= 100 || '내용은 최대 100글자 입니다.']"
                 counter
                 maxlength="100"
                 required
@@ -47,7 +45,8 @@
                 label="가격"
                 v-model="sgForm.sgPrice"
                 type="number"
-                :rules="[v => !!v || '가격을 입력해 주세요']"
+                min="0"
+                :rules="[v => v>0 || '가격을 입력해 주세요']"
                 box
                 required
             ></v-text-field>
@@ -83,6 +82,12 @@ export default {
             files: [],
             imgbuf :'',
         }
+    },
+    beforeCreate: function () {
+      if (!this.$session.exists()) {
+          alert('로그인을 먼저해주세요');
+          this.$router.push('/signin')
+      }
     },
 
     methods:{
