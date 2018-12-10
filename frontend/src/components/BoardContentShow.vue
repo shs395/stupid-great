@@ -3,12 +3,12 @@
         <v-container fluid justify-center>
                 <h2 class="text-xs-center">Title : {{post_items.title}}</h2>
                      <v-divider/>
-                    <h3 class="text-xs-center"><br>Content : {{post_items.content}}</h3>
+                    <h3 class="text-xs-center"><br>{{post_items.content}}</h3>
                     <v-flex xs3>
                         <p>Author : {{post_items.writer}}</p>
-                        <p>CreatedAt : {{created_time1}} {{created_time2}}</p>
+                        <p>CreatedAt : {{created_time1}}</p>
                     </v-flex>
-                <v-layout row>
+                <v-layout row v-if="is_loaded1" >
                     <v-flex xs6>
                     <v-card>
                     <v-card-text><h4>{{year}}년 {{month}}월의 수입 총합 {{total_in_price}}원</h4></v-card-text>
@@ -172,6 +172,7 @@
                         </v-card>
                     </v-flex>
                 </v-layout>
+                <v-layout v-if="is_loaded2">해당 날짜의 데이터가 없습니다</v-layout>
         </v-container>
     
     </div>
@@ -208,10 +209,10 @@
                 year:'',
                 month:'',
                 created_time1:'',
-                created_time2:'',
                 total_in_price:0,
                 total_out_price:0,
-                
+                is_loaded1:false,
+                is_loaded2:false,
                 date: new Date().toISOString().substr(0, 7),   
                 labels_in:['월급', '부수입', '용돈', '상여', '금융소득', '기타'],
                 labels_out:['식비', '교통/차량', '문화생활', '마트/편의점', '패션/미용', '생활용품', '주거/통신', '건강', '교육', '경조사/회비', '가족', '기타'],
@@ -221,13 +222,19 @@
         methods:{
             get(){
                 this.$http.get(`/board/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
-                    this.post_items=response.data,
+                    this.post_items=response.data
+                    console.log(this.post_items.in_account_info[0])
+                    if(this.post_items.in_account_info[0].length==0 && this.post_items.out_account_info[0].length==0) //해당 날짜 데이터 없으면
+                    { 
+                        this.is_loaded2=true
+                    }
+                    else{   //해당 날짜 데이터 있으면
+                        this.is_loaded1=true
                     this.in_info_items=this.post_items.in_account_info[0]
                     this.out_info_items=this.post_items.out_account_info[0]
                     this.year=this.out_info_items[0].year
                     this.month=this.out_info_items[0].month
                     this.created_time1=this.post_items.createdAt.slice(0,10)
-                    this.created_time2=this.post_items.createdAt.slice(11,19)
 
                        for(var j=0; j<this.in_info_items.length; j++){
                         if(this.in_info_items[j].category=="월급"){
@@ -286,6 +293,7 @@
                         if(this.out_info_items[j].category=="기타"){
                            this.out_data12.push({name:this.out_info_items[j].name,price:this.out_info_items[j].price})
                        }
+                   }
                    }
                 
                     console.log(this.post_items)}).catch((err)=>console.log(err))
