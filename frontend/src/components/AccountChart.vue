@@ -57,17 +57,17 @@
       <v-layout row>
         <v-flex xs6>
             <v-card>
-                <v-card-text v-if="is_show==true">
-                  {{startDate}} ~ {{endDate}}에 대한 수입 통계 
+                <v-card-text v-if="is_show==true" class="showChart">
                 <chartjs-doughnut v-if="is_show==true" :labels="g_labels" :datasets="[{data:g_data, backgroundColor: g_backgroundColor}]" :option="g_options"></chartjs-doughnut>
+                <h2>총합: {{g_sum}}원</h2>
                 </v-card-text>
             </v-card>
         </v-flex>
         <v-flex xs6>
             <v-card>
-                <v-card-text v-if="is_show==true">
-                  {{startDate}} ~ {{endDate}}에 대한 지출 통계 
+                <v-card-text v-if="is_show==true" class="showChart">
                   <chartjs-doughnut v-if="is_show==true" :labels="l_labels" :datasets="[{data:l_data, backgroundColor: l_backgroundColor}]" :option="l_options"></chartjs-doughnut>
+                  <h2>총합: {{l_sum}}원</h2>
                 </v-card-text>
             </v-card>
         </v-flex>
@@ -87,14 +87,13 @@ import 'v-calendar/lib/v-calendar.min.css'
     props:["data"],
     data () {
       return {
-        
-        gain:[0,0,0,0,0,0],
-        lose:[0,0,0,0,0,0,0,0,0,0,0,0],
         g_data:[0,0,0,0,0,0],
+        g_sum:0,
         g_backgroundColor:[
           "#FF6384","#36A2EB","#FFCE56","#F56314","#32A21B","#78909C"
         ],
         l_data:[0,0,0,0,0,0,0,0,0,0,0,0],
+        l_sum:0,
         l_backgroundColor:[
           "#FF6384","#36A2EB","#FFCE56","#F56314","#32A21B","#7E57C2",
           "#D4E157","#3D5AFE","#26A69A","#BA68C8","#795548","#78909C"
@@ -133,9 +132,13 @@ import 'v-calendar/lib/v-calendar.min.css'
           this.$http.get('/account/list/'+this.$session.get('id')+'/'+this.startDate+'/'+this.endDate+'/'+'수입')
           .then((result)=>{
             this.g_data = result.data
+            this.g_sum=0;
+            for(var i =0;i<6;i++) this.g_sum+=this.g_data[i]
              this.$http.get('/account/list/'+this.$session.get('id')+'/'+this.startDate+'/'+this.endDate+'/'+'지출')
             .then((result)=>{
               this.l_data = result.data
+              this.l_sum=0;
+              for(var i =0;i<12;i++) this.l_sum+=this.l_data[i]
               this.is_show=true;
             })
             .catch((err)=>{
@@ -161,4 +164,7 @@ import 'v-calendar/lib/v-calendar.min.css'
 </script>
 
 <style>
+.showChart{
+  text-align: center
+}
 </style>
