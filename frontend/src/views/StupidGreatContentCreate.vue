@@ -8,7 +8,13 @@
                 <input type="file" id="imgFile" name="imgFile" @change="uploadIMG($event.target.name, $event.target.files)" @drop="uploadIMG($event.target.name, $event.target.files)">
                 <h3>파일을 드래그해서 드랍해주세요!</h3>
             </div>
-            <div id="imgDiv"></div>
+            <div>
+                <v-img
+                    :src="imgbuf"
+                    height="500px"
+                    contain>
+                    </v-img>
+            </div>
             </v-flex>
         </v-card>
         <v-card id="sg-form-create-card">
@@ -17,7 +23,11 @@
                 label="제목"
                 name="sgTitle"
                 v-model="sgForm.sgTitle"
+                :rules="[v => v <= 15 || '제목은 최대 15글자 입니다.']"
+                counter
+                maxlength="15"
                 box
+                required
             ></v-text-field>
             </v-flex>
             <v-flex>
@@ -26,6 +36,10 @@
                 label="내용"
                 v-model="sgForm.sgContent"
                 id="sg-content-edit"
+                :rules="[v => v <= 100 || '내용은 최대 100글자 입니다.']"
+                counter
+                maxlength="100"
+                required
                 ></v-textarea>
             </v-flex>
             <v-flex>
@@ -33,7 +47,9 @@
                 label="가격"
                 v-model="sgForm.sgPrice"
                 type="number"
+                :rules="[v => !!v || '가격을 입력해 주세요']"
                 box
+                required
             ></v-text-field>
             </v-flex>
             <div id="sg-create-btns">
@@ -65,16 +81,13 @@ export default {
                 sgImg: ""
             },
             files: [],
-            count : Number
+            imgbuf :'',
         }
     },
 
     methods:{
 
         uploadIMG(name, files){
-            if(this.count == 1){
-                alert('이미지는 한장만 올려주세요!');
-            }else{
                 const formData = new FormData();
                 console.log(files)
                 formData.append('img', files[0]);
@@ -82,19 +95,8 @@ export default {
                 .then((result)=>{
                     console.log(result);
                     this.sgForm.sgImg = result.body.imgname;
+                    this.imgbuf = "http://localhost:3000/static/img/sg_images/" + result.body.imgname; 
                 });
-
-                var fr = new FileReader();
-                var img = document.createElement("img");
-                var imgDiv = document.querySelector("#imgDiv");
-                fr.onload = function() {
-                    img.src = fr.result;
-                    img.classList.add("margin-bottom");
-                    imgDiv.appendChild(img);
-                }
-                fr.readAsDataURL(event.target.files[0]);
-                this.count = 1;
-            }
         },
 
         OnClickUpload(){
@@ -164,11 +166,6 @@ export default {
     height: 390px;
 }
 
-#imgDiv{
-    width: 620px;
-    height: 500px;
-}
-
 #sg-create-btns{
     margin-left:600px;
 }
@@ -179,12 +176,5 @@ export default {
 
 #contents-upload{
     color:white;
-}
-
-.margin-bottom{
-    margin-bottom:10px;
-    display: block;
-    width: 620px;
-    height: 500px;
 }
 </style>
