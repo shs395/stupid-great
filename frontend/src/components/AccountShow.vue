@@ -24,15 +24,16 @@
     </v-card-text>
     <v-card-text class="account_text">
       <v-container id="scroll-target" style="height: 300px" class="scroll-y">
-        <span v-for="account in accounts">
+        <span v-for="account in accounts" :key="account.accountId">
           <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate, accountId: account.accountId, y:data.y, m:data.m, d:data.d, is:data.is}"></AccountComp>
         </span>
       </v-container>
     </v-card-text>
     <v-card-actions>
       <v-layout row justify-center>
-        <v-flex xs10>
+        <v-flex xs12 class="addButton">
           <v-btn slot="activator" color="orange" dark @click="dialog=true" id="add_b">추가</v-btn>
+        </v-flex>
           <v-dialog v-model="dialog"  persistent max-width="600px" v-if="dialog==true">
             <v-card>
               <v-form ref="form">
@@ -129,7 +130,7 @@
                           <v-text-field
                             slot="activator"
                             v-model="sDate"
-                            label="start day"
+                            label="date"
                             prepend-icon="event"
                             readonly
                             :rules="[v => !!v || '날짜를 지정해 주세요']"  
@@ -205,7 +206,7 @@
               </v-form>
             </v-card>
           </v-dialog>
-        </v-flex>
+        <!-- </v-flex> -->
       </v-layout>
     </v-card-actions>
   </v-card>
@@ -324,7 +325,10 @@ import AccountComp from "../components/AccountComp";
       this.get_accounts()
     },
     watch:{
-      data : function(){this.get_accounts()},
+      data : function(){
+        this.get_accounts()
+        this.s_select = this.data.selectedDate
+      },
       checkbox : function(){
         if(this.checkbox==true) 
           this.isChecked='함'
@@ -360,5 +364,8 @@ import AccountComp from "../components/AccountComp";
   padding-bottom: 0px;
   /* align-content: center;
   text-align: center; */
+}
+.addButton{
+  text-align: center
 }
 </style>

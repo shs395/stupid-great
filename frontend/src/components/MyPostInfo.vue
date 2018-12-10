@@ -18,7 +18,7 @@
               <td @click="postview(props.item)">
                 <v-btn flat>
                   <v-icon>visibility</v-icon>
-                </v-btn>
+                </v-btn> 
               </td>
             </tr>
           </template>
