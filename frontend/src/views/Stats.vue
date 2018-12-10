@@ -21,8 +21,15 @@
                 </span>
                   의 {{viewYear}}년 {{viewMonth}}월 가계부 평균
               </h1>
-              <h2 class="text-md-center" v-if="searchOthersResult">
-                조건에 맞는 다른 사람의 데이터가 없습니다.
+              <!-- searchMyResult 나 searchOthersResult 가 true 면 데이터 없는 것-->
+              <h2 class="text-md-center" v-if="(searchMyResult === true)&&(searchOthersResult === true)">
+                -조건에 맞는 나와 다른 사람의 데이터가 없습니다.-
+              </h2>
+              <h2 class="text-md-center" v-if="(searchMyResult === true)&&(searchOthersResult === false)">
+                -조건에 맞는 나의 데이터가 없습니다.-
+              </h2>
+              <h2 class="text-md-center" v-if="(searchMyResult === false)&&(searchOthersResult === true)">
+                -조건에 맞는 다른 사람의 데이터가 없습니다.-
               </h2>
               <v-tabs right> 
                 <v-tab>
@@ -185,7 +192,8 @@
         ospend : [0,0,0,0,0,0,0,0,0,0,0,0,0],
         
         isSimilar : true,
-        searchOthersResult : true,
+        searchOthersResult : false,
+        searchMyResult : false,
       }
     },
     methods:{
@@ -216,6 +224,10 @@
         this.viewMonth= ''
 
         this.isMe = 0
+
+        //false 값이 데이터 찾은 것 => 일단 찾은 것으로 간주함
+        this.searchOthersResult = false,
+        this.searchMyResult = false
       },
       setViewValue : function(){
         this.viewStartAge= this.selectedStartAge,
@@ -236,6 +248,9 @@
           //나에 대한 것들
           console.log(response.body)
           var i = 0
+          if(response.body.length < 1){
+            this.searchMyResult = true
+          }
           while(i < response.body.length){
             if(response.body[i].is==="수입"){
                 this.incomeMe += response.body[i].price
@@ -335,8 +350,6 @@
           console.log(response.body)
           if(response.body.length === 1){
             this.searchOthersResult = true
-          }else{
-            this.searchOthersResult = false
           }
           var i = 0; 
           //베열의 마지막에 찾은 사람의 개수를 넣어주었기 때문에 배열 개수 -1 해줌
