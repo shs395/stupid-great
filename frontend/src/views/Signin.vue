@@ -8,7 +8,7 @@
         <v-flex xs12 sm12>
           <v-text-field
             name="id"
-            v-model="id"
+            v-model="id" 
             label="ID"
             outline
           ></v-text-field>
