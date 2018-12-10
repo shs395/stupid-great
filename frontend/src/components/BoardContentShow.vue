@@ -15,23 +15,23 @@
                     <v-divider></v-divider>
                         <v-expansion-panel popout>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_in[0]}} : {{in_price[0]}}원</div>
+                                <div slot="header">{{labels_in[0]}}  :  {{in_price[0]}}원</div>
                                 <v-card>
                                     <div  v-for="i in in_data1" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_in[1]}} : {{in_price[1]}}원</div>
+                                <div slot="header">{{labels_in[1]}}  :  {{in_price[1]}}원</div>
                                 <v-card>
                                     <div  v-for="i in in_data2" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_in[2]}}:{{in_price[2]}}원</div>
+                                <div slot="header">{{labels_in[2]}} : {{in_price[2]}}원</div>
                                 <v-card>
                                     <div  v-for="i in in_data3" :key="i.id">
                                     <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
@@ -39,26 +39,26 @@
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_in[3]}} : {{in_price[3]}}원</div>
+                                <div slot="header">{{labels_in[3]}}  :  {{in_price[3]}}원</div>
                                 <v-card>
                                     <div  v-for="i in in_data4" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_in[4]}} : {{in_price[4]}}원</div>
+                                <div slot="header">{{labels_in[4]}}  :  {{in_price[4]}}원</div>
                                 <v-card>
                                     <div  v-for="i in in_data5" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                              <v-expansion-panel-content>
-                                <div slot="header">{{labels_in[5]}} : {{in_price[5]}}원</div>
+                                <div slot="header">{{labels_in[5]}}  :  {{in_price[5]}}원</div>
                                 <v-card>
                                     <div  v-for="i in in_data6" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
@@ -73,98 +73,98 @@
                     <v-divider></v-divider>
                         <v-expansion-panel popout>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[0]}} : {{out_price[0]}}원</div>
+                                <div slot="header">{{labels_out[0]}}  :  {{out_price[0]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data1" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[1]}} : {{out_price[1]}}원</div>
+                                <div slot="header">{{labels_out[1]}}  :  {{out_price[1]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data2" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[2]}} : {{out_price[2]}}원</div>
+                                <div slot="header">{{labels_out[2]}}  :  {{out_price[2]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data3" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[3]}} : {{out_price[3]}}원</div>
+                                <div slot="header">{{labels_out[3]}}  :  {{out_price[3]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data4" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[4]}} : {{out_price[4]}}원</div>
+                                <div slot="header">{{labels_out[4]}}  :  {{out_price[4]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data5" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[5]}} : {{out_price[5]}}원</div>
+                                <div slot="header">{{labels_out[5]}}  :  {{out_price[5]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data6" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[6]}} : {{out_price[6]}}원</div>
+                                <div slot="header">{{labels_out[6]}}  :  {{out_price[6]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data7" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[7]}} : {{out_price[7]}}원</div>
+                                <div slot="header">{{labels_out[7]}}  :  {{out_price[7]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data8" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[8]}} : {{out_price[8]}}원</div>
+                                <div slot="header">{{labels_out[8]}}  :  {{out_price[8]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data9" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[9]}} : {{out_price[9]}}원</div>
+                                <div slot="header">{{labels_out[9]}}  :  {{out_price[9]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data10" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[10]}} : {{out_price[10]}}원</div>
+                                <div slot="header">{{labels_out[10]}}  :  {{out_price[10]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data11" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
-                                <div slot="header">{{labels_out[11]}} : {{out_price[11]}}원</div>
+                                <div slot="header">{{labels_out[11]}}  :  {{out_price[11]}}원</div>
                                 <v-card>
                                     <div  v-for="i in out_data12" :key="i.id">
-                                    <v-card-text>{{i.name}} : {{i.price}}원</v-card-text>
+                                    <v-card-text>{{i.name}}  :  {{i.price}}원</v-card-text>
                                     </div>
                                 </v-card>
                             </v-expansion-panel-content>
@@ -209,8 +209,8 @@
                 month:'',
                 created_time1:'',
                 created_time2:'',
-                total_in_price:'',
-                total_out_price:'',
+                total_in_price:0,
+                total_out_price:0,
                 
                 date: new Date().toISOString().substr(0, 7),   
                 labels_in:['월급', '부수입', '용돈', '상여', '금융소득', '기타'],
@@ -296,7 +296,7 @@
                     this.in_price=response.data
                     console.log(this.in_price)
                     for(var i=0; i<this.in_price.length; i++){
-                        this.total_in_price=this.in_price[i]
+                        this.total_in_price+=this.in_price[i]
                     }
                     console.log(this.total_in_price)
                    }).catch((err)=>console.log(err))
@@ -305,7 +305,7 @@
                 this.$http.get(`/board/out/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
                     this.out_price=response.data
                      for(var i=0; i<this.out_price.length; i++){
-                        this.total_out_price=this.out_price[i]
+                        this.total_out_price+=this.out_price[i]
                     }
                     console.log(this.out_price)}).catch((err)=>console.log(err))
             }

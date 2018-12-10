@@ -35,7 +35,6 @@
                       
                 </v-card>   
             </v-container>
-            <p>{{date}}</p>
       </div>      
 </template>
 
