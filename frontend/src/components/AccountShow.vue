@@ -24,7 +24,7 @@
     </v-card-text>
     <v-card-text class="account_text">
       <v-container id="scroll-target" style="height: 300px" class="scroll-y">
-        <span v-for="account in accounts">
+        <span v-for="account in accounts" :key="account.accountId">
           <AccountComp v-bind:data="{category:account.category, name:account.name, price:account.price, rate:account.rate, accountId: account.accountId, y:data.y, m:data.m, d:data.d, is:data.is}"></AccountComp>
         </span>
       </v-container>
@@ -325,7 +325,10 @@ import AccountComp from "../components/AccountComp";
       this.get_accounts()
     },
     watch:{
-      data : function(){this.get_accounts()},
+      data : function(){
+        this.get_accounts()
+        this.s_select = this.data.selectedDate
+      },
       checkbox : function(){
         if(this.checkbox==true) 
           this.isChecked='함'
