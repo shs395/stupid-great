@@ -15,6 +15,7 @@
         :pagination.sync="pagination"
         rows-per-page-text
         class="elevation-1"
+      
       >
         <template slot="items" slot-scope="props">
           <tr class="text-xs-center">
@@ -67,7 +68,9 @@ export default {
       pagination: {
         rowsPerPage: 10,
         totalItems: "",
-        page: 1
+        page: 1,
+        sortBy:'postNumber',
+        descending: true
       },
       headers: [
         {
