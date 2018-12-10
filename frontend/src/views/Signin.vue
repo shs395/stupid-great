@@ -8,7 +8,7 @@
         <v-flex xs12 sm12>
           <v-text-field
             name="id"
-            v-model="id"
+            v-model="id" 
             label="ID"
             outline
           ></v-text-field>
@@ -27,6 +27,7 @@
 
         <div id="signbtn">
           <v-btn v-on:click="OnClickLogin" color="primary" large>로그인</v-btn>
+          
           <v-dialog v-model="signupForm" persistent max-width="600px">
             <v-btn slot="activator" color="success" large>회원가입</v-btn>
 
@@ -52,7 +53,8 @@
                           label="나이" 
                           v-model="user.userage" 
                           type="number" 
-                          min="14"
+                          min="1"
+                          max="99"
                           :rules="[v => !!v || '나이를 입력해 주세요']" 
                           required></v-text-field>
                       </v-flex>

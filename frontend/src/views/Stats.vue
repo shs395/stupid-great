@@ -316,7 +316,7 @@
         }else if(this.selectedJob.length === 0){
           alert("직업을 선택해주세요")
         }else{
-          alert("나이 : " + this.selectedStartAge + "~" + this.selectedEndAge + " 세\n직업 : " + this.selectedJob + "\n성별 : " + this.selectedSex + "\n" + this.selectedYear + "년 " + this.selectedMonth + "월 으로 검색합니다") 
+          // alert("나이 : " + this.selectedStartAge + "~" + this.selectedEndAge + " 세\n직업 : " + this.selectedJob + "\n성별 : " + this.selectedSex + "\n" + this.selectedYear + "년 " + this.selectedMonth + "월 으로 검색합니다") 
         }
         this.$http.post('/stats/others-search',
         {

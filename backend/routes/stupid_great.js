@@ -106,8 +106,21 @@ router.get('/result/:id', function(req, res){
     });
 });
 
-router.post('/delete/:id', function(req, res){
-
+router.post('/delete', function(req, res){
+    StupidGreatModel.findOneAndDelete({writer: req.body.userid, PostNumber: req.body.postnum},function(err){
+        if(err) console.log(err);
+        res.send("delete");
+    })
 });
+
+
+router.post('/update', function(req, res){
+    StupidGreatModel.findOneAndUpdate({PostNumber : req.body.postnum}, {title: req.body.title, content: req.body.content, price: req.body.price, image : req.body.image}, function(err, post){
+        if(err) console.log(err);
+        console.log(post);
+        res.send('success');
+    })
+});
+
 
 module.exports = router;
