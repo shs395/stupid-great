@@ -8,10 +8,10 @@
         <v-tab>
             통계 보기
         </v-tab>
-        <v-tab-item lazy="true">
+        <v-tab-item>
             <Account/>
         </v-tab-item>
-        <v-tab-item lazy="true">
+        <v-tab-item>
           <AccountChart/>
         </v-tab-item>
     </v-tabs>
