@@ -113,9 +113,9 @@ export default {
                 this.post = this.posts[random -1];
 
                 if(!this.post.image){
-                    this.randomImagePath = "http://localhost:3000/static/img/noimage.jpg";
+                    this.randomImagePath = "http://13.209.69.21:3000/static/img/noimage.jpg";
                 }else {
-                    this.randomImagePath = "http://localhost:3000/static/img/sg_images/"+this.post.image;
+                    this.randomImagePath = "http://13.209.69.21:3000/static/img/sg_images/"+this.post.image;
                 }
 
                 var length = this.post.content.length;
