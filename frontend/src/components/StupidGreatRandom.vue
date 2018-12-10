@@ -24,9 +24,17 @@
               </v-layout>
               <v-divider light></v-divider>
               <v-card-actions class="pa-3">
-                    <div v-show="!showbtn" id="voteEnd">
+                    <div v-if="mypost == true" id="my-sg-post">
+                        <h2>내가 올린 게시물 입니다. 결과를 기다리세요!
+                            <span>
+                                <v-btn @click="OnClickRandomSkip" color="light-blue lighten-4" id="nextbtn">다음으로 넘어가기</v-btn>
+                            </span>
+                        </h2>
+                    </div>
+                    <div v-if="mypost == false" v-show="!showbtn" id="voteEnd">
                         <h2>이미 투표를 완료하셨습니다! 
-                            <span><v-btn @click="OnClickRandomSkip" color="light-blue lighten-4" id="nextbtn">다음으로 넘어가기</v-btn>
+                            <span>
+                                <v-btn @click="OnClickRandomSkip" color="light-blue lighten-4" id="nextbtn">다음으로 넘어가기</v-btn>
                             </span>
                         </h2>
                     </div>
@@ -55,7 +63,8 @@ export default {
             post : {},
             readpost: [],
             randomImagePath : '',
-            showbtn: ''          
+            showbtn: '',
+            mypost : ''          
         }
     },
 
@@ -125,13 +134,19 @@ export default {
                 this.$http.get(`/stupid_great/${this.$session.get('id')}`)
                 .then((result) => {
                     this.readpost = result.data;
-                    console.log(result.data);
                     for(var i = 1; i<= this.readpost.length; i++){
                         if(this.post.PostNumber == this.readpost[i]){
+                            this.mypost = false;
                             return this.showbtn = false;
                         }
                     }
-                    return this.showbtn = true;
+                    if(this.post.writer == this.$session.get('id')){
+                        this.mypost = true;
+                        return this.showbtn = false;
+                    }else{
+                        this.mypost = false;
+                        return this.showbtn = true;
+                    }
                 });
 
             });   
@@ -217,6 +232,10 @@ export default {
 #add-btn{
     margin-top:60px;
     margin-left: 120px;
+}
+
+#my-sg-post{
+    margin-left: 200px;
 }
 
 h2{
