@@ -26,8 +26,7 @@
             <v-card-actions id="sg-btns-group">
                 <v-btn v-show="showbtn" color="red" @click="OnClickStupid" class="sg-btns" id="stupid-btn">스튜핏!</v-btn>
                 <v-btn v-show="showbtn" color="blue" @click="OnClickGreat" class="sg-btns" id="great-btn">그레잇!</v-btn>
-                <h3 v-if="mypost == false" v-show="!showbtn">이미 투표를 완료 하셨습니다!</h3>
-                <h3 v-if="mypost == true">내가 올린 게시물입니다. 결과를 기다리세요!</h3>
+                <h3 v-show="!showbtn">이미 투표를 완료 하셨습니다!</h3>
             </v-card-actions>
             
         </v-card>
@@ -58,17 +57,10 @@ export default {
             this.readpost = result.data;
             for(var i = 1; i<= this.readpost.length; i++){
                 if(this.post.PostNumber == this.readpost[i]){
-                    this.mypost = false;
                     return this.showbtn = false;
                 }
             }
-            if(this.post.writer == this.$session.get('id')){
-                this.mypost = true;
-                return this.showbtn = false;
-            }else{
-                this.mypost = false;
-                return this.showbtn = true;
-            }
+            return this.showbtn = true;
         });
 
         if(!this.post.image){
@@ -88,8 +80,7 @@ export default {
             imgpath: '',
             readpost: [],
             showbtn : '',
-            postContent : '',
-            mypost : ''
+            postContent : ''
         }
     },
 
@@ -142,7 +133,7 @@ export default {
 }
 
 #sg-btns-group{
-    width: 300;
+    width: 280px;
     margin: 0 auto;
     margin-top:5px;
 }
