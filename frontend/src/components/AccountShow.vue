@@ -325,7 +325,10 @@ import AccountComp from "../components/AccountComp";
       this.get_accounts()
     },
     watch:{
-      data : function(){this.get_accounts()},
+      data : function(){
+        this.get_accounts()
+        this.s_select = this.data.selectedDate
+        },
       checkbox : function(){
         if(this.checkbox==true) 
           this.isChecked='함'

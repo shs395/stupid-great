@@ -96,8 +96,8 @@ import 'v-calendar/lib/v-calendar.min.css'
         ],
         l_data:[0,0,0,0,0,0,0,0,0,0,0,0],
         l_backgroundColor:[
-          "#C8E6C9","#D1C4E9","#E57373","#CE93D8","#0277BD","#4DB6AC",
-          "#9CCC65","#D4E157","#FFEE58","#F57C00","#BDBDBD","#BDBDBD"
+          "#FF6384","#36A2EB","#FFCE56","#F56314","#32A21B","#7E57C2",
+          "#D4E157","#3D5AFE","#26A69A","#BA68C8","#795548","#78909C"
         ],
         is_show: false,
         g_labels : ['월급', '부수입', '용돈', '상여', '금융소득', '기타'],
@@ -133,11 +133,9 @@ import 'v-calendar/lib/v-calendar.min.css'
           this.$http.get('/account/list/'+this.$session.get('id')+'/'+this.startDate+'/'+this.endDate+'/'+'수입')
           .then((result)=>{
             this.g_data = result.data
-            alert(result.data)
             this.$http.get('/account/list/'+this.$session.get('id')+'/'+this.startDate+'/'+this.endDate+'/'+'지출')
             .then((result)=>{
               this.l_data = result.data
-              alert(result.data)
               this.is_show=true;
             })
             .catch((err)=>{
