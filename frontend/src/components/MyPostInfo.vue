@@ -72,7 +72,6 @@ export default {
           number: a.postNumber
         })
         .then(response => {
-          alert(a.postNumber + "번 게시글 삭제!");
           this.getlist();
         })
         .catch(err => {
@@ -92,7 +91,6 @@ export default {
     },
     postview(a){
       if (event.target.classList.contains("btn__content")) return;
-      alert(a.postNumber)
       
       this.$router.push(`/boardshow/${a.postNumber}/${a.writer}`)
     }
