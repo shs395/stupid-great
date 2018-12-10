@@ -11,13 +11,13 @@
         <v-tab>
             나의 stupid-great 보기 
         </v-tab>
-        <v-tab-item>
+        <v-tab-item lazy="true">
           <MyPageInfo></MyPageInfo>
         </v-tab-item>
-        <v-tab-item>
+        <v-tab-item lazy="true">
           <my-post-info><my-post-info>
         </v-tab-item>
-        <v-tab-item>
+        <v-tab-item lazy="true">
             <my-stupid-great-info />
         </v-tab-item>
 

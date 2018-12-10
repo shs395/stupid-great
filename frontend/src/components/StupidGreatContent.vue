@@ -14,7 +14,7 @@
                     <v-card-title primary-title>
                         <div>
                             <div class="headline">제목 : <span>{{post.title}}</span></div>
-                            <div>내용 : {{post.content}}</div>
+                            <div style="white-space: pre-line;">내용 : {{post.content}}</div>
                             <div>가격 : <span>{{post.price}} 원</span></div>
                         </div>
                     </v-card-title>
@@ -39,25 +39,22 @@ export default {
 
     mounted (){
 
-        var length = this.post.content.length;
+      //  var length = this.post.content.length;
         var postContent = '';
-        var i;
-        for(i = 1; i <= length/20 ; i++){
+
+        for(var i = 1; i <= (this.post.content.length /20) + 1 ; i++){
             if(this.post.content.charAt(20*i+ (i-1)) == '\n'){
                 postContent += this.post.content.substring(20*(i-1) + (i-1) , 20*i + (i-1))
             }else{
-                postContent += this.post.content.substring(20*(i-1) + (i-1), 20*i + (i-2)) + "\n"
+                postContent += this.post.content.substring(20*(i-1) , 20*i) + "\n"
             }
         }
-        postContent += this.post.content.substring(20*(i-1)+ (i-1), length);
-        console.log(postContent)
 
         this.post.content = postContent;
 
         this.$http.get(`/stupid_great/${this.$session.get('id')}`)
         .then((result) => {
             this.readpost = result.data;
-            console.log(result.data);
             for(var i = 1; i<= this.readpost.length; i++){
                 if(this.post.PostNumber == this.readpost[i]){
                     return this.showbtn = false;

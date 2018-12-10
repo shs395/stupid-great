@@ -15,7 +15,7 @@
                     <div id="random-content">
                       <div id="random-head">제목 : <span>{{post.title}}</span></div>
                       <v-divider light></v-divider><br>
-                      <div>내용 : <span>{{post.content}}</span></div><br>
+                      <div style="white-space: pre-line;">내용 : {{post.content}}</div><br>
                       <v-divider light></v-divider>
                       <div id="random-price">가격 : <span>{{post.price}}</span></div>
                     </div>
@@ -44,14 +44,7 @@
 <script>
 export default {
     created (){
-
         this.OnClickRandomSkip();
-       
-        if(!this.post.image){
-            this.randomImagePath = "http://localhost:3000/static/img/noimage.jpg";
-        }else {
-            this.randomImagePaththis.imgpath = "http://localhost:3000/static/img/sg_images/"+this.sgpost.image;
-        }
     },
 
     name : 'StupidGreatRandom',
@@ -82,8 +75,6 @@ export default {
             alert('stupid를 선택하셨습니다!');
             this.OnClickRandomSkip();
 
-            // return location.href="/stupid-great-community";
-
         },
 
         OnClickRandomGreat (){
@@ -101,7 +92,6 @@ export default {
             alert('great를 선택하셨습니다!');
 
             this.OnClickRandomSkip();
-         // return location.href="/stupid-great-community";
         },
         
         OnClickRandomSkip (){
@@ -112,6 +102,25 @@ export default {
 
                 var random = Math.floor(Math.random() * this.posts.length) + 1;
                 this.post = this.posts[random -1];
+
+                if(!this.post.image){
+                    this.randomImagePath = "http://localhost:3000/static/img/noimage.jpg";
+                }else {
+                    this.randomImagePath = "http://localhost:3000/static/img/sg_images/"+this.post.image;
+                }
+
+                var length = this.post.content.length;
+                var postContent = '';
+                
+                for(var i = 1; i <= length/20 + 1 ; i++){
+                    if(this.post.content.charAt(20*i+ (i-1)) == '\n'){
+                        postContent += this.post.content.substring(20*(i-1) + (i-1) , 20*i + (i-1))
+                    }else{
+                        postContent += this.post.content.substring(20*(i-1) , 20*i) + "\n"
+                    }   
+                }
+
+                this.post.content = postContent;
 
                 this.$http.get(`/stupid_great/${this.$session.get('id')}`)
                 .then((result) => {

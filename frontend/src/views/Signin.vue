@@ -27,6 +27,7 @@
 
         <div id="signbtn">
           <v-btn v-on:click="OnClickLogin" color="primary" large>로그인</v-btn>
+          
           <v-dialog v-model="signupForm" persistent max-width="600px">
             <v-btn slot="activator" color="success" large>회원가입</v-btn>
 

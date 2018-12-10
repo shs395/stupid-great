@@ -14,7 +14,7 @@
                     <v-card-title primary-title>
                         <div>
                             <div class="headline">제목 : {{result.title}}</div>
-                            <div>내용 : {{result.content}}</div>
+                            <div style="white-space: pre-line;">내용 : {{result.content}}</div>
                             <div>가격 : {{result.price}}원</div>
                         </div>
                     </v-card-title>
@@ -25,9 +25,73 @@
                     </v-btn>
                 </v-flex>
                 <v-flex>
-                    <v-btn @click="OnClickUpdateSG" color="purple lighten-3" icon>
-                        <v-icon color="white">edit</v-icon>
-                    </v-btn>
+                    <v-layout row justify-center>
+                        <v-dialog v-model="dialog" persistent max-width="600px">
+                        <v-btn slot="activator" color="purple lighten-3" icon >
+                            <v-icon color="white">edit</v-icon>
+                        </v-btn>
+                        <v-card>
+                            <v-card-title>
+                                <span class="headline">살까 말까? 게시물 수정</span>
+                            </v-card-title>
+                            <v-card-text>
+                            <v-container grid-list-md>
+                                <v-layout column wrap>
+                                    
+                                    <v-layout row wrap>
+                                        <v-flex>
+                                            <v-img
+                                                :src="imgbuf"
+                                                height="170px"
+                                                contain
+                                            ></v-img>
+                                        </v-flex>
+                                        <v-flex id="dropbox">
+                                            <input type="file" id="imgFile" name="imgFile" @change="uploadIMG($event.target.name, $event.target.files)" @drop="uploadIMG($event.target.name, $event.target.files)">
+                                            <h3>파일을 드래그해서 드랍해주세요!</h3>
+                                        </v-flex>
+                                    </v-layout>
+                                    
+                                    <v-flex>
+                                        <v-text-field xs12
+                                            v-model="update_title" 
+                                            label="제목" 
+                                            :rules="[v => v > 15 || '제목은 최대 15글자 입니다.']"
+                                            counter
+                                            maxlength="15"
+                                            required>
+                                            </v-text-field>
+                                    </v-flex>
+                                    <v-flex>
+                                        <v-textarea xs12
+                                            name="sgContent"
+                                            label="내용"
+                                            v-model="update_content"
+                                            id="sg-content-edit"
+                                            :rules="[v => v > 100 || '내용은 최대 100글자 입니다.']"
+                                            counter
+                                            maxlength="100"
+                                        ></v-textarea>
+                                    </v-flex>
+                                    <v-flex xs12>
+                                        <v-text-field
+                                        label="가격"
+                                        v-model="update_price"
+                                        type="number"
+                                        required
+                                        ></v-text-field>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                            </v-card-text>
+                            <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
+                            <v-btn color="blue darken-1" flat @click="OnClickUpdateSG">Save</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                        </v-dialog>
+                    </v-layout>
                 </v-flex>
             </v-layout>
                 
@@ -55,6 +119,7 @@
                 height="50"
             ></v-progress-linear>
             
+            
         </v-card>
     </div>
 </template>
@@ -62,7 +127,32 @@
 <script>
 
 export default {
-    created (){
+    mounted (){
+     //   var length = this.result.content.length;
+        var postContent = '';
+                
+        for(var i = 1; i <= this.result.content.length / 20 + 1 ; i++){
+            if(this.result.content.charAt(20*i+ (i-1)) == '\n'){
+                postContent += this.result.content.substring(20*(i-1) + (i-1) , 20*i + (i-1))
+            }else{
+                postContent += this.result.content.substring(20*(i-1) , 20*i) + "\n"
+            }   
+        }
+
+        this.result.content = postContent;
+        
+        if(!this.result.image){
+            this.imgpath = "http://localhost:3000/static/img/noimage.jpg";
+            this.imgbuf = "http://localhost:3000/static/img/noimage.jpg";
+        }else {
+            this.imgpath = "http://localhost:3000/static/img/sg_images/"+this.result.image;
+            this.imgbuf = "http://localhost:3000/static/img/sg_images/"+this.result.image;
+        }
+
+        this.update_title = this.result.title;
+        this.update_content = this.result.content;
+        this.update_price = this.result.price;
+
         var sum = this.result.stupid + this.result.great;
         if(sum == 0){
             this.showbar = false;
@@ -91,7 +181,17 @@ export default {
             percent : Number,
             showbar : '',
             s_percent : Number,
-            g_percent : Number
+            g_percent : Number,
+
+            dialog : false,
+            imgpath : '',
+            imgbuf: '',
+            
+            update_imgpath : this.result.image,
+            update_title : this.result.title,
+            update_content: this.result.content,
+            update_price : this.result.price
+            
         }
     },
     methods : {
@@ -104,17 +204,34 @@ export default {
                 }
             });
         },
-       /* OnClickDeleteSG (){
-            this.$http.post('/stupid_great/update', {userpost: this.result})
+        uploadIMG(name, files){
+                const formData = new FormData();
+                console.log(files)
+                formData.append('img', files[0]);
+                this.$http.post('/stupid_great/create/img', formData)
+                .then((result)=>{
+                    console.log(result);
+                    this.imgbuf = "http://localhost:3000/static/img/sg_images/" + result.body.imgname;
+                    this.update_imgpath = result.body.imgname;
+                    console.log(this.update.imgpath)
+                });
+        },
+        OnClickUpdateSG (){
+            this.$http.post('/stupid_great/update', {postnum: this.result.PostNumber, title: this.update_title, content: this.update_content, price: this.update_price, image: this.update_imgpath})
             .then((result) => {
-
+                console.log(result.data)
+                if(result.data == 'success'){
+                    alert("게시물 수정을 완료하였습니다!")
+                   // this.dialog = false;
+                   return location.href = "/mypage"
+                }
             });
-        }*/
+        }
     }
 }
 </script>
 
-<style <style scoped>
+<style scoped>
 #StupidGreatResult{
     width : 500px;
     margin-bottom: 10px;
@@ -130,6 +247,22 @@ export default {
 #g_result{
     color: blue;
     font-size: 17px;
+}
+
+#dropbox{
+    background: #26C6DA;
+    width: 250px;
+    height: 150px;
+    position: relative; 
+    margin: 0 auto;
+}
+
+#dropbox > h3{
+    position: absolute;
+    color: white;
+    left: 70px;
+    top: 50px;
+    z-index: 2;
 }
 </style>
 
