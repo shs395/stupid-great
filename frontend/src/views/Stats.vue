@@ -474,6 +474,12 @@
         this.searchProcessOthers()
       }
     },
+    beforeCreate: function () {
+      if (!this.$session.exists()) {
+          alert('로그인을 먼저해주세요');
+          this.$router.push('/signin')
+      }
+    },
     mounted:function(){
       //ageList 에 일일히 쓰기 귀찮아서 , 나이목록 생성
       for(var i = 1 ; i<100 ; i++){

@@ -25,6 +25,12 @@ export default{
         BoardContentShow,
         BoardContentComment
     },
+    beforeCreate: function () {
+      if (!this.$session.exists()) {
+          alert('로그인을 먼저해주세요');
+          this.$router.push('/signin')
+      }
+    },
     methods: {
         viewlist(){
             this.$router.push('/evaluation')

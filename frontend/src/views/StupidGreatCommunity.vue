@@ -64,6 +64,12 @@ import StupidGreatRandom from '../components/StupidGreatRandom'
 import StupidGreatContent from '../components/StupidGreatContent'
 
 export default {
+    beforeCreate: function () {
+      if (!this.$session.exists()) {
+          alert('로그인을 먼저해주세요');
+          this.$router.push('/signin')
+      }
+    },
     created (){
         this.$http.get('/stupid_great')
         .then((result) => {

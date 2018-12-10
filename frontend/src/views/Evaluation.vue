@@ -30,6 +30,12 @@ export default{
             info:''
         }
     },
+    beforeCreate: function () {
+      if (!this.$session.exists()) {
+          alert('로그인을 먼저해주세요');
+          this.$router.push('/signin')
+      }
+    },
     methods:{
         savePost(){
             return location.href="/boardwrite";
