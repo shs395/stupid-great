@@ -66,7 +66,7 @@ export default {
             this.body=""
             this.axios.post('/board/post',infoPost).then(res=>{
                 alert(this.date+'의 가계부가 선택되었습니다')
-                console.log(res.data)
+                if(res.data==='created')
                  return location.href="/evaluation";}).catch((err)=>console.log(err))
         },
         saveAccount(){
