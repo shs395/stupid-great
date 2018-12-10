@@ -8,6 +8,7 @@
                 <input type="file" id="imgFile" name="imgFile" @change="uploadIMG($event.target.name, $event.target.files)" @drop="uploadIMG($event.target.name, $event.target.files)">
                 <h3>파일을 드래그해서 드랍해주세요!</h3>
             </div>
+            <!-- <div id="imgDiv"></div> -->
             <div>
                 <v-img
                     :src="imgbuf"
@@ -100,8 +101,17 @@ export default {
                 .then((result)=>{
                     console.log(result);
                     this.sgForm.sgImg = result.body.imgname;
-                    this.imgbuf = "http://13.209.69.21:3000/static/img/sg_images/" + result.body.imgname; 
+                    this.imgbuf = "http://52.79.192.162:3000/static/img/sg_images/" + result.body.imgname; 
                 });
+                // var fr = new FileReader();
+                // var img = document.createElement("img");
+                // var imgDiv = document.querySelector("#imgDiv");
+                // fr.onload = function() {
+                //     img.src = fr.result;
+                //     img.classList.add("margin-bottom");
+                //     imgDiv.appendChild(img);
+                // }
+                // fr.readAsDataURL(event.target.files[0]);
         },
 
         OnClickUpload(){
@@ -126,6 +136,18 @@ export default {
 </script>
 
 <style>
+
+/* #imgDiv{
+    width: 620px;
+    height: 500px;
+}
+
+.margin-bottom{
+    margin-bottom:10px;
+    display: block;
+    width: 620px;
+    height: 500px;
+} */
 
 #dropbox{
     background: #26C6DA;
