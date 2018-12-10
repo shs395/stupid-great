@@ -211,7 +211,7 @@ export default {
                 this.$http.post('/stupid_great/create/img', formData)
                 .then((result)=>{
                     console.log(result);
-                    this.imgbuf = "http://localhost:3000/static/img/sg_images/" + result.body.imgname;
+                    this.imgbuf = "http://13.209.69.21:3000/static/img/sg_images/" + result.body.imgname;
                     this.update_imgpath = result.body.imgname;
                     console.log(this.update.imgpath)
                 });
