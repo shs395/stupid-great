@@ -72,9 +72,9 @@ export default {
         });
 
         if(!this.post.image){
-            this.imgpath = "http://13.209.69.21:3000/static/img/noimage.jpg";
+            this.imgpath = "http://52.79.192.162:3000/static/img/noimage.jpg";
         }else {
-            this.imgpath = "http://13.209.69.21:3000/static/img/sg_images/"+this.post.image;
+            this.imgpath = "http://52.79.192.162:3000/static/img/sg_images/"+this.post.image;
         }
 
     },
