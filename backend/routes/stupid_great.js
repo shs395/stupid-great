@@ -7,6 +7,8 @@ const multer = require('multer');
 
 /*-------------------------------------Stupid great community----------------------------------------------*/
 
+
+  
 router.get('/', function(req, res){
     StupidGreatModel.find({}, function(err, posts){
         if(err) return console.log(err);
@@ -79,6 +81,12 @@ router.post('/create', function(req, res){
 });
 
 /*이미지 업로드 하기*/
+
+function extendTimeout (req, res, next) {
+    res.setTimeout(480000, function () { /* Handle timeout */ })
+    next()
+}
+
 var imgname;
 
 const upload = multer({
@@ -93,7 +101,7 @@ const upload = multer({
     }),
 });
 
-router.post('/create/img',upload.single('img'),function(req, res){
+router.post('/create/img',extendTimeout,upload.single('img'),function(req, res){
     res.json({"state": "ok", "imgname":imgname});
 });
 
