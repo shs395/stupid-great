@@ -11,7 +11,7 @@
                 <v-layout row>
                     <v-flex xs6>
                     <v-card>
-                    <v-card-text><h4>{{year}}년 {{month}}월의 수입</h4></v-card-text>
+                    <v-card-text><h4>{{year}}년 {{month}}월의 수입 : {{total_in_price}}원</h4></v-card-text>
                     <v-divider></v-divider>
                         <v-expansion-panel popout>
                             <v-expansion-panel-content>
@@ -69,7 +69,7 @@
 
                        <v-flex xs6>
                         <v-card>
-                    <v-card-text><h4>{{year}}년 {{month}}월의 지출</h4></v-card-text>
+                    <v-card-text><h4>{{year}}년 {{month}}월의 지출 : {{total_out_price}}원 </h4></v-card-text>
                     <v-divider></v-divider>
                         <v-expansion-panel popout>
                             <v-expansion-panel-content>
@@ -209,6 +209,8 @@
                 month:'',
                 created_time1:'',
                 created_time2:'',
+                total_in_price:'',
+                total_out_price:'',
                 
                 date: new Date().toISOString().substr(0, 7),   
                 labels_in:['월급', '부수입', '용돈', '상여', '금융소득', '기타'],
@@ -292,11 +294,19 @@
                 this.loaded=false
                 this.$http.get(`/board/in/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
                     this.in_price=response.data
+                    console.log(this.in_price)
+                    for(var i=0; i<this.in_price.length; i++){
+                        this.total_in_price=this.in_price[i]
+                    }
+                    console.log(this.total_in_price)
                    }).catch((err)=>console.log(err))
             },
             get_out_account(){
                 this.$http.get(`/board/out/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
                     this.out_price=response.data
+                     for(var i=0; i<this.out_price.length; i++){
+                        this.total_out_price=this.out_price[i]
+                    }
                     console.log(this.out_price)}).catch((err)=>console.log(err))
             }
         
