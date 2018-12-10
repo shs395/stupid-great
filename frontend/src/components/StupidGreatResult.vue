@@ -142,11 +142,11 @@ export default {
         this.result.content = postContent;
         
         if(!this.result.image){
-            this.imgpath = "http://localhost:3000/static/img/noimage.jpg";
-            this.imgbuf = "http://localhost:3000/static/img/noimage.jpg";
+            this.imgpath = "http://13.209.69.21:3000/static/img/noimage.jpg";
+            this.imgbuf = "http://13.209.69.21:3000/static/img/noimage.jpg";
         }else {
-            this.imgpath = "http://localhost:3000/static/img/sg_images/"+this.result.image;
-            this.imgbuf = "http://localhost:3000/static/img/sg_images/"+this.result.image;
+            this.imgpath = "http://13.209.69.21:3000/static/img/sg_images/"+this.result.image;
+            this.imgbuf = "http://13.209.69.21:3000/static/img/sg_images/"+this.result.image;
         }
 
         this.update_title = this.result.title;
