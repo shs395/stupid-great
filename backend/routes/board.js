@@ -46,7 +46,7 @@ router.post('/post', async (req, res, next) => {
                 result1.save(function (err, data) {
                     if (!err)
 
-                        res.send(data[0])
+                        res.send('created')
                 })
             })
         })
