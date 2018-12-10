@@ -21,6 +21,9 @@
                 </span>
                   의 {{viewYear}}년 {{viewMonth}}월 가계부 평균
               </h1>
+              <h2 class="text-md-center" v-if="searchOthersResult">
+                조건에 맞는 다른 사람의 데이터가 없습니다.
+              </h2>
               <v-tabs right> 
                 <v-tab>
                   수입/지출
@@ -182,6 +185,7 @@
         ospend : [0,0,0,0,0,0,0,0,0,0,0,0,0],
         
         isSimilar : true,
+        searchOthersResult : true,
       }
     },
     methods:{
@@ -330,7 +334,9 @@
         }).then((response)=>{
           console.log(response.body)
           if(response.body.length === 1){
-            alert("조건에 맞는 다른 사람의 데이터가 없습니다.")
+            this.searchOthersResult = true
+          }else{
+            this.searchOthersResult = false
           }
           var i = 0; 
           //베열의 마지막에 찾은 사람의 개수를 넣어주었기 때문에 배열 개수 -1 해줌
