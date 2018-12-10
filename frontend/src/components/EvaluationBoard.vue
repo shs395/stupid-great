@@ -76,7 +76,7 @@ export default {
         {
           text: "게시글번호",
           value: "postNumber",
-          sortable: true,
+          sortable: false,
           align: "center"
         },
         { text: "제목", value: "title", sortable: false, align: "center" },
