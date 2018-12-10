@@ -278,6 +278,7 @@ import AccountComp from "../components/AccountComp";
         this.$refs.form.reset()
         this.checkbox=false;
         this.s_select=this.data.selectedDate
+        this.e_select= this.data.selectedDate
         this.addRate=0;
       },
       get_accounts:function(){
@@ -328,6 +329,7 @@ import AccountComp from "../components/AccountComp";
       data : function(){
         this.get_accounts()
         this.s_select = this.data.selectedDate
+        this.e_select = this.data.selectedDate
       },
       checkbox : function(){
         if(this.checkbox==true) 

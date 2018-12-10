@@ -55,8 +55,8 @@ router.post('/post', async (req, res, next) => {
 
 //게시글 목록보기
 router.get('/list', async (req, res, next) => {
-    
-    const f=await boardModel.find({}, function (err, boards) {
+
+    const f = await boardModel.find({}, function (err, boards) {
         if (err) { console.log(err) }
 
         res.send(boards)
@@ -93,6 +93,7 @@ router.get('/in/:postNumber/:writer', (req, res, next) => {
     const _writer = req.params.writer;
     var price_in = []
 
+    //수입 price를 받을 배열 초기화
     for (var i = 0; i < category_in.length; i++) {
         price_in.push(0)
     }
@@ -106,6 +107,7 @@ router.get('/in/:postNumber/:writer', (req, res, next) => {
 
         var r_in = result[0].in_account_info[0]
 
+         //카테고리로 비교하여 price_in에 각각 값 저장
         for (var i = 0; i < category_in.length; i++) {
             for (var j = 0; j < r_in.length; j++) {
                 if (category_in[i] == r_in[j].category)
