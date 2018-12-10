@@ -18,7 +18,7 @@
               <br>
               <span
                 style="color:gray"
-              >| {{props.item.createdAt.slice(0,10)}} {{props.item.createdAt.slice(11,19)}}</span>
+              >| {{props.item.createdAt.slice(0,10)}}</span>
               <br>
               <span>{{props.item.body}}</span>
             </p>
