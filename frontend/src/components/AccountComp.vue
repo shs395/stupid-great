@@ -172,6 +172,8 @@ export default {
       this.category= this.data.category
       this.rate= this.data.rate
       this.accountId= this.data.accountId
+      this.isShow = true
+
     }
   }
 }
