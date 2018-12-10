@@ -101,7 +101,7 @@ const upload = multer({
     }),
 });
 
-router.post('/create/img',extendTimeout,upload.single('img'),function(req, res){
+router.post('/create/img',extendTimeout,upload.single('img'),function(req, res, next){
     res.json({"state": "ok", "imgname":imgname});
 });
 
