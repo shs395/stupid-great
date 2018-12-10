@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       // localhost:3000의 작성없이 /로 바로 접근 가능
       '/': {
-        target: 'http://localhost:3000',
+        target: 'http://13.209.69.21:3000',
         changeOrigin: true,
         pathRewrite: {
           '^/': ''
