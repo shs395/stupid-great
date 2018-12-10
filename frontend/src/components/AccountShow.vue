@@ -301,7 +301,7 @@ import AccountComp from "../components/AccountComp";
         m_s:0,
         s_s:0,
         s_select:this.data.selectedDate,
-        e_select:null,
+        e_select:this.data.selectedDate,
 
         s_states: [
           '매일', '매주', '매월', '매년', '직접지정'
