@@ -100,7 +100,7 @@ export default {
                 .then((result)=>{
                     console.log(result);
                     this.sgForm.sgImg = result.body.imgname;
-                    this.imgbuf = "http://localhost:3000/static/img/sg_images/" + result.body.imgname; 
+                    this.imgbuf = "http://13.209.69.21:3000/static/img/sg_images/" + result.body.imgname; 
                 });
         },
 
