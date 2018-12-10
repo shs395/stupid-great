@@ -22,9 +22,6 @@
                             </v-flex>
                             <v-spacer/>
                             <v-flex px-3>
-                                <!-- <v-card-actions>
-                                    <v-btn  @click="saveAccount" flat color="orange"> <v-icon>edit</v-icon>저장된 가계부 불러오기</v-btn> 
-                                </v-card-actions> -->
                                   <v-card-actions>
                             <v-btn flat color="orange" v-on:click="savepost">POST</v-btn>
                         </v-card-actions>
@@ -70,7 +67,6 @@ export default {
             this.body=""
             this.axios.post('/board/post',infoPost).then(res=>{
                 alert(this.date+'의 가계부가 선택되었습니다')
-                alert('게시글이 작성되었습니다!')
                 console.log(res.data)
                  return location.href="/evaluation";}).catch((err)=>console.log(err))
         },

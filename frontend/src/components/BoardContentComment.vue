@@ -48,7 +48,6 @@ export default {
       this.$http
         .post(`/board/post/${this.$route.params.postNumber}/comment`, comments)
         .then(res => {
-          alert("댓글이 저장되었습니다!");
           console.log(res.data);
           this.getComment();
         })

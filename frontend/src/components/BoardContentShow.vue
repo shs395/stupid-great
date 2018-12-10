@@ -11,7 +11,7 @@
                 <v-layout row>
                     <v-flex xs6>
                     <v-card>
-                    <v-card-text><h4>{{year}}년 {{month}}월의 수입 : {{total_in_price}}원</h4></v-card-text>
+                    <v-card-text><h4>{{year}}년 {{month}}월의 수입 총합 {{total_in_price}}원</h4></v-card-text>
                     <v-divider></v-divider>
                         <v-expansion-panel popout>
                             <v-expansion-panel-content>
@@ -69,7 +69,7 @@
 
                        <v-flex xs6>
                         <v-card>
-                    <v-card-text><h4>{{year}}년 {{month}}월의 지출 : {{total_out_price}}원 </h4></v-card-text>
+                    <v-card-text><h4>{{year}}년 {{month}}월의 지출 총합 {{total_out_price}}원 </h4></v-card-text>
                     <v-divider></v-divider>
                         <v-expansion-panel popout>
                             <v-expansion-panel-content>
