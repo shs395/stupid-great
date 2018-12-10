@@ -209,8 +209,8 @@
                 month:'',
                 created_time1:'',
                 created_time2:'',
-                total_in_price:'',
-                total_out_price:'',
+                total_in_price:0,
+                total_out_price:0,
                 
                 date: new Date().toISOString().substr(0, 7),   
                 labels_in:['월급', '부수입', '용돈', '상여', '금융소득', '기타'],
@@ -296,7 +296,7 @@
                     this.in_price=response.data
                     console.log(this.in_price)
                     for(var i=0; i<this.in_price.length; i++){
-                        this.total_in_price=this.in_price[i]
+                        this.total_in_price+=this.in_price[i]
                     }
                     console.log(this.total_in_price)
                    }).catch((err)=>console.log(err))
@@ -305,7 +305,7 @@
                 this.$http.get(`/board/out/${this.$route.params.postNumber}/${this.$route.params.writer}`).then(response=>{
                     this.out_price=response.data
                      for(var i=0; i<this.out_price.length; i++){
-                        this.total_out_price=this.out_price[i]
+                        this.total_out_price+=this.out_price[i]
                     }
                     console.log(this.out_price)}).catch((err)=>console.log(err))
             }
