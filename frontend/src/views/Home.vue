@@ -108,13 +108,13 @@
       return {
         items: [
           {
-            src: 'http://localhost:3000/static/img/money1.jpg'
+            src: 'http://13.209.69.21:3000/static/img/money1.jpg'
           },
           {
-            src: 'http://localhost:3000/static/img/money2.jpg'
+            src: 'http://13.209.69.21:3000/static/img/money2.jpg'
           },
           {
-            src: 'http://localhost:3000/static/img/money3.jpg'
+            src: 'http://13.209.69.21:3000/static/img/money3.jpg'
           }
         ]
       }
