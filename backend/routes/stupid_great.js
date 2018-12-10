@@ -93,8 +93,15 @@ const upload = multer({
     }),
 });
 
-router.post('/create/img',upload.single('img'),function(req, res){
-    res.json({"state": "ok", "imgname":imgname});
+router.post('/create/img',function(req, res){
+    upload.single('img')
+    .then((result)=>{
+        console.log(result)
+        res.json({"state": "ok", "imgname":imgname});
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
 });
 
 /*-------------------------------------Stupid great result page----------------------------------------------*/
