@@ -28,9 +28,10 @@ router.post('/add/stupid', function(req, res){
 
     StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, post){
         if(err) console.log(err);
-
-        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {stupid: post.stupid++},function(err){
+        var s_count = post.stupid + 1;
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {stupid: s_count},function(err,post){
             if(err) console.log(err);
+            console.log("stupid 수" + post.stupid)
         });
         userModel.findOneAndUpdate({id: req.body.userid},{ "$push" : {"selectSG" : post.PostNumber}}, function(err, user){
             if(err) console.log(err);
@@ -43,8 +44,8 @@ router.post('/add/stupid', function(req, res){
 router.post('/add/great', function(req, res){
     StupidGreatModel.findOne({PostNumber: req.body.postnum}, function(err, post){
         if(err) console.log(err);
-
-        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {stupid: post.great++},function(err){
+        var g_count = post.great + 1;
+        StupidGreatModel.findOneAndUpdate({PostNumber: req.body.postnum}, {great: g_count},function(err){
             if(err) console.log(err);
         });
         userModel.findOneAndUpdate({id: req.body.userid},{ "$push" : {"selectSG" : post.PostNumber}}, function(err, user){
@@ -105,8 +106,21 @@ router.get('/result/:id', function(req, res){
     });
 });
 
-router.post('/delete/:id', function(req, res){
-
+router.post('/delete', function(req, res){
+    StupidGreatModel.findOneAndDelete({writer: req.body.userid, PostNumber: req.body.postnum},function(err){
+        if(err) console.log(err);
+        res.send("delete");
+    })
 });
+
+
+router.post('/update', function(req, res){
+    StupidGreatModel.findOneAndUpdate({PostNumber : req.body.postnum}, {title: req.body.title, content: req.body.content, price: req.body.price, image : req.body.image}, function(err, post){
+        if(err) console.log(err);
+        console.log(post);
+        res.send('success');
+    })
+});
+
 
 module.exports = router;

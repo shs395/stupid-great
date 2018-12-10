@@ -3,71 +3,74 @@
     <v-card>
       <v-layout row wrap>
         <v-layout row wrap>
-        <v-flex xs4 sm6 md4>
-          <v-menu
-            :close-on-content-click="false"
-            v-model="menu1"
-            :nudge-right="40"
-            lazy
-            transition="scale-transition"
-            offset-y
-            full-width
-            min-width="100px"
-          >
-            <v-text-field
-              slot="activator"
-              v-model="startDate"
-              label="start day"
-              prepend-icon="event"
-              readonly
-            ></v-text-field>
-            <v-date-picker v-model="startDate" @input="menu1 = false" @change="change"></v-date-picker>
-          </v-menu>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-flex xs3>
+            <v-menu
+              :close-on-content-click="false"
+              v-model="menu1"
+              :nudge-right="40"
+              lazy
+              transition="scale-transition"
+              offset-y
+            >
+              <v-text-field
+                slot="activator"
+                v-model="startDate"
+                label="start day"
+                prepend-icon="event"
+                readonly
+              ></v-text-field>
+              <v-date-picker v-model="startDate" @input="menu1 = false" @change="change"></v-date-picker>
+            </v-menu>
+          </v-flex>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-flex xs3>
+            <v-menu
+              :close-on-content-click="false"
+              v-model="menu2"
+              :nudge-right="40"
+              lazy
+              transition="scale-transition"
+              offset-y
+            >
+              <v-text-field
+                slot="activator"
+                v-model="endDate"
+                label="end day"
+                prepend-icon="event"
+                readonly
+              ></v-text-field>
+              <v-date-picker v-model="endDate" @input="menu2 = false" :min = "startDate" @change="change"></v-date-picker>    
+            </v-menu>
+          </v-flex>
+          <!-- <v-spacer></v-spacer> -->
+          <v-btn slot="activator" color="orange" dark v-on:click="show" id="show">통계 보기</v-btn>
+          <v-spacer></v-spacer>
+        </v-layout>
+      </v-card>
+      <v-layout row>
+        <v-flex xs6>
+            <v-card>
+                <v-card-text v-if="is_show==true">
+                  {{startDate}} ~ {{endDate}}에 대한 수입 통계 
+                <chartjs-doughnut v-if="is_show==true" :labels="g_labels" :datasets="[{data:g_data, backgroundColor: g_backgroundColor}]" :option="g_options"></chartjs-doughnut>
+                </v-card-text>
+            </v-card>
         </v-flex>
-        <v-spacer></v-spacer>
-        <v-flex xs4 sm6 md4>
-          <v-menu
-            :close-on-content-click="false"
-            v-model="menu2"
-            :nudge-right="40"
-            lazy
-            transition="scale-transition"
-            offset-y
-            full-width
-            min-width="100px"
-          >
-            <v-text-field
-              slot="activator"
-              v-model="endDate"
-              label="end day"
-              prepend-icon="event"
-              readonly
-            ></v-text-field>
-            <v-date-picker v-model="endDate" @input="menu2 = false" :min = "startDate" @change="change"></v-date-picker>    
-          </v-menu>
+        <v-flex xs6>
+            <v-card>
+                <v-card-text v-if="is_show==true">
+                  {{startDate}} ~ {{endDate}}에 대한 지출 통계 
+                  <chartjs-doughnut v-if="is_show==true" :labels="l_labels" :datasets="[{data:l_data, backgroundColor: l_backgroundColor}]" :option="l_options"></chartjs-doughnut>
+                </v-card-text>
+            </v-card>
         </v-flex>
-        <v-spacer></v-spacer>
-        <v-btn slot="activator" color="orange" dark v-on:click="show" id="show">통계 보기</v-btn>
-        <v-spacer></v-spacer>
-      </v-layout>
-    </v-card>
-    <v-layout row>
-      <v-flex xs10>
-          <v-card>
-              <v-card-text v-if="is_show==true">
-                {{startDate}} ~ {{endDate}}에 대한 수입 통계 
-              <chartjs-doughnut v-if="is_show==true" :labels="g_labels" :datasets="[{data:g_data, backgroundColor: g_backgroundColor}]" :option="g_options"></chartjs-doughnut>
-              </v-card-text>
-          </v-card>
-      </v-flex>
-      <v-flex xs10>
-          <v-card>
-              <v-card-text v-if="is_show==true">
-                {{startDate}} ~ {{endDate}}에 대한 지출 통계 
-                <chartjs-doughnut v-if="is_show==true" :labels="l_labels" :datasets="[{data:l_data, backgroundColor: l_backgroundColor}]" :option="l_options"></chartjs-doughnut>
-              </v-card-text>
-          </v-card>
-      </v-flex>
     </v-layout>
   </div>
 </template>
@@ -89,12 +92,12 @@ import 'v-calendar/lib/v-calendar.min.css'
         lose:[0,0,0,0,0,0,0,0,0,0,0,0],
         g_data:[0,0,0,0,0,0],
         g_backgroundColor:[
-          "#FF6384","#36A2EB","#FFCE56","#F56314","#32A21B","#F1C15F"
+          "#FF6384","#36A2EB","#FFCE56","#F56314","#32A21B","#78909C"
         ],
         l_data:[0,0,0,0,0,0,0,0,0,0,0,0],
         l_backgroundColor:[
-          "#FF6384","#36A2EB","#FFCE56","#F56314","#32A21B","#F1C15F",
-          "#FF6384","#36A2EB","#FFCE56","#F56314","#32A21B","#F1C15F"
+          "#C8E6C9","#D1C4E9","#E57373","#CE93D8","#0277BD","#4DB6AC",
+          "#9CCC65","#D4E157","#FFEE58","#F57C00","#BDBDBD","#BDBDBD"
         ],
         is_show: false,
         g_labels : ['월급', '부수입', '용돈', '상여', '금융소득', '기타'],
