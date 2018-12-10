@@ -18,7 +18,7 @@
       >
         <template slot="items" slot-scope="props">
           <tr class="text-xs-center">
-            <router-link v-if="false"
+            <router-link  
               :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
               tag="td"
             >{{props.item.postNumber}}</router-link>
@@ -33,7 +33,7 @@
             <router-link
               :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
               tag="td"
-            >{{props.item.createdAt.slice(0,10)}} {{props.item.createdAt.slice(11,19)}}</router-link>
+            >{{props.item.createdAt.slice(0,10)}} </router-link>
             <router-link
               :to="{name:'boardshow', params:{postNumber:props.item.postNumber, writer:props.item.writer}}"
               tag="td"
@@ -65,17 +65,17 @@ export default {
       _itmes: "",
       selected: "",
       pagination: {
-        rowsPerPage: 15,
+        rowsPerPage: 10,
         totalItems: "",
         page: 1
       },
       headers: [
-        // {
-        //   text: "게시글번호",
-        //   value: "postNumber",
-        //   sortable: false,
-        //   align: "center"
-        // },
+        {
+          text: "게시글번호",
+          value: "postNumber",
+          sortable: true,
+          align: "center"
+        },
         { text: "제목", value: "title", sortable: false, align: "center" },
         { text: "작성자", value: "writer", sortable: false, align: "center" },
         {
