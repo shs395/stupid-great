@@ -1,8 +1,40 @@
 # stupid-great
 WebSystemDesign
 
-http://52.79.192.162:3000
+http://35.194.116.240:8081
 
+### Requirements (Linux)
+
+- node & npm
+```
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+- mongoDB
+```
+sudo apt-get install mongodb-server mongodb-clients
+```
+
+- pm2
+```
+npm install pm2 -g
+```
+
+### Build
+
+```
+/frontend
+npm install
+npm run build
+
+/backend
+npm install 
+pm2 start bin/www --watch (for background running)
+```
+=>http://localhost:8081
+
+### Notice
 
 #12/05
 - home에 로딩되는 이미지랑 살까말까 게시판에 있는 이미지의 경로가 public폴더로 되어있어서 public/static/img에 이미지가 저장되어있는경우 
