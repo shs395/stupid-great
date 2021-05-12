@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "chart.js": "^2.7.3",
+    "chart.js": "^2.9.4",
     "date-fns": "^1.29.0",
     "hchs-vue-charts": "^1.2.8",
     "v-calendar": "^0.9.7",
